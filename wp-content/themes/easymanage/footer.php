@@ -1,4 +1,3 @@
-
-<?php get_footer(); ?>
+<?php wp_nav_menu(['location'=>'secondary']) ?>
 </body>
 </html>

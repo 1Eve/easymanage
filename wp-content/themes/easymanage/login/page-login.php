@@ -1,2 +1,9 @@
-<?php get_header(); ?>
-<?php get_footer(); ?>
+<?php
+
+/*
+*  Template Name:Login Template
+*
+ */
+
+ ?>
+<?php wp_head(); ?>
