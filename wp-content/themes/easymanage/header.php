@@ -9,4 +9,4 @@
     <?php wp_head(); ?>
 </head>
 <body>
-    <h1>HELLO</h1>
+<h1><i class="bi bi-wordpress"></i> Easy Manage</h1>

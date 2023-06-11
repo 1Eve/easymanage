@@ -1,3 +1,338 @@
-h1{
-    color: red;
+h1 {
+    color: #8E8D90;
 }
+
+p {
+    margin-bottom: 0 !important;
+}
+
+.outer-container {
+    background-color: #F3F3F3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 22px;
+    height: 100vh;
+}
+
+.inner-container {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    padding: 5px 10px 0 10px;
+    width: 100%;
+    height: 100%;
+}
+
+.dashboard-container {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 250px 1fr;
+}
+
+.side-bar-container {
+    background-color: #6B25CE;
+    padding-top: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+}
+
+/* .main-contents-container{
+    display: flex;
+    flex-direction: column;
+} */
+.side-bar-link {
+    display: flex;
+    padding: 0 5px;
+    /* flex-direction: column; */
+    justify-content: space-between;
+    align-items: center;
+    /* background-color: blue; */
+    margin-bottom: 15PX;
+}
+
+.link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* background-color: #F3F3F3; */
+}
+
+.icon-circle-1 {
+    width: 50% !important;
+}
+
+.side-bar-groups {
+    padding: 0 0 10px 15px;
+}
+
+.profile {
+    display: flex;
+    /* margin-top: auto; */
+}
+
+.name {
+    font-weight: 600;
+}
+
+.small-text {
+    font-size: 14px;
+}
+
+.profile img {
+    width: 43px;
+}
+
+.name-and-email-container {
+    display: flex;
+}
+
+/* All forms */
+.input {
+    width: 450px;
+    height: 40px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #8E8D90;
+}
+
+.text-input {
+    padding-left: 10px;
+}
+
+form input::placeholder {
+    color: rgba(0, 0, 0, 0.233);
+}
+
+form input[type="submit"] {
+    color: white;
+    margin-top: 10px;
+    font-weight: bold;
+    background-color: #6B25CE;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.exit {
+    padding-left: 15px;
+}
+
+/* All forms for projects */
+.project-description {
+    height: 100px;
+}
+
+.create-new-project .dark-text::placeholder {
+    color: #191919;
+}
+
+.flex-project-contents {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: #6B25CE;
+}
+
+/* main contents container */
+.main-contents-container {
+    /* background-color: blue; */
+    padding: 5px;
+}
+
+.inner-main-contents-container {
+    display: flex;
+    flex-direction: column;
+    /* background-color: aqua; */
+    height: 100%;
+}
+
+.top-div {
+    display: flex;
+}
+
+.bottom-div {
+    padding: 5px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #E8E8E8;
+    flex: 1;
+    flex-wrap: wrap;
+}
+
+
+/* all top divs */
+
+.top-div {
+    display: flex;
+    background-color: white;
+    justify-content: center;
+    gap: 60px;
+    padding: 10px 0;
+}
+
+.top-div img {
+    width: 30px;
+}
+
+.employee-emojis {
+    /* display: flex; */
+    position: relative;
+    width: 300px;
+    /* height: 200px; */
+}
+
+.profile-picture {
+    background-color: purple;
+    padding: 2px;
+    border-radius: 50%;
+}
+
+.employee-emojis .profile-picture {
+    position: absolute;
+}
+
+.profile-picture:nth-child(2) {
+    margin-left: 20px;
+}
+
+.profile-picture:nth-child(3) {
+    margin-left: 40px;
+}
+
+.profile-picture:nth-child(4) {
+    margin-left: 60px;
+}
+
+.no-of-employees {
+    background-color: #6B25CE;
+    border-radius: 50%;
+    padding: 2px;
+    width: 33px;
+    height: 33px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* All bottom div img */
+.bottom-div img {
+    width: 50px;
+}
+/* All bottom div buttons */
+
+.bottom-div-submit-btn {
+    position: relative;
+    padding: 5px 30px 5px 10px;
+    
+    border: none;
+    border-radius: 4px;
+    color: #000;
+    cursor: pointer;
+}
+
+.bottom-div-submit-btn i {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+}
+/* main contents divided tables */
+.styled-table {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    gap: 10px;
+}
+/* Login page */
+
+.login {
+    display: flex;
+    flex-direction: column;
+}
+
+.login-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    flex: 1;
+}
+
+.login-form form input[type="submit"] {
+    opacity: 0.6;
+}
+
+/* Admin Dashboard */
+.admin-dashboard-bottom-div {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.bottom-div-categories {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.bottom-div-categories p {
+    text-decoration: underline;
+    text-decoration-color: #19191900;
+}
+
+.bottom-div-categories p:hover {
+    text-decoration-color: #191919;
+    cursor: pointer;
+}
+
+.deactivate-members-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+
+
+.style-table-profile form {
+    
+}
+
+.style-table-profile {
+  
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+   
+}
+
+.profile-deactivate {
+    display: flex;
+    justify-content: space-between;
+    flex: 1;
+}
+.profile-deactivate .name{
+    font-weight: 500;
+}
+.bottom-div-submit-form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.deactivate-btn{
+    background-color: #F9D0CE;
+}
+.deactivate-btn p{
+    color: #5D1B18;
+    font-weight: 500;
+}
+.deactivate-btn i{
+    color: #5D1B18;
+}
+/* Create individual project form */

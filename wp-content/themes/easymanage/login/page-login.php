@@ -1,17 +1,31 @@
 <?php
 
 /*
-*  Template Name:Login Template
-*
+ *  Template Name:Login Template
+ *
  */
 
- ?>
- 
+?>
+
 <?php wp_head(); ?>
 
-<section class="container-login">
-    <div class="">
-        <h1>ggg <i class="bi bi-wordpress"></i></h1>
-    
-</div>
+
+<section class="container-login outer-container">
+    <div class="login inner-container">
+        <div class="logo">
+            <h1><i class="bi bi-wordpress"></i> Easy Manage</h1>
+        </div>
+        <div class="login-form">
+            <h2>Welcome Back</h2>
+            <form action="">
+                <label for="">Email</label>
+                <input class="input text-input" type="email" name="" id="" placeholder="Enter your email">
+                <label for="">Password</label>
+                <input class="input text-input" type="password" name="" id="" placeholder="........">
+                <input class="input" type="submit" value="Login">
+            </form>
+        </div>
+
+    </div>
+
 </section>
