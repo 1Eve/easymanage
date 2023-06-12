@@ -111,8 +111,85 @@
                         </div>
                     </div>
                     <div class="bottom-div">
-                        <p>test</p>
-                        <p>test</p>
+                    <div class="style-table-profile-column">
+                            <div class="buttons status-on-top status-on-top-in-progress">
+                                <p>In progress</p>
+                            </div>
+                            <div class="flex">
+                                <div class="img">
+                                    <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
+                                    <p class="name">Usher Njari</p>
+                                </div>
+                                <div>
+                                    <div class=" assigned-tasks">
+                                        <div class="project-descr-for-all-tasks">
+                                            <div class="status-container">
+                                                <div>
+                                                    <i class="in-progress-icon bi bi-square-fill"></i>
+                                                </div>
+                                                <div>
+                                                    <p  class="name">Project description</p>
+                                                </div>
+                                            </div>
+                                            <div class="justify-content">
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                                                    eiusmod
+                                                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+                                                    veniam,
+                                                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                                                    commodo
+                                                    consequat.</p>
+
+                                                <div class="bottom-div-submit-form">
+                                                    <p class="tasks in-progress"><i class="bi bi-hourglass-split"></i>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="style-table-profile-column">
+                            <div class="buttons status-on-top status-on-top-in-not-activated">
+                                <p>Not Activated</p>
+                            </div>
+                            <div class="flex">
+                                <div class="img">
+                                    <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
+                                    <p class="name">Usher Njari</p>
+                                </div>
+                                <div>
+                                    <div class=" assigned-tasks">
+                                        <div class="project-descr-for-all-tasks">
+                                            <div class="status-container">
+                                                <div>
+                                                    <i class="not-activated-icon bi bi-square-fill"></i>
+                                                </div>
+                                                <div>
+                                                    <p class="name">Project description</p>
+                                                </div>
+                                            </div>
+                                            <div class="justify-content">
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                                                    eiusmod
+                                                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+                                                    veniam,
+                                                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                                                    commodo
+                                                    consequat.</p>
+
+                                                <div class="bottom-div-submit-form">
+                                                    <p class=" status-on-top-in-not-activated">Update
+                                                        </p>
+                                                        <p><i class="delete-icon bi bi-trash3-fill"></i></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
