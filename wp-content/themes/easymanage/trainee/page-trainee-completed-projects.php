@@ -1,11 +1,11 @@
 <?php
 
 /*
-*  Template Name:Trainee Completed Projects Template
-*
+ *  Template Name:Trainee Completed Projects Template
+ *
  */
 
- ?>
+?>
 
 <?php $profile = get_template_directory_uri() . '/assets/memoji-modified.png'; ?>
 
@@ -16,60 +16,28 @@
         </div>
         <div class="dashboard-container">
             <div class="side-bar-container">
-                <h4>MAIN</h4>
                 <div class="side-bar-top">
-                    <div class="side-bar-link">
-                        <div class="link">
-                            <p><i class="bi bi-microsoft icon-sidebar"></i> Dashboard</p>
+                    <h4>MAIN</h4>
+                    <a href="/easymanage/trainee-dashboard/">
+                        <div class="side-bar-link">
+                            <div class="link">
+                                <p><i class="side-bar-icon-left bi bi-microsoft icon-sidebar"></i> Dashboard</p>
+                            </div>
+                            <div>
+                                <i class="bi bi-chevron-right"></i>
+                            </div>
                         </div>
-                        <div>
-                            <i class="bi bi-chevron-right"></i>
+                    </a>
+                    <a href="/easymanage/trainee-completed-projects/">
+                        <div class="side-bar-link">
+                            <div class="link">
+                                <p><i class="side-bar-icon-left bi bi-clipboard2-check icon-sidebar"></i> Completed</p>
+                            </div>
+                            <div>
+                                <i class="bi bi-chevron-right"></i>
+                            </div>
                         </div>
-                    </div>
-                    <div class="side-bar-link">
-                        <div class="link">
-                            <p><i class="bi bi-plus-square-fill icon-sidebar"></i> Add new tasks</p>
-                        </div>
-                        <div>
-                            <i class="bi bi-chevron-right"></i>
-                        </div>
-                    </div>
-                    <div class="side-bar-link">
-                        <div class="link">
-                            <p><i class="bi bi-list-task icon-sidebar"></i> Pending tasks</p>
-                        </div>
-                        <div>
-                            <i class="bi bi-chevron-right"></i>
-                        </div>
-                    </div>
-                    <div class="side-bar-link">
-                        <div class="link">
-                            <p><i class="bi bi-clipboard2-check icon-sidebar"></i> Completed</p>
-                        </div>
-                        <div>
-                            <i class="bi bi-chevron-right"></i>
-                        </div>
-                    </div>
-                    <div class="side-bar-link">
-                        <div class="link">
-                            <p><i class="bi bi-people-fill icon-sidebar"></i> All employees</p>
-                        </div>
-                        <div>
-                            <i class="bi bi-chevron-right"></i>
-                        </div>
-                    </div>
-                    <div>
-                    </div>
-                    <h4>TEAMS</h4>
-                    <div class="side-bar-groups">
-                        <p><i class="bi bi-circle-fill icon-circle"></i> Group 1</p>
-                    </div>
-                    <div class="side-bar-groups">
-                        <p><i class="bi bi-circle-fill icon-circle"></i> Group 1</p>
-                    </div>
-                    <div class="side-bar-groups">
-                        <p><i class="bi bi-circle-fill icon-circle"></i> Group 1</p>
-                    </div>
+                    </a>
                 </div>
                 <div>
                     <div class="profile">
@@ -92,7 +60,7 @@
                 </div>
             </div>
             <div class="main-contents-container">
-            <div class="inner-main-contents-container">
+                <div class="inner-main-contents-container">
                     <div class="top-div">
                         <div>
                             <form action="">
@@ -110,7 +78,7 @@
                         </div>
                     </div>
                     <div class="bottom-div">
-                    <div class="style-table-profile-column">
+                        <div class="style-table-profile-column">
                             <div class="buttons status-on-top status-on-top-complete">
                                 <p>Complete</p>
                             </div>

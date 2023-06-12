@@ -1,7 +1,7 @@
 <?php
 
 /*
- *  Template Name:Add Individual Project Template
+ *  Template Name:View my trainees Template
  *
  */
 
@@ -126,19 +126,94 @@
                     </div>
                 </div>
             </div>
-            <!-- Main Contents -->
-            <div class="main-contents-container flex-project-contents">
-                <div class="create-new-project flex-project-contents">
-                    <h2>Create new Project</h2>
-                    <form action="">
-                        <input class="input text-input dark-text" type="text" name="" id="" placeholder="Select user">
-                        <input class="input text-input dark-text" type="text" name="" id=""
-                            placeholder="Enter project title">
-                        <input class="input text-input dark-text project-description" type="text" name="" id=""
-                            placeholder="Enter project description">
-                        <input class="input text-input dark-text" type="text" name="" id="" placeholder="dd/mm/yyyy">
-                        <input class="input" type="submit" value="Create project">
-                    </form>
+            <div class="main-contents-container">
+                <div class="inner-main-contents-container">
+                    <div class="top-div">
+                        <div>
+                            <form action="">
+                                <div class="search">
+                                    <input type="text" placeholder="Searching for someone?">
+                                    <button type="submit"><i class="bi bi-search"></i></button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="employee-emojis">
+                            <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
+                            <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
+                            <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
+                            <p class="no-of-employees profile-picture">+6</p>
+                        </div>
+                    </div>
+                    <div class="bottom-div">
+                        <div class="admin-dashboard-bottom-div">
+                            <div class="deactivate-members-container">
+                                <div class="styled-table-employees">
+                                    <div class="style-table-profile">
+                                        <div>
+                                            <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
+                                        </div>
+                                        <div class="shared-profile-container">
+                                            <div>
+                                                <p>Wordpress</p>
+                                                <p class="name">Usher Njari</p>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="style-table-profile">
+                                        <div>
+                                            <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
+                                        </div>
+                                        <div class="shared-profile-container">
+                                            <div>
+                                                <p>Wordpress</p>
+                                                <p class="name">Usher Njari</p>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="style-table-profile">
+                                        <div>
+                                            <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
+                                        </div>
+                                        <div class="shared-profile-container">
+                                            <div>
+                                                <p>Wordpress </p>
+                                                <p class="name">Usher Njari</p>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="style-table-profile">
+                                        <div>
+                                            <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
+                                        </div>
+                                        <div class="shared-profile-container">
+                                            <div>
+                                                <p>Wordpress</p>
+                                                <p class="name">Usher Njari</p>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="style-table-profile">
+                                        <div>
+                                            <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
+                                        </div>
+                                        <div class="shared-profile-container">
+                                            <div>
+                                                <p>Wordpress</p>
+                                                <p class="name">Usher Njari</p>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

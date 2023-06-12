@@ -9,6 +9,7 @@ p {
     display: flex;
     justify-content: space-between;
 }
+
 .justify-content{
     display: flex;
     justify-content: center;
@@ -43,22 +44,35 @@ p {
 }
 
 .side-bar-container {
-    background-color: #6B25CE;
+    /* background-color: #6B25CE; */
     padding-top: 10px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 
 }
+.side-bar-container a{
+    color: #191919;
+    text-decoration: none;
+}
+.side-bar-container:hover a, .side-bar-container:hover .bi-chevron-right{
+    color: #191919;
+}
 
-
+.side-bar-link:hover .side-bar-icon-left{
+color: #6B25CE;
+border-top: 2px solid transparent;
+border-bottom: 2px solid transparent;
+border-left: 5px solid #6f3ff3;
+border-right: none;
+cursor: pointer;
+padding-left: 10px;
+}
 .side-bar-link {
     display: flex;
     padding: 0 5px;
-    /* flex-direction: column; */
     justify-content: space-between;
     align-items: center;
-    /* background-color: blue; */
     margin-bottom: 15PX;
 }
 
@@ -66,7 +80,6 @@ p {
     display: flex;
     align-items: center;
     justify-content: center;
-    /* background-color: #F3F3F3; */
 }
 
 .icon-circle-1 {
@@ -93,12 +106,17 @@ p {
 }
 
 .profile img {
-    width: 43px;
+    width: 40px;
+    background-color: #08C7E0;
+    border-radius: 50%;
+    padding: 2px;
+    margin-right: 5px;
 }
 
 .name-and-email-container {
     display: flex;
 }
+
 /* All profile containers */
 .style-table-profile,.style-table-profile-column {
     display: flex;
@@ -140,6 +158,7 @@ form {
     padding-left: 15px;
 }
 
+
 /* All forms for projects */
 .project-description {
     height: 100px;
@@ -155,7 +174,27 @@ form {
     align-items: center;
     flex-direction: column;
 }
-
+/* search bar */
+.search{
+    position: relative;
+    width: 250px;
+}
+.search-input{
+    width: 100%; 
+    border: 1px solid #E4E6E7;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+.search button{
+    margin-right: 15px;
+    background-color: white;
+    border: none;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    /* left: 10px; */
+    transform: translateY(-50%);
+}
 /* main contents container */
 .main-contents-container {
     /* background-color: blue; */
@@ -168,11 +207,6 @@ form {
     /* background-color: aqua; */
     height: 100%;
 }
-
-.top-div {
-    display: flex;
-}
-
 .bottom-div {
     padding: 5px;
     border-radius: 5px;
@@ -199,10 +233,8 @@ form {
 }
 
 .employee-emojis {
-    /* display: flex; */
     position: relative;
     width: 300px;
-    /* height: 200px; */
 }
 
 .profile-picture {
@@ -231,13 +263,19 @@ form {
     background-color: #6B25CE;
     border-radius: 50%;
     padding: 2px;
-    width: 33px;
-    height: 33px;
+    width: 30px;
+    height: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
-
+.top-div-add-trainee-btn a{
+color: #191919;
+text-decoration: none;
+}
+.top-div-add-trainee-btn:hover a, .top-div-add-trainee-btn:hover i{
+color: white;
+}
 /* All bottom div img */
 .bottom-div img {
     width: 50px;
@@ -307,11 +345,14 @@ color: #08C7E0;
 }
 
 /* main contents divided tables */
-.styled-table {
+.styled-table, .styled-table-employees {
     display: grid;
     grid-template-columns: repeat(3,1fr);
     grid-auto-rows: min-content;
     gap: 10px;
+}
+.styled-table-employees{
+    grid-template-columns: repeat(5,1fr);
 }
 /* profile containers styled as flex */
 .shared-profile-container{
@@ -368,12 +409,6 @@ color: #08C7E0;
     flex-direction: column;
     flex: 1;
 }
-
-/* .profile-deactivate { 
-    display: flex;
-    justify-content: space-between;
-    flex: 1;
-} */
 .profile-deactivate .name{
     font-weight: 500;
 }
@@ -414,16 +449,16 @@ color: #08C7E0;
 /* trainer */
 
 .bottom-div 
-.choose-project-individual-btn, .choose-project-group-btn{
+.choose-project-individual-btn, .choose-project-group-btn, .top-div-add-trainee-btn{
     background-color: #6B25CE;  
 }
-.choose-project-group-btn{
+.choose-project-group-btn, .top-div-add-trainee-btn{
 margin-left: 10px;
 position: relative;
 padding: 5px 30px 5px 2px;
 border-radius: 5px;
 }
-.choose-project-group-btn i{
+.choose-project-group-btn i, .top-div-add-trainee-btn i{
     position: absolute;
     top: 50%;
     right: 10px;

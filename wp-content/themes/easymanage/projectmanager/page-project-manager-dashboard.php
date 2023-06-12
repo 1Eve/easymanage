@@ -1,11 +1,11 @@
 <?php
 
 /*
-*  Template Name:Project Manager Dashboard Template
-*
+ *  Template Name:Project Manager Dashboard Template
+ *
  */
 
- ?>
+?>
 
 <?php $profile = get_template_directory_uri() . '/assets/memoji-modified.png'; ?>
 
@@ -16,60 +16,30 @@
         </div>
         <div class="dashboard-container">
             <div class="side-bar-container">
-                <h4>MAIN</h4>
+
                 <div class="side-bar-top">
-                    <div class="side-bar-link">
-                        <div class="link">
-                            <p><i class="bi bi-microsoft icon-sidebar"></i> Dashboard</p>
+                    <h4>MAIN</h4>
+                    <a href="/easymanage/project-manager-dashboard/">
+                        <div class="side-bar-link">
+                            <div class="link">
+                                <p><i class="side-bar-icon-left bi bi-microsoft icon-sidebar"></i> Dashboard</p>
+                            </div>
+                            <div>
+                                <i class="bi bi-chevron-right"></i>
+                            </div>
                         </div>
-                        <div>
-                            <i class="bi bi-chevron-right"></i>
+                    </a>
+
+                    <a href="/easymanage/add-trainer/">
+                        <div class="side-bar-link">
+                            <div class="link">
+                                <p><i class="side-bar-icon-left bi bi-plus-square-fill icon-sidebar"></i> Add trainer</p>
+                            </div>
+                            <div>
+                                <i class="bi bi-chevron-right"></i>
+                            </div>
                         </div>
-                    </div>
-                    <div class="side-bar-link">
-                        <div class="link">
-                            <p><i class="bi bi-plus-square-fill icon-sidebar"></i> Add new tasks</p>
-                        </div>
-                        <div>
-                            <i class="bi bi-chevron-right"></i>
-                        </div>
-                    </div>
-                    <div class="side-bar-link">
-                        <div class="link">
-                            <p><i class="bi bi-list-task icon-sidebar"></i> Pending tasks</p>
-                        </div>
-                        <div>
-                            <i class="bi bi-chevron-right"></i>
-                        </div>
-                    </div>
-                    <div class="side-bar-link">
-                        <div class="link">
-                            <p><i class="bi bi-clipboard2-check icon-sidebar"></i> Completed</p>
-                        </div>
-                        <div>
-                            <i class="bi bi-chevron-right"></i>
-                        </div>
-                    </div>
-                    <div class="side-bar-link">
-                        <div class="link">
-                            <p><i class="bi bi-people-fill icon-sidebar"></i> All employees</p>
-                        </div>
-                        <div>
-                            <i class="bi bi-chevron-right"></i>
-                        </div>
-                    </div>
-                    <div>
-                    </div>
-                    <h4>TEAMS</h4>
-                    <div class="side-bar-groups">
-                        <p><i class="bi bi-circle-fill icon-circle"></i> Group 1</p>
-                    </div>
-                    <div class="side-bar-groups">
-                        <p><i class="bi bi-circle-fill icon-circle"></i> Group 1</p>
-                    </div>
-                    <div class="side-bar-groups">
-                        <p><i class="bi bi-circle-fill icon-circle"></i> Group 1</p>
-                    </div>
+                    </a>
                 </div>
                 <div>
                     <div class="profile">
@@ -90,7 +60,9 @@
                         <h4><i class="bi bi-box-arrow-left"></i></h4>
                     </div>
                 </div>
+
             </div>
+
             <div class="main-contents-container">
                 <div class="inner-main-contents-container">
                     <div class="top-div">
@@ -131,7 +103,7 @@
                                                         <p>No of trainees</p>
                                                     </div>
                                                     <div>
-                                                        <p>(20)</p>  
+                                                        <p>(20)</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -150,7 +122,7 @@
                                                         <p>No of trainees</p>
                                                     </div>
                                                     <div>
-                                                        <p>(20)</p>  
+                                                        <p>(20)</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -169,7 +141,7 @@
                                                         <p>No of trainees</p>
                                                     </div>
                                                     <div>
-                                                        <p>(20)</p>  
+                                                        <p>(20)</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -188,7 +160,7 @@
                                                         <p>No of trainees</p>
                                                     </div>
                                                     <div>
-                                                        <p>(20)</p>  
+                                                        <p>(20)</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -207,7 +179,7 @@
                                                         <p>No of trainees</p>
                                                     </div>
                                                     <div>
-                                                        <p>(20)</p>  
+                                                        <p>(20)</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -226,7 +198,7 @@
                                                         <p>No of trainees</p>
                                                     </div>
                                                     <div>
-                                                        <p>(20)</p>  
+                                                        <p>(20)</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -245,13 +217,13 @@
                                                         <p>No of trainees</p>
                                                     </div>
                                                     <div>
-                                                        <p>(20)</p>  
+                                                        <p>(20)</p>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                 </div>
 
                             </div>

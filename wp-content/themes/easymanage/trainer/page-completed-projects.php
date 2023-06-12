@@ -18,46 +18,81 @@
             <div class="side-bar-container">
                 <h4>MAIN</h4>
                 <div class="side-bar-top">
-                    <div class="side-bar-link">
-                        <div class="link">
-                            <p><i class="bi bi-microsoft icon-sidebar"></i> Dashboard</p>
+                    <a href="/easymanage/trainer-dashboard/">
+                        <div class="side-bar-link">
+                            <div class="link">
+                                <p><i class=" side-bar-icon-left bi bi-microsoft icon-sidebar"></i> Dashboard</p>
+                            </div>
+                            <div>
+                                <i class="bi bi-chevron-right"></i>
+                            </div>
                         </div>
-                        <div>
-                            <i class="bi bi-chevron-right"></i>
+                    </a>
+                    <a href="/easymanage/choose-project/">
+                        <div class="side-bar-link">
+                            <div class="link">
+                                <p><i class="side-bar-icon-left bi bi-plus-square-fill icon-sidebar"></i> Add new tasks
+                                </p>
+                            </div>
+                            <div>
+                                <i class="bi bi-chevron-right"></i>
+                            </div>
                         </div>
-                    </div>
-                    <div class="side-bar-link">
-                        <div class="link">
-                            <p><i class="bi bi-plus-square-fill icon-sidebar"></i> Add new tasks</p>
+                    </a>
+                    <a href="/easymanage/pending-projects/">
+                        <div class="side-bar-link">
+                            <div class="link">
+                                <p><i class="side-bar-icon-left bi bi-list-task icon-sidebar"></i> Pending tasks</p>
+                            </div>
+                            <div>
+                                <i class="bi bi-chevron-right"></i>
+                            </div>
                         </div>
-                        <div>
-                            <i class="bi bi-chevron-right"></i>
+                    </a>
+                    <a href="/easymanage/completed-projects/">
+                        <div class="side-bar-link">
+                            <div class="link">
+                                <p><i
+                                        class="side-bar-icon-left side-bar-icon-left bi bi-clipboard2-check icon-sidebar"></i>
+                                    Completed tasks</p>
+                            </div>
+                            <div>
+                                <i class="bi bi-chevron-right"></i>
+                            </div>
                         </div>
-                    </div>
-                    <div class="side-bar-link">
-                        <div class="link">
-                            <p><i class="bi bi-list-task icon-sidebar"></i> Pending tasks</p>
+                    </a>
+                    <a href="/easymanage/my-trainees/">
+                        <div class="side-bar-link">
+                            <div class="link">
+                                <p><i class="side-bar-icon-left bi bi-people-fill icon-sidebar"></i> My trainees</p>
+                            </div>
+                            <div>
+                                <i class="bi bi-chevron-right"></i>
+                            </div>
                         </div>
-                        <div>
-                            <i class="bi bi-chevron-right"></i>
+                    </a>
+                    <a href="/easymanage/view-all-projects/">
+                        <div class="side-bar-link">
+                            <div class="link">
+                                <p><i class="side-bar-icon-left bi bi-view-stacked"></i> View all projects</p>
+                            </div>
+                            <div>
+                                <i class="bi bi-chevron-right"></i>
+                            </div>
                         </div>
-                    </div>
-                    <div class="side-bar-link">
-                        <div class="link">
-                            <p><i class="bi bi-clipboard2-check icon-sidebar"></i> Completed</p>
+                    </a>
+                    <a href="/easymanage/deleted-projects/">
+                        <div class="side-bar-link">
+                            <div class="link">
+                                <p><i class="side-bar-icon-left bi bi-trash3-fill"></i> Trash</p>
+                            </div>
+                            <div>
+                                <i class="bi bi-chevron-right"></i>
+                            </div>
                         </div>
-                        <div>
-                            <i class="bi bi-chevron-right"></i>
-                        </div>
-                    </div>
-                    <div class="side-bar-link">
-                        <div class="link">
-                            <p><i class="bi bi-people-fill icon-sidebar"></i> All employees</p>
-                        </div>
-                        <div>
-                            <i class="bi bi-chevron-right"></i>
-                        </div>
-                    </div>
+                    </a>
+
+
                     <div>
                     </div>
                     <h4>TEAMS</h4>
@@ -87,7 +122,7 @@
                         </div>
                     </div>
                     <div class="exit">
-                        <h4><i class="bi bi-box-arrow-left"></i></h4>
+                        <h5><i class="bi bi-box-arrow-left"></i></h5>
                     </div>
                 </div>
             </div>
@@ -97,7 +132,7 @@
                         <div>
                             <form action="">
                                 <div class="search">
-                                    <input type="text" placeholder="Searching for someone?">
+                                    <input class="search-input" type="text" placeholder="Searching for someone?">
                                     <button type="submit"><i class="bi bi-search"></i></button>
                                 </div>
                             </form>
@@ -107,6 +142,11 @@
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                             <p class="no-of-employees profile-picture">+6</p>
+                        </div>
+                        <div class="top-div-add-trainee-btn">
+                            <a class="bottom-div-submit-btn-no-icon  " href="/easymanage/add-trainee/">Add new
+                                trainee</a>
+                            <i class="bi bi-plus-square"></i>
                         </div>
                     </div>
                     <div class="bottom-div ">
@@ -135,10 +175,11 @@
                                             <p class="tasks">(2)</p>
                                         </div>
                                     </div>
-                                   
+
                                     <div class="shared-profile-container">
                                         <button class="bottom-div-submit-btn deactivate-btn">
-                                            <p>Add New</p><i class="bi bi-plus-square-fill"></i>
+                                            <a href="/easymanage/choose-project/"><p>Add New</p><i class="bi bi-plus-square-fill"></i></a>
+                                            
                                         </button>
                                     </div>
 
@@ -171,10 +212,10 @@
                                             <p class="tasks">(2)</p>
                                         </div>
                                     </div>
-                                   
+
                                     <div class="shared-profile-container">
                                         <button class="bottom-div-submit-btn deactivate-btn">
-                                            <p>Add New</p><i class="bi bi-plus-square-fill"></i>
+                                            <a href="/easymanage/choose-project/"><p>Add New</p><i class="bi bi-plus-square-fill"></i></a>  
                                         </button>
                                     </div>
 
@@ -207,10 +248,11 @@
                                             <p class="tasks">(2)</p>
                                         </div>
                                     </div>
-                                   
+
                                     <div class="shared-profile-container">
                                         <button class="bottom-div-submit-btn deactivate-btn">
-                                            <p>Add New</p><i class="bi bi-plus-square-fill"></i>
+                                            <a href="/easymanage/choose-project/"><p>Add New</p><i class="bi bi-plus-square-fill"></i></a>
+                                            
                                         </button>
                                     </div>
 
@@ -243,10 +285,10 @@
                                             <p class="tasks">(2)</p>
                                         </div>
                                     </div>
-                                   
+
                                     <div class="shared-profile-container">
                                         <button class="bottom-div-submit-btn deactivate-btn">
-                                            <p>Add New</p><i class="bi bi-plus-square-fill"></i>
+                                            <a href="/easymanage/choose-project/"><p>Add New</p><i class="bi bi-plus-square-fill"></i></a>                               
                                         </button>
                                     </div>
 

@@ -15,49 +15,84 @@
             <?php get_header(); ?>
         </div>
         <div class="dashboard-container">
-            <div class="side-bar-container">
+        <div class="side-bar-container">
                 <h4>MAIN</h4>
                 <div class="side-bar-top">
-                    <div class="side-bar-link">
-                        <div class="link">
-                            <p><i class="bi bi-microsoft icon-sidebar"></i> Dashboard</p>
+                    <a href="/easymanage/trainer-dashboard/">
+                        <div class="side-bar-link">
+                            <div class="link">
+                                <p><i class=" side-bar-icon-left bi bi-microsoft icon-sidebar"></i> Dashboard</p>
+                            </div>
+                            <div>
+                                <i class="bi bi-chevron-right"></i>
+                            </div>
                         </div>
-                        <div>
-                            <i class="bi bi-chevron-right"></i>
+                    </a>
+                    <a href="/easymanage/choose-project/">
+                        <div class="side-bar-link">
+                            <div class="link">
+                                <p><i class="side-bar-icon-left bi bi-plus-square-fill icon-sidebar"></i> Add new tasks
+                                </p>
+                            </div>
+                            <div>
+                                <i class="bi bi-chevron-right"></i>
+                            </div>
                         </div>
-                    </div>
-                    <div class="side-bar-link">
-                        <div class="link">
-                            <p><i class="bi bi-plus-square-fill icon-sidebar"></i> Add new tasks</p>
+                    </a>
+                    <a href="/easymanage/pending-projects/">
+                        <div class="side-bar-link">
+                            <div class="link">
+                                <p><i class="side-bar-icon-left bi bi-list-task icon-sidebar"></i> Pending tasks</p>
+                            </div>
+                            <div>
+                                <i class="bi bi-chevron-right"></i>
+                            </div>
                         </div>
-                        <div>
-                            <i class="bi bi-chevron-right"></i>
+                    </a>
+                    <a href="/easymanage/completed-projects/">
+                        <div class="side-bar-link">
+                            <div class="link">
+                                <p><i
+                                        class="side-bar-icon-left side-bar-icon-left bi bi-clipboard2-check icon-sidebar"></i>
+                                    Completed tasks</p>
+                            </div>
+                            <div>
+                                <i class="bi bi-chevron-right"></i>
+                            </div>
                         </div>
-                    </div>
-                    <div class="side-bar-link">
-                        <div class="link">
-                            <p><i class="bi bi-list-task icon-sidebar"></i> Pending tasks</p>
+                    </a>
+                    <a href="/easymanage/my-trainees/">
+                        <div class="side-bar-link">
+                            <div class="link">
+                                <p><i class="side-bar-icon-left bi bi-people-fill icon-sidebar"></i> My trainees</p>
+                            </div>
+                            <div>
+                                <i class="bi bi-chevron-right"></i>
+                            </div>
                         </div>
-                        <div>
-                            <i class="bi bi-chevron-right"></i>
+                    </a>
+                    <a href="/easymanage/view-all-projects/">
+                        <div class="side-bar-link">
+                            <div class="link">
+                                <p><i class="side-bar-icon-left bi bi-view-stacked"></i> View all projects</p>
+                            </div>
+                            <div>
+                                <i class="bi bi-chevron-right"></i>
+                            </div>
                         </div>
-                    </div>
-                    <div class="side-bar-link">
-                        <div class="link">
-                            <p><i class="bi bi-clipboard2-check icon-sidebar"></i> Completed</p>
+                    </a>
+                    <a href="/easymanage/deleted-projects/">
+                        <div class="side-bar-link">
+                            <div class="link">
+                                <p><i class="side-bar-icon-left bi bi-trash3-fill"></i> Trash</p>
+                            </div>
+                            <div>
+                                <i class="bi bi-chevron-right"></i>
+                            </div>
                         </div>
-                        <div>
-                            <i class="bi bi-chevron-right"></i>
-                        </div>
-                    </div>
-                    <div class="side-bar-link">
-                        <div class="link">
-                            <p><i class="bi bi-people-fill icon-sidebar"></i> All employees</p>
-                        </div>
-                        <div>
-                            <i class="bi bi-chevron-right"></i>
-                        </div>
-                    </div>
+                    </a>
+
+
                     <div>
                     </div>
                     <h4>TEAMS</h4>
@@ -114,13 +149,15 @@
                         <p>Choose one of the options</p>
                         <div class="bottom-div-submit-btn-no-icon">
                             <div class="flex flex-buttons">
-                                <a class="bottom-div-submit-btn-no-icon choose-project-individual-btn" href="">Individual</a>
+                                <a class="bottom-div-submit-btn-no-icon choose-project-individual-btn"
+                                    href="/easymanage/add-individual-project/">Individual</a>
                                 <div class="choose-project-group-btn">
-                                    <a class="bottom-div-submit-btn-no-icon  " href="">Group </a>
+                                    <a class="bottom-div-submit-btn-no-icon  " href="/easymanage/group-project/">Group
+                                    </a>
                                     <i id="threedots" class="bi bi-three-dots-vertical"></i>
                                 </div>
                             </div>
-                           
+
                             <a id="add-group-btn" class=" add-group-btn ">
                                 <p>Add new group</p>
                             </a>
@@ -132,7 +169,7 @@
     </div>
 </section>
 <script>
-   
+
 
 </script>
 <?php get_footer(); ?>
