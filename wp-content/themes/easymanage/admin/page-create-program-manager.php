@@ -1,11 +1,11 @@
 <?php
 
 /*
-*  Template Name:Create Program Manager Template
-*
+ *  Template Name:Create Program Manager Template
+ *
  */
 
- ?>
+?>
 
 <?php $profile = get_template_directory_uri() . '/assets/memoji-modified.png'; ?>
 
@@ -92,7 +92,7 @@
                 </div>
             </div>
             <div class="main-contents-container">
-            <div class="inner-main-contents-container">
+                <div class="inner-main-contents-container">
                     <div class="top-div">
                         <div>
                             <form action="">
@@ -109,9 +109,18 @@
                             <p class="no-of-employees profile-picture">+6</p>
                         </div>
                     </div>
-                    <div class="bottom-div">
-                        <p>test</p>
-                        <p>test</p>
+                    <div class="bottom-div flex-project-contents">
+                        <div class="create-new-project flex-project-contents">
+                            <h2>Add Project Manager</h2>
+                            <form action="">
+                                <input class="input text-input dark-text" type="text" name="" id=""
+                                    placeholder="Enter name">
+                                <input class="input text-input dark-text" type="email" name="" id=""
+                                    placeholder="Enter email">
+                                <input class="input text-input" type="password" name="" id="" placeholder="........">
+                                <input class="input" type="submit" value="Create project manager">
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

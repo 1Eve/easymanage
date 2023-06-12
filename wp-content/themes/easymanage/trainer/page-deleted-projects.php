@@ -1,11 +1,11 @@
 <?php
 
 /*
-*  Template Name:Deeleted Projects Template
-*
+ *  Template Name:Deeleted Projects Template
+ *
  */
 
- ?>
+?>
 
 <?php $profile = get_template_directory_uri() . '/assets/memoji-modified.png'; ?>
 
@@ -92,7 +92,7 @@
                 </div>
             </div>
             <div class="main-contents-container">
-            <div class="inner-main-contents-container">
+                <div class="inner-main-contents-container">
                     <div class="top-div">
                         <div>
                             <form action="">
@@ -110,8 +110,74 @@
                         </div>
                     </div>
                     <div class="bottom-div">
-                        <p>test</p>
-                        <p>test</p>
+                        <div class="style-table-profile-column">
+                            <div class="flex">
+                                <div class="img">
+                                    <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
+                                    <p class="name">Usher Njari</p>
+                                </div>
+                                <div>
+                                    <div class=" assigned-tasks">
+                                        <div class="project-descr-for-all-tasks">
+                                        <div class="status-container">
+                                                <div>
+                                                    <p class="name">Project description</p>
+                                                </div>
+                                            </div>
+                                            <div class="justify-content">
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                                                    eiusmod
+                                                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+                                                    veniam,
+                                                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                                                    commodo
+                                                    consequat.</p>
+
+                                                <div class="bottom-div-submit-form">
+                                                    <p class="restore-btn">Restore
+                                                    </p>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="style-table-profile-column">
+                            <div class="flex">
+                                <div class="img">
+                                    <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
+                                    <p class="name">Usher Njari</p>
+                                </div>
+                                <div>
+                                    <div class=" assigned-tasks">
+                                        <div class="project-descr-for-all-tasks">
+                                        <div class="status-container">
+                                                <div>
+                                                    <p class="name">Project description</p>
+                                                </div>
+                                            </div>
+                                            <div class="justify-content">
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                                                    eiusmod
+                                                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+                                                    veniam,
+                                                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                                                    commodo
+                                                    consequat.</p>
+
+                                                <div class="bottom-div-submit-form">
+                                                    <p class="restore-btn">Restore
+                                                    </p>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

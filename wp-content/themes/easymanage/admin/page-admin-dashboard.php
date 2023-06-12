@@ -111,9 +111,9 @@
                     <div class="bottom-div">
                         <div class="admin-dashboard-bottom-div">
                             <div class="bottom-div-categories">
-                                <p>trainees</p>
-                                <p>trainers</p>
-                                <p>project managers</p>
+                                <a href="">trainees</a>
+                                <a href="">trainers</a>
+                                <a href="">project managers</a>
                             </div>
                             <div class="deactivate-members-container">
                                 <div class="styled-table">
@@ -121,13 +121,13 @@
                                         <div>
                                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                                         </div>
-                                        <div class="profile-deactivate">
+                                        <div class="shared-profile-container">
                                             <div>
                                                 <p>User</p>
                                                 <p class="name">Usher Njari</p>
                                             </div>
                                             <div class="bottom-div-submit-form">
-                                                <button class="bottom-div-submit-btn deactivate-btn">
+                                                <button class="bottom-div-submit-btn buttons deactivate-btn">
                                                     <p>Deactivate</p><i class="bi bi-x-circle-fill"></i>
                                                 </button>
                                             </div>
@@ -137,13 +137,13 @@
                                         <div>
                                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                                         </div>
-                                        <div class="profile-deactivate">
+                                        <div class="shared-profile-container">
                                             <div>
                                                 <p>User</p>
                                                 <p class="name">Usher Njari</p>
                                             </div>
                                             <div class="bottom-div-submit-form">
-                                                <button class="bottom-div-submit-btn deactivate-btn">
+                                                <button class="bottom-div-submit-btn buttons deactivate-btn">
                                                     <p>Deactivate</p><i class="bi bi-x-circle-fill"></i>
                                                 </button>
                                             </div>
@@ -153,13 +153,13 @@
                                         <div>
                                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                                         </div>
-                                        <div class="profile-deactivate">
+                                        <div class="shared-profile-container">
                                             <div>
                                                 <p>User</p>
                                                 <p class="name">Usher Njari</p>
                                             </div>
                                             <div class="bottom-div-submit-form">
-                                                <button class="bottom-div-submit-btn deactivate-btn">
+                                                <button class="bottom-div-submit-btn buttons deactivate-btn">
                                                     <p>Deactivate</p><i class="bi bi-x-circle-fill"></i>
                                                 </button>
                                             </div>
@@ -169,13 +169,13 @@
                                         <div>
                                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                                         </div>
-                                        <div class="profile-deactivate">
+                                        <div class="shared-profile-container">
                                             <div>
                                                 <p>User</p>
                                                 <p class="name">Usher Njari</p>
                                             </div>
                                             <div class="bottom-div-submit-form">
-                                                <button class="bottom-div-submit-btn deactivate-btn">
+                                                <button class="bottom-div-submit-btn buttons deactivate-btn">
                                                     <p>Deactivate</p><i class="bi bi-x-circle-fill"></i>
                                                 </button>
                                             </div>

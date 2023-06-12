@@ -1,11 +1,11 @@
 <?php
 
 /*
-*  Template Name:Choose Project Template
-*
+ *  Template Name:Choose Project Template
+ *
  */
 
- ?>
+?>
 
 <?php $profile = get_template_directory_uri() . '/assets/memoji-modified.png'; ?>
 
@@ -92,7 +92,7 @@
                 </div>
             </div>
             <div class="main-contents-container">
-            <div class="inner-main-contents-container">
+                <div class="inner-main-contents-container">
                     <div class="top-div">
                         <div>
                             <form action="">
@@ -109,13 +109,30 @@
                             <p class="no-of-employees profile-picture">+6</p>
                         </div>
                     </div>
-                    <div class="bottom-div">
-                        <p>test</p>
-                        <p>test</p>
+                    <div class="bottom-div flex-project-contents">
+                        <p><span>Hey there, </span>getting ready to create a new project?</p>
+                        <p>Choose one of the options</p>
+                        <div class="bottom-div-submit-btn-no-icon">
+                            <div class="flex flex-buttons">
+                                <a class="bottom-div-submit-btn-no-icon choose-project-individual-btn" href="">Individual</a>
+                                <div class="choose-project-group-btn">
+                                    <a class="bottom-div-submit-btn-no-icon  " href="">Group </a>
+                                    <i id="threedots" class="bi bi-three-dots-vertical"></i>
+                                </div>
+                            </div>
+                           
+                            <a id="add-group-btn" class=" add-group-btn ">
+                                <p>Add new group</p>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
+<script>
+   
+
+</script>
 <?php get_footer(); ?>

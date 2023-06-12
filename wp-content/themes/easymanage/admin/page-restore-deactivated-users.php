@@ -1,11 +1,11 @@
 <?php
 
 /*
-*  Template Name:Admin Restore Deactivated Users Template
-*
+ *  Template Name:Admin Restore Deactivated Users Template
+ *
  */
 
- ?>
+?>
 
 <?php $profile = get_template_directory_uri() . '/assets/memoji-modified.png'; ?>
 
@@ -92,7 +92,7 @@
                 </div>
             </div>
             <div class="main-contents-container">
-            <div class="inner-main-contents-container">
+                <div class="inner-main-contents-container">
                     <div class="top-div">
                         <div>
                             <form action="">
@@ -112,9 +112,9 @@
                     <div class="bottom-div">
                         <div class="admin-dashboard-bottom-div">
                             <div class="bottom-div-categories">
-                                <p>trainees</p>
-                                <p>trainers</p>
-                                <p>project managers</p>
+                                <a href="">trainees</a>
+                                <a href="">trainers</a>
+                                <a href="">project managers</a>
                             </div>
                             <div class="deactivate-members-container">
                                 <div class="styled-table">
@@ -122,14 +122,14 @@
                                         <div>
                                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                                         </div>
-                                        <div class="profile-deactivate">
+                                        <div class="shared-profile-container">
                                             <div>
-                                                <p>User</p>
+                                                <p>Trainee</p>
                                                 <p class="name">Usher Njari</p>
                                             </div>
                                             <div class="bottom-div-submit-form">
-                                                <button class="bottom-div-submit-btn deactivate-btn">
-                                                    <p>Deactivate</p><i class="bi bi-x-circle-fill"></i>
+                                                <button class="bottom-div-submit-btn-no-icon restore-btn buttons">
+                                                    <p>Restore</p>
                                                 </button>
                                             </div>
                                         </div>
@@ -138,14 +138,14 @@
                                         <div>
                                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                                         </div>
-                                        <div class="profile-deactivate">
+                                        <div class="shared-profile-container">
                                             <div>
-                                                <p>User</p>
+                                                <p>Trainer</p>
                                                 <p class="name">Usher Njari</p>
                                             </div>
                                             <div class="bottom-div-submit-form">
-                                                <button class="bottom-div-submit-btn deactivate-btn">
-                                                    <p>Deactivate</p><i class="bi bi-x-circle-fill"></i>
+                                                <button class="bottom-div-submit-btn-no-icon restore-btn buttons">
+                                                    <p>Restore</p>
                                                 </button>
                                             </div>
                                         </div>
@@ -154,14 +154,14 @@
                                         <div>
                                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                                         </div>
-                                        <div class="profile-deactivate">
+                                        <div class="shared-profile-container">
                                             <div>
-                                                <p>User</p>
+                                                <p>Project manager</p>
                                                 <p class="name">Usher Njari</p>
                                             </div>
                                             <div class="bottom-div-submit-form">
-                                                <button class="bottom-div-submit-btn deactivate-btn">
-                                                    <p>Deactivate</p><i class="bi bi-x-circle-fill"></i>
+                                                <button class="bottom-div-submit-btn-no-icon restore-btn buttons">
+                                                    <p>Restore</p>
                                                 </button>
                                             </div>
                                         </div>
@@ -170,14 +170,30 @@
                                         <div>
                                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                                         </div>
-                                        <div class="profile-deactivate">
+                                        <div class="shared-profile-container">
                                             <div>
-                                                <p>User</p>
+                                                <p>Trainee</p>
                                                 <p class="name">Usher Njari</p>
                                             </div>
                                             <div class="bottom-div-submit-form">
-                                                <button class="bottom-div-submit-btn deactivate-btn">
-                                                    <p>Deactivate</p><i class="bi bi-x-circle-fill"></i>
+                                                <button class="bottom-div-submit-btn-no-icon restore-btn buttons">
+                                                    <p>Restore</p>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="style-table-profile">
+                                        <div>
+                                            <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
+                                        </div>
+                                        <div class="shared-profile-container">
+                                            <div>
+                                                <p>Trainee</p>
+                                                <p class="name">Usher Njari</p>
+                                            </div>
+                                            <div class="bottom-div-submit-form">
+                                                <button class="bottom-div-submit-btn-no-icon restore-btn buttons">
+                                                    <p>Restore</p>
                                                 </button>
                                             </div>
                                         </div>
