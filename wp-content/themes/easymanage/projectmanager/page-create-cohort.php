@@ -1,7 +1,7 @@
 <?php
 
 /*
- *  Template Name:Admin Deactivate Users Template
+ *  Template Name:Add cohort Template
  *
  */
 
@@ -15,10 +15,11 @@
             <?php get_header(); ?>
         </div>
         <div class="dashboard-container">
-        <div class="side-bar-container">
+            <div class="side-bar-container">
+
                 <div class="side-bar-top">
                     <h4>MAIN</h4>
-                    <a href="/easymanage/admin-dashboard/">
+                    <a href="/easymanage/project-manager-dashboard/">
                         <div class="side-bar-link">
                             <div class="link">
                                 <p><i class="side-bar-icon-left bi bi-microsoft icon-sidebar"></i> Dashboard</p>
@@ -29,10 +30,20 @@
                         </div>
                     </a>
 
-                    <a href="/easymanage/create-project-manager/">
+                    <a href="/easymanage/add-trainer/">
                         <div class="side-bar-link">
                             <div class="link">
-                                <p><i class="side-bar-icon-left bi bi-plus-square-fill icon-sidebar"></i> Create project manager</p>
+                                <p><i class="side-bar-icon-left bi bi-plus-square-fill icon-sidebar"></i> Add trainer</p>
+                            </div>
+                            <div>
+                                <i class="bi bi-chevron-right"></i>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="/easymanage/create-cohort/">
+                        <div class="side-bar-link">
+                            <div class="link">
+                                <p><i class="bi bi-pencil-fill"></i> Create new cohort</p>
                             </div>
                             <div>
                                 <i class="bi bi-chevron-right"></i>
@@ -40,41 +51,32 @@
                         </div>
                     </a>
 
-                    <a href="/easymanage/deactivated-trainers/">
-                        <div class="side-bar-link">
-                            <div class="link">
-                                <p><i class="side-bar-icon-left bi bi-trash3-fill"></i> Trash</p>
+                </div>
+                <div>
+                    <div class="profile">
+                        <div>
+                            <img src="<?php echo $profile; ?>" alt="">
+                        </div>
+                        <div class="name-and-email-container">
+                            <div>
+                                <p class="name small-text">Patrick Mwaniki</p>
+                                <p class="small-text">patrickmwanikk@gmail.com</p>
                             </div>
                             <div>
                                 <i class="bi bi-chevron-right"></i>
                             </div>
                         </div>
-                    </a>
-                </div>
-                    <div>
-                        <div class="profile">
-                            <div>
-                                <img src="<?php echo $profile; ?>" alt="">
-                            </div>
-                            <div class="name-and-email-container">
-                                <div>
-                                    <p class="name small-text">Patrick Mwaniki</p>
-                                    <p class="small-text">patrickmwanikk@gmail.com</p>
-                                </div>
-                                <div>
-                                    <i class="bi bi-chevron-right"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="exit">
-                            <a href="/easymanage/login/"><h5><i class="bi bi-box-arrow-left"></i></h5></a>
-                            
-                        </div>
                     </div>
+                    <div class="exit">
+                        <a href="/easymanage/login/"><h5><i class="bi bi-box-arrow-left"></i></h5></a>
+                        
+                    </div>
+                </div>
+
             </div>
             <div class="main-contents-container">
                 <div class="inner-main-contents-container">
-                <div class="top-div">
+                    <div class="top-div">
                         <div>
                             <form action="">
                                 <div class="search">
@@ -89,11 +91,17 @@
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                             <p class="no-of-employees profile-picture">+6</p>
                         </div>
-                     
+                        
                     </div>
-                    <div class="bottom-div">
-                        <p>test</p>
-                        <p>test</p>
+                    <div class="bottom-div flex-project-contents">
+                        <div class="create-new-project flex-project-contents">
+                            <h2>Add cohort</h2>
+                            <form action="">
+                                <input class="input text-input dark-text" type="text" name="" id=""
+                                    placeholder="Enter name">
+                                <input class="input" type="submit" value="Add">
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

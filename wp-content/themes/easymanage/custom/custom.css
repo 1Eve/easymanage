@@ -33,8 +33,8 @@ p {
     flex-direction: column;
     border-radius: 10px;
     padding: 5px 10px 0 10px;
-    width: 100%;
-    height: 100%;
+    min-width: 100%;
+    min-height: 100%;
 }
 
 .dashboard-container {
@@ -269,8 +269,8 @@ form {
     justify-content: center;
     align-items: center;
 }
-.top-div-add-trainee-btn a{
-color: #191919;
+.top-div-add-trainee-btn a, .top-div-add-trainee-btn i {
+color: white;
 text-decoration: none;
 }
 .top-div-add-trainee-btn:hover a, .top-div-add-trainee-btn:hover i{
@@ -445,13 +445,25 @@ color: #08C7E0;
 .view-trainer-details{
     flex: auto;
 }
+.create-a-cohort{
+    color:#08C7E0;
+}
+.create-a-cohort:hover{
+    color:#08C7E0;
+}
 
 /* trainer */
 
-.bottom-div 
 .choose-project-individual-btn, .choose-project-group-btn, .top-div-add-trainee-btn{
     background-color: #6B25CE;  
 }
+.choose-project-group-btn a,.choose-project-individual-btn{
+color: white;
+}
+.choose-project-group-btn a:hover,.choose-project-individual-btn:hover{
+    color: white;
+}
+
 .choose-project-group-btn, .top-div-add-trainee-btn{
 margin-left: 10px;
 position: relative;
@@ -486,7 +498,10 @@ border-radius: 5px;
     top: 30px;
     position: absolute;
     color: #266136;
-    display: none;
+    /* display: none; */
+}
+.add-group-btn:hover{
+    color: #266136;
 }
 
 .status-complete{

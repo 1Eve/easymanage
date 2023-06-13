@@ -17,7 +17,7 @@
             <div class="side-bar-container">
                 <div class="side-bar-top">
                     <h4>MAIN</h4>
-                    <a href="">
+                    <a href="/easymanage/admin-dashboard/">
                         <div class="side-bar-link">
                             <div class="link">
                                 <p><i class="side-bar-icon-left bi bi-microsoft icon-sidebar"></i> Dashboard</p>
@@ -66,17 +66,18 @@
                             </div>
                         </div>
                         <div class="exit">
-                            <h4><i class="bi bi-box-arrow-left"></i></h4>
+                            <a href="/easymanage/login/"><h5><i class="bi bi-box-arrow-left"></i></h5></a>
+                            
                         </div>
                     </div>
             </div>
             <div class="main-contents-container">
                 <div class="inner-main-contents-container">
-                    <div class="top-div">
+                <div class="top-div">
                         <div>
                             <form action="">
                                 <div class="search">
-                                    <input type="text" placeholder="Searching for someone?">
+                                    <input class="search-input" type="text" placeholder="Searching for someone?">
                                     <button type="submit"><i class="bi bi-search"></i></button>
                                 </div>
                             </form>
@@ -87,6 +88,7 @@
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                             <p class="no-of-employees profile-picture">+6</p>
                         </div>
+                      
                     </div>
                     <div class="bottom-div">
                         <div class="admin-dashboard-bottom-div">
@@ -107,9 +109,10 @@
                                                 <p class="name">Usher Njari</p>
                                             </div>
                                             <div class="bottom-div-submit-form">
-                                                <button class="bottom-div-submit-btn buttons deactivate-btn">
+                                                <a href=""><button class="bottom-div-submit-btn buttons deactivate-btn">
                                                     <p>Deactivate</p><i class="bi bi-x-circle-fill"></i>
-                                                </button>
+                                                </button></a>
+                                                
                                             </div>
                                         </div>
                                     </div>
@@ -123,9 +126,10 @@
                                                 <p class="name">Usher Njari</p>
                                             </div>
                                             <div class="bottom-div-submit-form">
-                                                <button class="bottom-div-submit-btn buttons deactivate-btn">
+                                                <a href=""><button class="bottom-div-submit-btn buttons deactivate-btn">
                                                     <p>Deactivate</p><i class="bi bi-x-circle-fill"></i>
-                                                </button>
+                                                </button></a>
+                                                
                                             </div>
                                         </div>
                                     </div>
@@ -139,9 +143,10 @@
                                                 <p class="name">Usher Njari</p>
                                             </div>
                                             <div class="bottom-div-submit-form">
-                                                <button class="bottom-div-submit-btn buttons deactivate-btn">
+                                                <a href=""><button class="bottom-div-submit-btn buttons deactivate-btn">
                                                     <p>Deactivate</p><i class="bi bi-x-circle-fill"></i>
-                                                </button>
+                                                </button></a>
+                                                
                                             </div>
                                         </div>
                                     </div>
@@ -155,9 +160,10 @@
                                                 <p class="name">Usher Njari</p>
                                             </div>
                                             <div class="bottom-div-submit-form">
-                                                <button class="bottom-div-submit-btn buttons deactivate-btn">
+                                                <a href=""><button class="bottom-div-submit-btn buttons deactivate-btn">
                                                     <p>Deactivate</p><i class="bi bi-x-circle-fill"></i>
-                                                </button>
+                                                </button></a>
+                                                
                                             </div>
                                         </div>
                                     </div>

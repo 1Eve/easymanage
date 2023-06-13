@@ -39,6 +39,16 @@
                             </div>
                         </div>
                     </a>
+                    <a href="/easymanage/project-manager-dashboard/">
+                        <div class="side-bar-link">
+                            <div class="link">
+                                <p><i class="bi bi-pencil-fill"></i> Create new cohort</p>
+                            </div>
+                            <div>
+                                <i class="bi bi-chevron-right"></i>
+                            </div>
+                        </div>
+                    </a>
                 </div>
                 <div>
                     <div class="profile">
@@ -56,18 +66,19 @@
                         </div>
                     </div>
                     <div class="exit">
-                        <h4><i class="bi bi-box-arrow-left"></i></h4>
+                        <a href="/easymanage/login/"><h5><i class="bi bi-box-arrow-left"></i></h5></a>
+                        
                     </div>
                 </div>
 
             </div>
             <div class="main-contents-container">
                 <div class="inner-main-contents-container">
-                    <div class="top-div">
+                <div class="top-div">
                         <div>
                             <form action="">
                                 <div class="search">
-                                    <input type="text" placeholder="Searching for someone?">
+                                    <input class="search-input" type="text" placeholder="Searching for someone?">
                                     <button type="submit"><i class="bi bi-search"></i></button>
                                 </div>
                             </form>
@@ -78,6 +89,7 @@
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                             <p class="no-of-employees profile-picture">+6</p>
                         </div>
+                       
                     </div>
                     <div class="bottom-div flex-project-contents">
                         <div class="create-new-project flex-project-contents">
@@ -88,6 +100,9 @@
                                 <input class="input text-input dark-text" type="email" name="" id=""
                                     placeholder="Enter email">
                                 <input class="input text-input" type="password" name="" id="" placeholder="........">
+                                <input class="input text-input dark-text" type="text" name="" id=""
+                                    placeholder="--select cohort--">
+                                <p>Not the cohort you looking for? <span><a class="create-a-cohort" href="/easymanage/create-cohort/">create a cohort</a></span></p>
                                 <input class="input" type="submit" value="Create trainer">
                             </form>
                         </div>

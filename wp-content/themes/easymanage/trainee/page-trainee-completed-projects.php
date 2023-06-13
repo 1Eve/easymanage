@@ -55,17 +55,18 @@
                         </div>
                     </div>
                     <div class="exit">
-                        <h4><i class="bi bi-box-arrow-left"></i></h4>
+                        <a href="/easymanage/login/"><h5><i class="bi bi-box-arrow-left"></i></h5></a>
+                        
                     </div>
                 </div>
             </div>
             <div class="main-contents-container">
                 <div class="inner-main-contents-container">
-                    <div class="top-div">
+                <div class="top-div">
                         <div>
                             <form action="">
                                 <div class="search">
-                                    <input type="text" placeholder="Searching for someone?">
+                                    <input class="search-input" type="text" placeholder="Searching for someone?">
                                     <button type="submit"><i class="bi bi-search"></i></button>
                                 </div>
                             </form>
@@ -76,6 +77,7 @@
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                             <p class="no-of-employees profile-picture">+6</p>
                         </div>
+                       
                     </div>
                     <div class="bottom-div">
                         <div class="style-table-profile-column">

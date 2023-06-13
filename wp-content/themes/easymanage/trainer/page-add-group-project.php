@@ -122,7 +122,8 @@
                         </div>
                     </div>
                     <div class="exit">
-                        <h4><i class="bi bi-box-arrow-left"></i></h4>
+                        <a href="/easymanage/login/"><h5><i class="bi bi-box-arrow-left"></i></h5></a>
+                        
                     </div>
                 </div>
             </div>

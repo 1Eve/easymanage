@@ -15,9 +15,9 @@
             <?php get_header(); ?>
         </div>
         <div class="dashboard-container">
-        <div class="side-bar-container">
-                <h4>MAIN</h4>
+            <div class="side-bar-container">
                 <div class="side-bar-top">
+                    <h4>MAIN</h4>
                     <a href="/easymanage/trainer-dashboard/">
                         <div class="side-bar-link">
                             <div class="link">
@@ -122,7 +122,10 @@
                         </div>
                     </div>
                     <div class="exit">
-                        <h4><i class="bi bi-box-arrow-left"></i></h4>
+                        <a href="/easymanage/login/">
+                            <h5><i class="bi bi-box-arrow-left"></i></h5>
+                        </a>
+
                     </div>
                 </div>
             </div>
@@ -132,7 +135,7 @@
                         <div>
                             <form action="">
                                 <div class="search">
-                                    <input type="text" placeholder="Searching for someone?">
+                                    <input class="search-input" type="text" placeholder="Searching for someone?">
                                     <button type="submit"><i class="bi bi-search"></i></button>
                                 </div>
                             </form>
@@ -142,6 +145,11 @@
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                             <p class="no-of-employees profile-picture">+6</p>
+                        </div>
+                        <div class="top-div-add-trainee-btn">
+                            <a class="bottom-div-submit-btn-no-icon  " href="/easymanage/add-trainee/">Add new
+                                trainee</a>
+                            <i class="bi bi-plus-square"></i>
                         </div>
                     </div>
                     <div class="bottom-div flex-project-contents">
@@ -157,10 +165,8 @@
                                     <i id="threedots" class="bi bi-three-dots-vertical"></i>
                                 </div>
                             </div>
-
-                            <a id="add-group-btn" class=" add-group-btn ">
-                                <p>Add new group</p>
-                            </a>
+                            <a id="add-group-btn" class=" add-group-btn " href="/easymanage/add-group/">Add new
+                                group</a>
                         </div>
                     </div>
                 </div>
