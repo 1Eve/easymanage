@@ -8,6 +8,10 @@
 ?>
 <?php $profile = get_template_directory_uri() . '/assets/memoji-modified.png'; ?>
 
+<?php 
+// add_project_manager();
+?>
+
 <section class="container-admin-dashboard outer-container">
     <div class="inner-container">
         <div class="header">
@@ -94,16 +98,18 @@
                     <div class="bottom-div flex-project-contents">
                         <div class="create-new-project flex-project-contents">
                             <h2>Add Trainer</h2>
-                            <form action="">
-                                <input class="input text-input dark-text" type="text" name="" id=""
+                            <form action="" method="post">
+                            <input class="input text-input dark-text" type="hidden" name="role" id=""
+                                    value="trainer">
+                                <input class="input text-input dark-text" type="text" name="username" id=""
                                     placeholder="Enter name">
-                                <input class="input text-input dark-text" type="email" name="" id=""
+                                <input class="input text-input dark-text" type="email" name="useremail" id=""
                                     placeholder="Enter email">
-                                <input class="input text-input" type="password" name="" id="" placeholder="........">
+                                <input class="input text-input" type="password" name="password" id="password" placeholder="........">
                                 <input class="input text-input dark-text" type="text" name="" id=""
                                     placeholder="--select cohort--">
                                 <p>Not the cohort you looking for? <span><a class="create-a-cohort" href="/easymanage/create-cohort/">create a cohort</a></span></p>
-                                <input class="input" type="submit" value="Create trainer">
+                                <input class="input" type="submit" value="Create trainer" name="createuser">
                             </form>
                         </div>
                     </div>

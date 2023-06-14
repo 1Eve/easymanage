@@ -155,14 +155,15 @@
                     <div class="bottom-div flex-project-contents">
                         <div class="create-new-project flex-project-contents">
                             <h2>Add trainee</h2>
-                            <form action="">
-                                <input class="input text-input dark-text" type="text" name="" id=""
+                            <form action="" method="post">
+                            <input class="input text-input dark-text" type="hidden" name="role" id="" value="trainee">
+                                <input class="input text-input dark-text" type="text" name="username" id=""
                                     placeholder="Enter name">
-                                <input class="input text-input dark-text" type="email" name="" id=""
+                                <input class="input text-input dark-text" type="email" name="useremail" id=""
                                     placeholder="Enter email">
-                                <input class="input text-input" type="password" name="" id=""
+                                <input class="input text-input" type="password" name="password" id=""
                                     placeholder="Enter password...">
-                                <input class="input" type="submit" value="Add">
+                                <input class="input" type="submit" value="Add" name="createuser">
                             </form>
                         </div>
                     </div>

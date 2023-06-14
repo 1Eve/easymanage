@@ -15,7 +15,7 @@
             <?php get_header(); ?>
         </div>
         <div class="dashboard-container">
-        <div class="side-bar-container">
+            <div class="side-bar-container">
                 <h4>MAIN</h4>
                 <div class="side-bar-top">
                     <a href="/easymanage/trainer-dashboard/">
@@ -121,15 +121,19 @@
                             </div>
                         </div>
                     </div>
-                    <div class="exit">
-                        <a href="/easymanage/login/"><h5><i class="bi bi-box-arrow-left"></i></h5></a>
-                        
+                    <div >
+                        <form action="" method="post">
+                            <button class="exit" type="submit" name = "logout">
+                                <h5><i class="bi bi-box-arrow-left"></i></h5>
+                            </button>
+                            <!-- <a href="/easymanage/login/"></a> -->
+                        </form>
                     </div>
                 </div>
             </div>
             <div class="main-contents-container">
                 <div class="inner-main-contents-container">
-                <div class="top-div">
+                    <div class="top-div">
                         <div>
                             <form action="">
                                 <div class="search">

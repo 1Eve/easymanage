@@ -9,6 +9,10 @@
 
 <?php $profile = get_template_directory_uri() . '/assets/memoji-modified.png'; ?>
 
+<?php 
+add_project_manager();
+?>
+
 <section class="container-admin-dashboard outer-container">
     <div class="inner-container">
         <div class="header">
