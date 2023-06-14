@@ -1,3 +1,16 @@
+<?php 
+$cookieName = "userinfo";
+// restrict users from accessing the dashboard without havving to login first
+if(get_permalink() != site_url('/login/') && !isset($_COOKIE[$cookieName])){  
+    wp_redirect(site_url('/easymanage/login'));
+    exit;
+}
+if(get_permalink() ==site_url('/login/') && isset($_COOKIE[$cookieName])){
+    wp_redirect(site_url('/'));
+    exit;
+}
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -10,3 +23,5 @@
 </head>
 <body>
 <h1><i class="bi bi-wordpress"></i> Easy Manage</h1>
+
+

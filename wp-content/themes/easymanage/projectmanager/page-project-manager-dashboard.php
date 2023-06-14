@@ -66,9 +66,12 @@
                             </div>
                         </div>
                     </div>
-                    <div class="exit">
-                        <a href="/easymanage/login/"><h5><i class="bi bi-box-arrow-left"></i></h5></a>
-                        
+                    <div >
+                        <form action="" method="post">
+                            <button class="exit" type="submit" name = "logout">
+                                <h5><i class="bi bi-box-arrow-left"></i></h5>
+                            </button>
+                        </form>
                     </div>
                 </div>
 

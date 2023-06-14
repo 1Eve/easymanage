@@ -100,8 +100,23 @@ function compare_passwords()
                 echo "Cookie '$cookieName' has been set.";
 
                 var_dump(site_url('/view-all-projects'));
-                wp_redirect(site_url('/easymanage/my-trainees/'));
+                if($result->role == 'admin'){
+                    wp_redirect(site_url('/admin-dashboard/'));
+                    exit;
+                }
+                if($result->role == 'projectmanager'){
+                    wp_redirect(site_url('/project-manager-dashboard/'));
                 exit;
+                }
+                if($result->role == 'trainer'){
+                    wp_redirect(site_url('/trainer-dashboard/'));
+                exit;
+                }
+                if($result->role == 'trainee'){
+                    wp_redirect(site_url('/trainee-dashboard/'));
+                exit;
+                }
+                
             }
             else{
                 var_dump('passwords dont match ');

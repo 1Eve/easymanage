@@ -126,7 +126,6 @@
                             <button class="exit" type="submit" name = "logout">
                                 <h5><i class="bi bi-box-arrow-left"></i></h5>
                             </button>
-                            <!-- <a href="/easymanage/login/"></a> -->
                         </form>
                     </div>
                 </div>
