@@ -6,7 +6,17 @@
  */
 
 ?>
+<?php
+global $wpdb;
+$table_name = $wpdb->prefix . 'projectusers';
+$result = $wpdb->get_row("SELECT * FROM $table_name");
 
+if($result->role !='admin'){
+    wp_redirect(home_url());
+    exit;
+}
+
+?>
 <?php $profile = get_template_directory_uri() . '/assets/memoji-modified.png'; ?>
 
 <section class="container-admin-dashboard outer-container">

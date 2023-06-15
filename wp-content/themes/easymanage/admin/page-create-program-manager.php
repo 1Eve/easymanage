@@ -6,7 +6,49 @@
  */
 
 ?>
+<?php
+    $user_name_error="";
+    $user_email_error="";
+    $pass_error="";
 
+    $table_name = $wpdb->prefix . 'projectusers';
+
+if (isset($_POST['createuser'])) {
+    $username= $_POST['username'];
+    $useremail= $_POST['useremail'];
+    $role= $_POST['role'];
+    $password=$_POST['password'];
+
+  
+        if ($username == '') {
+            $user_name_error = "Name is required !";
+        }
+        if ($useremail == '') {
+            $user_email_error = "Email is required !";
+        }
+        if ($password == '') {
+            $pass_error = "Password is required !";
+        }
+        if ($user_name_error=='' && $user_email_error =='' && $pass_error =='') {
+            $useremail = $_POST['useremail'];
+            $pwd = $_POST['password'];
+            $hash_pwd = wp_hash_password($pwd);
+            $result = $wpdb->get_row("SELECT id FROM $table_name WHERE useremail = '$useremail'");
+            $result = $wpdb->insert($table_name, [
+                'username' => $username,
+                'useremail' => $useremail,
+                'password' => $password
+            ]);
+            if ($result) {
+                echo "<script>alert('User created successfully');</script>";
+            } else {
+                echo "<script>alert('User not created successfully');</script>";
+            }
+        }
+    
+}
+
+?>
 <?php $profile = get_template_directory_uri() . '/assets/memoji-modified.png'; ?>
 
 
@@ -68,9 +110,9 @@
                             </div>
                         </div>
                     </div>
-                    <div >
+                    <div>
                         <form action="" method="post">
-                            <button class="exit" type="submit" name = "logout">
+                            <button class="exit" type="submit" name="logout">
                                 <h5><i class="bi bi-box-arrow-left"></i></h5>
                             </button>
                         </form>
@@ -100,16 +142,24 @@
                         <div class="create-new-project flex-project-contents">
                             <h2>Add Project Manager</h2>
                             <form action="" method="post">
-                            <input class="input text-input dark-text" type="hidden" name="role"  id=""
+                                <input class="input text-input dark-text" type="hidden" name="role" id=""
                                     value="projectmanager">
                                 <input class="input text-input dark-text" type="text" name="username" id=""
                                     placeholder="Enter name">
+                                <p>
+                                    <?php echo $user_name_error ?>
+                                </p>
                                 <input class="input text-input dark-text" type="email" name="useremail" id=""
                                     placeholder="Enter email">
+                                <p>
+                                    <?php echo $user_email_error ?>
+                                </p>
                                 <input class="input text-input" type="password" name="password" id=""
                                     placeholder="........">
-                                <input class="input" type="submit" value="Create project manager"
-                                    name="createuser">
+                                <p>
+                                    <?php echo $pass_error ?>
+                                </p>
+                                <input class="input" type="submit" value="Create project manager" name="createuser">
                             </form>
                         </div>
                     </div>

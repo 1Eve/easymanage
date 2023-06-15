@@ -48,27 +48,6 @@ function add_project_manager()
     require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 
     dbDelta($user_table);
-    if (isset($_POST['createuser'])) {
-        // var_dump('helloooo');
-        $pwd = $_POST['password'];
-        $hash_pwd = wp_hash_password($pwd);
-
-        $userdata = [
-            'username' => $_POST['username'],
-            'useremail' => $_POST['useremail'],
-            'role' => $_POST['role'],
-            'password' => $hash_pwd
-        ];
-       
-        $result = $wpdb->insert($table_name, $userdata);
-
-        if ($result) {
-            echo "<script>alert('User created successfully');</script>";
-        } else {
-            echo "<script>alert('User not created successfully');</script>";
-        }
-
-    }
 }
 add_action('init', 'add_project_manager');
 
