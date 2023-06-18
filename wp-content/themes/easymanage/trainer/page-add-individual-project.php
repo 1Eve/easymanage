@@ -6,7 +6,53 @@
  */
 
 ?>
+<?php
+global $wpdb;
+$table_name = $wpdb->prefix . 'projectusers';
+$task_table_name = $wpdb->prefix . 'tasks';
+$names = $wpdb->get_results("SELECT username FROM $table_name WHERE role = 'trainee'");
+$trainee_name_error = '';
+$project_title_error = '';
+$project_description_error = '';
 
+if (isset($_POST['create_task'])) {
+    $trainee_name = $_POST['trainee_name'];
+    $project_title = $_POST['project_title'];
+    $project_description = $_POST['project_description'];
+var_dump($trainee_name);
+    if ($trainee_name == '') {
+        $trainee_name_error = 'Trainee name is required';
+    }
+    if ($project_title == '') {
+        $project_title_error = 'Project title is required';
+    }
+    if ($project_description == '') {
+        $project_description_error = 'Project description is required';
+    }
+
+    if ($project_description_error == '' && $project_title_error == '' && $trainee_name_error == '') {
+        $trainee_name = $_POST['trainee_name'];
+        $project_title = $_POST['project_title'];
+        $project_description = $_POST['project_description'];
+
+        $result = $wpdb->get_row("SELECT id FROM $task_table_name WHERE trainee_name = '$trainee_name'");
+        $result = $wpdb->insert($task_table_name, [
+            'trainee_name' => $trainee_name,
+            'project_title' => $project_title,
+            'project_description' => $project_description,
+            'status' => 0
+        ]);
+        if ($result) {
+            echo "<script>alert('Project created successfully');</script>";
+        } else {
+            echo "<script>alert('Project not created successfully');</script>";
+        }
+    }
+}
+
+
+
+?>
 <?php $profile = get_template_directory_uri() . '/assets/memoji-modified.png'; ?>
 
 <section class="container-admin-dashboard outer-container">
@@ -121,9 +167,9 @@
                             </div>
                         </div>
                     </div>
-                    <div >
+                    <div>
                         <form action="" method="post">
-                            <button class="exit" type="submit" name = "logout">
+                            <button class="exit" type="submit" name="logout">
                                 <h5><i class="bi bi-box-arrow-left"></i></h5>
                             </button>
                         </form>
@@ -134,14 +180,32 @@
             <div class="main-contents-container flex-project-contents">
                 <div class="create-new-project flex-project-contents">
                     <h2>Create new Project</h2>
-                    <form action="">
-                        <input class="input text-input dark-text" type="text" name="" id="" placeholder="Select user">
-                        <input class="input text-input dark-text" type="text" name="" id=""
+                    <form action="" method="post">
+                        
+                        <select class="input select" name="trainee_name" id="user">
+                            <?php foreach ($names as $name) { ?>
+                                <option value="<?php echo $name->username; ?>" name="trainee_name">
+                                    <?php echo $name->username; ?>
+                                </option>
+                            <?php } ?>
+                        </select>
+                        <p>
+                            <?php echo $trainee_name_error; ?>
+                        </p>
+                        <input class="input text-input dark-text" type="text" name="project_title" id=""
                             placeholder="Enter project title">
-                        <input class="input text-input dark-text project-description" type="text" name="" id=""
-                            placeholder="Enter project description">
+                        <p>
+                            <?php echo $project_title_error; ?>
+                        </p>
+
+                        <input class="input text-input dark-text project-description" type="text"
+                            name="project_description" id="" placeholder="Enter project description">
+                        <p>
+                            <?php echo $project_description_error; ?>
+                        </p>
+
                         <input class="input text-input dark-text" type="text" name="" id="" placeholder="dd/mm/yyyy">
-                        <input class="input" type="submit" value="Create project">
+                        <input class="input" type="submit" value="Create project" name="create_task">
                     </form>
                 </div>
             </div>

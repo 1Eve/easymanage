@@ -6,7 +6,50 @@
  */
 
 ?>
+<?php
+$user_name_error = "";
+$user_email_error = "";
+$pass_error = "";
 
+$table_name = $wpdb->prefix . 'projectusers';
+
+if (isset($_POST['createuser'])) {
+    $username = $_POST['username'];
+    $useremail = $_POST['useremail'];
+    $password = $_POST['password'];
+
+    if ($username == '') {
+        $user_name_error = "Name is required !";
+    }
+    if ($useremail == '') {
+        $user_email_error = "Email is required !";
+    }
+    if ($password == '') {
+        $pass_error = "Password is required !";
+    }
+    if ($user_name_error == '' && $user_email_error == '' && $pass_error == '') {
+        $username = $_POST['username'];
+        $useremail = $_POST['useremail'];
+        $role = $_POST['role'];
+        $pwd = $_POST['password'];
+        $hash_pwd = wp_hash_password($pwd);
+        $result = $wpdb->get_row("SELECT id FROM $table_name WHERE useremail = '$useremail'");
+        $result = $wpdb->insert($table_name, [
+            'username' => $username,
+            'useremail' => $useremail,
+            'password' => $hash_pwd,
+            'role' => $role
+        ]);
+        if ($result) {
+            echo "<script>alert('User created successfully');</script>";
+        } else {
+            echo "<script>alert('User not created successfully');</script>";
+        }
+    }
+
+}
+
+?>
 <?php $profile = get_template_directory_uri() . '/assets/memoji-modified.png'; ?>
 
 <section class="container-admin-dashboard outer-container">

@@ -42,7 +42,9 @@ function add_project_manager()
             username text NOT NULL,
             useremail text NOT NULL,
             password text NOT NULL,
-            role text NOT NULL
+            cohort text NOT NULL,
+            role text NOT NULL,
+            status int NOT NULL
         )";
 
     require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
@@ -50,7 +52,23 @@ function add_project_manager()
     dbDelta($user_table);
 }
 add_action('init', 'add_project_manager');
+function assign_tasks (){
+    global $wpdb;
 
+    $table_name = $wpdb->prefix . 'tasks';
+
+    $task_table = "CREATE TABLE IF NOT EXISTS " . $table_name . " (
+        id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        trainee_name text NOT NULL,
+        project_title text NOT NULL,
+        project_description text NOT NULL,
+        status int NOT NULL
+    )";
+    require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+
+    dbDelta($task_table);
+}
+add_action('init', 'assign_tasks');
 function compare_passwords()
 {
     global $wpdb;
@@ -66,7 +84,7 @@ function compare_passwords()
 
             $hash_pwd = $result->password;
             if(wp_check_password($userpassword, $hash_pwd) ){
-                var_dump('password matches');
+                // var_dump('password matches');
                 $userinfo = [
                     'id' => $result->id,
                     'username' => $result->username,
@@ -78,7 +96,7 @@ function compare_passwords()
                 setcookie('userinfo', $stringuserinfo, $cookieexpiry, "/easymanage/");
                 echo "Cookie '$cookieName' has been set.";
 
-                var_dump(site_url('/view-all-projects'));
+                // var_dump(site_url('/view-all-projects'));
                 if($result->role == 'admin'){
                     wp_redirect(site_url('/admin-dashboard/'));
                     exit;

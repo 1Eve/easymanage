@@ -6,6 +6,24 @@
  */
 
 ?>
+<?php
+if (isset($_COOKIE['userinfo'])) {
+
+    $CookieValue = $_COOKIE['userinfo'];
+    $cookieData = json_decode($_COOKIE['userinfo']);
+
+    // echo $_COOKIE['userinfo'];
+    var_dump(json_decode($CookieValue));
+    if (is_array($cookieData) && isset($cookieData['id'])) {
+        $Id = $cookieData['id'];
+        $Useremail = $cookieData['useremail'];
+        echo 'Cookies present';
+    } else {
+        // echo 'Cookies not found';
+    }
+}
+// echo 'Trainee dashboard';
+?>
 
 
 <?php $profile = get_template_directory_uri() . '/assets/memoji-modified.png'; ?>
@@ -16,7 +34,7 @@
             <?php get_header(); ?>
         </div>
         <div class="dashboard-container">
-        <div class="side-bar-container">
+            <div class="side-bar-container">
                 <div class="side-bar-top">
                     <h4>MAIN</h4>
                     <a href="/easymanage/trainee-dashboard/">
@@ -55,9 +73,9 @@
                             </div>
                         </div>
                     </div>
-                    <div >
+                    <div>
                         <form action="" method="post">
-                            <button class="exit" type="submit" name = "logout">
+                            <button class="exit" type="submit" name="logout">
                                 <h5><i class="bi bi-box-arrow-left"></i></h5>
                             </button>
                         </form>
@@ -66,7 +84,7 @@
             </div>
             <div class="main-contents-container">
                 <div class="inner-main-contents-container">
-                <div class="top-div">
+                    <div class="top-div">
                         <div>
                             <form action="">
                                 <div class="search">
@@ -81,7 +99,7 @@
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                             <p class="no-of-employees profile-picture">+6</p>
                         </div>
-                      
+
                     </div>
                     <div class="bottom-div">
                         <div class="style-table-profile-column">
