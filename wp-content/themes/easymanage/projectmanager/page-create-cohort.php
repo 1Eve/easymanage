@@ -9,27 +9,32 @@
 
 <?php $profile = get_template_directory_uri() . '/assets/memoji-modified.png'; ?>
 <?php
+$totalusers = getDisplayedUserCount();
 
 $table_name = $wpdb->prefix . 'cohorts';
-$totalusers = ($wpdb->get_var("SELECT COUNT(*) FROM $table_name")- '3'); 
-
 if (isset($_POST['add_cohort'])) {
-    $cohort_name = $_POST['cohort_name'];
-
-    $results = $wpdb->get_results("SELECT id FROM $table_name WHERE cohort_name = '$cohort_name'");
-    $results = $wpdb->insert($table_name, [
-        'cohort_name' => $cohort_name,
+    $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/projects/add/cohorts', [
+        'method' => 'POST',
+        'body' => [
+            'cohort_name' => $_POST['cohort_name']
+            ]
     ]);
-    if ($results) {
-        // echo "<script>alert('Cohort created successfully');</script>";
-        wp_redirect(site_url('/easymanage/add-trainer/'));    
-    } else {
-        echo "<script>alert('Cohort not created successfully');</script>";
-    }
+    $res = wp_remote_retrieve_body($response);
+    $addcohort = json_decode($res);
+    var_dump($addcohort);
+    // $cohort_name = $_POST['cohort_name'];
+
+    // $results = $wpdb->get_results("SELECT id FROM $table_name WHERE cohort_name = '$cohort_name'");
+    // $results = $wpdb->insert($table_name, [
+    //     'cohort_name' => $cohort_name,
+    // ]);
+    // if ($results) {
+    //     // echo "<script>alert('Cohort created successfully');</script>";
+    //     wp_redirect(site_url('/easymanage/add-trainer/'));    
+    // } else {
+    //     echo "<script>alert('Cohort not created successfully');</script>";
+    // }
 }
-?>
-<?php
-add_project_manager();
 ?>
 
 <section class="container-admin-dashboard outer-container">

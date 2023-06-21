@@ -18,7 +18,7 @@ class TaskRoutes
             'methods' => 'GET',
             'callback' => [$this, 'listtrainee_tasks'],
         ]);
-        register_rest_route('api/v1', '/tasks/(?P<id>\d+)', [
+        register_rest_route('api/v1', '/tasks/launch/(?P<id>\d+)', [
             'methods' => 'PUT',
             'callback' => [$this, 'launch_tasks'],
         ]);

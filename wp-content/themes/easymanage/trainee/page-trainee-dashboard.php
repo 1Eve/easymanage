@@ -26,7 +26,7 @@ if (!$cookieData) {
 
 if (isset($_POST['launch_project'])) {
     $task_id = $_POST['task_id'];
-    $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/tasks/'.$task_id, [
+    $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/tasks/launch/'.$task_id, [
         'method' => 'PUT',
     ]);
     $res = wp_remote_retrieve_body($response);
