@@ -7,11 +7,10 @@
 
 ?>
 <?php
+$totalusers = getDisplayedUserCount();
 $user_name_error = "";
 $user_email_error = "";
 $pass_error = "";
-
-$table_name = $wpdb->prefix . 'projectusers';
 
 if (isset($_POST['createuser'])) {
     $username = $_POST['username'];
@@ -28,19 +27,20 @@ if (isset($_POST['createuser'])) {
         $pass_error = "Password is required !";
     }
     if ($user_name_error == '' && $user_email_error == '' && $pass_error == '') {
-        $username = $_POST['username'];
-        $useremail = $_POST['useremail'];
-        $role = $_POST['role'];
-        $pwd = $_POST['password'];
-        $hash_pwd = wp_hash_password($pwd);
-        $result = $wpdb->get_row("SELECT id FROM $table_name WHERE useremail = '$useremail'");
-        $result = $wpdb->insert($table_name, [
-            'username' => $username,
-            'useremail' => $useremail,
-            'password' => $hash_pwd,
-            'role' => $role
+
+        $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/users/projectmanager', [
+            'method' => 'POST',
+            'body' => [
+                'role' => $_POST['role'],
+                'username' => $_POST['username'],
+                'useremail' => $_POST['useremail'],
+                'password' => $_POST['password']
+            ]
         ]);
-        if ($result) {
+        $res = wp_remote_retrieve_body($response);
+        $userinfo = json_decode($res);
+        var_dump($userinfo);
+        if ($userinfo) {
             echo "<script>alert('User created successfully');</script>";
         } else {
             echo "<script>alert('User not created successfully');</script>";
@@ -135,7 +135,9 @@ if (isset($_POST['createuser'])) {
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
-                            <p class="no-of-employees profile-picture">+6</p>
+                            <p class="no-of-employees profile-picture">
+                                <?php echo '+' . $totalusers; ?>
+                            </p>
                         </div>
 
                     </div>

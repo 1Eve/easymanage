@@ -10,7 +10,10 @@ p {
     display: flex;
     justify-content: space-between;
 }
-
+.grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax (200px 1fr));
+}
 .justify-content {
     display: flex;
     justify-content: center;
@@ -673,3 +676,44 @@ form {
 }
 
 /* restore deleted projects */
+
+/* Trainee my project revamp */
+.my-project{
+    display: grid;
+    grid-template-columns: 100px 1fr;
+}
+.project-description{
+    display: grid;
+    grid-template-columns: 1fr 150px;
+}
+.project-name{
+    font-weight: 600;
+}
+.launch-btn{
+    border: none;
+    color: #5D1B18 !important;
+    background-color: #F9D0CE !important;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+.project-in-progress-icon{
+    border: none;
+    color: #08C7E0 !important;
+    background-color:  #08C7E01F !important;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+.project-in-progress-icon:hover, .launch-btn:hover{
+    cursor: pointer;
+}
+/* Trainer Dashboard revamp */
+.sent-icon{
+    color: #5D1B18 ;
+    background-color: #F9D0CE ;
+    border-radius: 30px;
+    border: none;
+    padding: 5px 10px;
+    font-weight: 500;
+    font-size: 14px;
+    /* width: fit-content; */
+}

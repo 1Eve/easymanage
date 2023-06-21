@@ -7,19 +7,20 @@
 
 ?>
 <?php
+$totalusers = getDisplayedUserCount();
 global $wpdb;
-$table_name = $wpdb->prefix . 'projectusers';
-$task_table_name = $wpdb->prefix . 'tasks';
-$names = $wpdb->get_results("SELECT username FROM $table_name WHERE role = 'trainee'");
-$trainee_name_error = '';
-$project_title_error = '';
-$project_description_error = '';
+$response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/users/trainees', [
+    'method' => 'GET',
+]);
+$res = wp_remote_retrieve_body($response);
+$traineelist = json_decode($res);
+// var_dump($traineelist);
+$trainee_name_error = $project_title_error = $project_description_error = '';
 
 if (isset($_POST['create_task'])) {
     $trainee_name = $_POST['trainee_name'];
     $project_title = $_POST['project_title'];
     $project_description = $_POST['project_description'];
-var_dump($trainee_name);
     if ($trainee_name == '') {
         $trainee_name_error = 'Trainee name is required';
     }
@@ -31,23 +32,25 @@ var_dump($trainee_name);
     }
 
     if ($project_description_error == '' && $project_title_error == '' && $trainee_name_error == '') {
-        $trainee_name = $_POST['trainee_name'];
-        $project_title = $_POST['project_title'];
-        $project_description = $_POST['project_description'];
-
-        $result = $wpdb->get_row("SELECT id FROM $task_table_name WHERE trainee_name = '$trainee_name'");
-        $result = $wpdb->insert($task_table_name, [
-            'trainee_name' => $trainee_name,
-            'project_title' => $project_title,
-            'project_description' => $project_description,
-            'status' => 0
-        ]);
-        if ($result) {
-            echo "<script>alert('Project created successfully');</script>";
-        } else {
-            echo "<script>alert('Project not created successfully');</script>";
-        }
+        // Retrieve trainee details based on the selected ID
+        $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/tasks/add/individual', [
+            'method' => 'POST',
+            'body' => [
+                'user_id' => $_POST['trainee_name'],
+                'project_title' => $_POST['project_title'],
+                'project_description' => $_POST['project_description'],
+                ]
+            ]);
+            $res = wp_remote_retrieve_body($response);
+            $individualtask = json_decode($res);
+            if ($individualtask) {
+                echo "<script>alert('Project created successfully');</script>";
+            } else {
+                echo "<script>alert('Project not created successfully');</script>";
+            }
+        
     }
+    
 }
 
 
@@ -181,12 +184,12 @@ var_dump($trainee_name);
                 <div class="create-new-project flex-project-contents">
                     <h2>Create new Project</h2>
                     <form action="" method="post">
-                        
                         <select class="input select" name="trainee_name" id="user">
-                            <?php foreach ($names as $name) { ?>
-                                <option value="<?php echo $name->username; ?>" name="trainee_name">
-                                    <?php echo $name->username; ?>
+                            <?php foreach ($traineelist as $name) { ?>
+                                <option value="<?php echo $name->id; ?>">
+                                    <?php echo $name->username?>
                                 </option>
+                                <!-- <input type="hidden" name="trainee_id" value=""> -->
                             <?php } ?>
                         </select>
                         <p>

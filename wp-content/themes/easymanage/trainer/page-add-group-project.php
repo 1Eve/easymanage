@@ -6,7 +6,10 @@
  */
 
 ?>
+<?php 
+$totalusers = getDisplayedUserCount();
 
+?>
 <?php $profile = get_template_directory_uri() . '/assets/memoji-modified.png'; ?>
 
 <section class="container-admin-dashboard outer-container">

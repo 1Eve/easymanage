@@ -8,8 +8,27 @@
 ?>
 
 <?php $profile = get_template_directory_uri() . '/assets/memoji-modified.png'; ?>
+<?php
 
-<?php 
+$table_name = $wpdb->prefix . 'cohorts';
+$totalusers = ($wpdb->get_var("SELECT COUNT(*) FROM $table_name")- '3'); 
+
+if (isset($_POST['add_cohort'])) {
+    $cohort_name = $_POST['cohort_name'];
+
+    $results = $wpdb->get_results("SELECT id FROM $table_name WHERE cohort_name = '$cohort_name'");
+    $results = $wpdb->insert($table_name, [
+        'cohort_name' => $cohort_name,
+    ]);
+    if ($results) {
+        // echo "<script>alert('Cohort created successfully');</script>";
+        wp_redirect(site_url('/easymanage/add-trainer/'));    
+    } else {
+        echo "<script>alert('Cohort not created successfully');</script>";
+    }
+}
+?>
+<?php
 add_project_manager();
 ?>
 
@@ -37,7 +56,8 @@ add_project_manager();
                     <a href="/easymanage/add-trainer/">
                         <div class="side-bar-link">
                             <div class="link">
-                                <p><i class="side-bar-icon-left bi bi-plus-square-fill icon-sidebar"></i> Add trainer</p>
+                                <p><i class="side-bar-icon-left bi bi-plus-square-fill icon-sidebar"></i> Add trainer
+                                </p>
                             </div>
                             <div>
                                 <i class="bi bi-chevron-right"></i>
@@ -71,9 +91,9 @@ add_project_manager();
                             </div>
                         </div>
                     </div>
-                    <div >
+                    <div>
                         <form action="" method="post">
-                            <button class="exit" type="submit" name = "logout">
+                            <button class="exit" type="submit" name="logout">
                                 <h5><i class="bi bi-box-arrow-left"></i></h5>
                             </button>
                         </form>
@@ -96,17 +116,17 @@ add_project_manager();
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
-                            <p class="no-of-employees profile-picture">+6</p>
+                            <p class="no-of-employees profile-picture"><?php echo '+'. $totalusers; ?></p>
                         </div>
-                        
+
                     </div>
                     <div class="bottom-div flex-project-contents">
                         <div class="create-new-project flex-project-contents">
                             <h2>Add cohort</h2>
-                            <form action="">
-                                <input class="input text-input dark-text" type="text" name="" id=""
+                            <form action="" method="post">
+                                <input class="input text-input dark-text" name="cohort_name" type="text" name="" id=""
                                     placeholder="Enter name">
-                                <input class="input" type="submit" value="Add">
+                                <input class="input" name="add_cohort" type="submit" value="Add">
                             </form>
                         </div>
                     </div>

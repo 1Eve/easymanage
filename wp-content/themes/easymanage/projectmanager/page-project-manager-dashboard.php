@@ -6,7 +6,14 @@
  */
 
 ?>
-
+<?php
+$totalusers = getDisplayedUserCount();
+$response = wp_remote_get('http://localhost/easymanage/wp-json/api/v1/users/trainers', [
+    'method' => 'GET',
+]);
+$res = wp_remote_retrieve_body($response);
+$alltrainers = json_decode($res);
+?>
 <?php $profile = get_template_directory_uri() . '/assets/memoji-modified.png'; ?>
 
 <section class="container-admin-dashboard outer-container">
@@ -33,7 +40,8 @@
                     <a href="/easymanage/add-trainer/">
                         <div class="side-bar-link">
                             <div class="link">
-                                <p><i class="side-bar-icon-left bi bi-plus-square-fill icon-sidebar"></i> Add trainer</p>
+                                <p><i class="side-bar-icon-left bi bi-plus-square-fill icon-sidebar"></i> Add trainer
+                                </p>
                             </div>
                             <div>
                                 <i class="bi bi-chevron-right"></i>
@@ -66,9 +74,9 @@
                             </div>
                         </div>
                     </div>
-                    <div >
+                    <div>
                         <form action="" method="post">
-                            <button class="exit" type="submit" name = "logout">
+                            <button class="exit" type="submit" name="logout">
                                 <h5><i class="bi bi-box-arrow-left"></i></h5>
                             </button>
                         </form>
@@ -79,7 +87,7 @@
 
             <div class="main-contents-container">
                 <div class="inner-main-contents-container">
-                <div class="top-div">
+                    <div class="top-div">
                         <div>
                             <form action="">
                                 <div class="search">
@@ -92,157 +100,48 @@
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
-                            <p class="no-of-employees profile-picture">+6</p>
+                            <p class="no-of-employees profile-picture">
+                                <?php echo '+' . $totalusers; ?>
+                            </p>
                         </div>
-                      
+
                     </div>
                     <div class="bottom-div">
                         <div class="admin-dashboard-bottom-div">
-                            <div class="bottom-div-categories">
+                            <!-- <div class="bottom-div-categories">
                                 <a href="">trainees</a>
                                 <a href="">trainers</a>
                                 <a href="">project managers</a>
-                            </div>
+                            </div> -->
                             <div class="deactivate-members-container">
                                 <div class="styled-table">
-                                    <div class="style-table-profile">
-                                        <div>
-                                            <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
-                                        </div>
-                                        <div class="view-trainer-details">
+                                    <?php foreach ($alltrainers as $trainer) { ?>
+                                        <div class="style-table-profile">
                                             <div>
-                                                <p>Trainee</p>
-                                                <p class="name">Usher Njari</p>
-                                                <div class="flex">
-                                                    <div>
-                                                        <p>No of trainees</p>
-                                                    </div>
-                                                    <div>
-                                                        <p>(20)</p>
+                                                <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
+                                            </div>
+                                            <div class="view-trainer-details">
+                                                <div>
+                                                    <p>
+                                                        <?php echo $trainer->cohort . ' ' . 'Trainer'; ?>
+                                                    </p>
+                                                    <p class="name">
+                                                        <?php echo $trainer->username; ?>
+                                                    </p>
+                                                    <div class="flex">
+                                                        <div>
+                                                            <p>No of trainees</p>
+                                                        </div>
+                                                        <div>
+                                                            <p>(20)</p>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="style-table-profile">
-                                        <div>
-                                            <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
-                                        </div>
-                                        <div class="view-trainer-details">
-                                            <div>
-                                                <p>Trainee</p>
-                                                <p class="name">Usher Njari</p>
-                                                <div class="flex">
-                                                    <div>
-                                                        <p>No of trainees</p>
-                                                    </div>
-                                                    <div>
-                                                        <p>(20)</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="style-table-profile">
-                                        <div>
-                                            <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
-                                        </div>
-                                        <div class="view-trainer-details">
-                                            <div>
-                                                <p>Trainee</p>
-                                                <p class="name">Usher Njari</p>
-                                                <div class="flex">
-                                                    <div>
-                                                        <p>No of trainees</p>
-                                                    </div>
-                                                    <div>
-                                                        <p>(20)</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="style-table-profile">
-                                        <div>
-                                            <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
-                                        </div>
-                                        <div class="view-trainer-details">
-                                            <div>
-                                                <p>Trainee</p>
-                                                <p class="name">Usher Njari</p>
-                                                <div class="flex">
-                                                    <div>
-                                                        <p>No of trainees</p>
-                                                    </div>
-                                                    <div>
-                                                        <p>(20)</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="style-table-profile">
-                                        <div>
-                                            <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
-                                        </div>
-                                        <div class="view-trainer-details">
-                                            <div>
-                                                <p>Trainee</p>
-                                                <p class="name">Usher Njari</p>
-                                                <div class="flex">
-                                                    <div>
-                                                        <p>No of trainees</p>
-                                                    </div>
-                                                    <div>
-                                                        <p>(20)</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="style-table-profile">
-                                        <div>
-                                            <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
-                                        </div>
-                                        <div class="view-trainer-details">
-                                            <div>
-                                                <p>Trainee</p>
-                                                <p class="name">Usher Njari</p>
-                                                <div class="flex">
-                                                    <div>
-                                                        <p>No of trainees</p>
-                                                    </div>
-                                                    <div>
-                                                        <p>(20)</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="style-table-profile">
-                                        <div>
-                                            <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
-                                        </div>
-                                        <div class="view-trainer-details">
-                                            <div>
-                                                <p>Trainee</p>
-                                                <p class="name">Usher Njari</p>
-                                                <div class="flex">
-                                                    <div>
-                                                        <p>No of trainees</p>
-                                                    </div>
-                                                    <div>
-                                                        <p>(20)</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
+                                    <?php } ?>
                                 </div>
-
                             </div>
-
                         </div>
                     </div>
                 </div>

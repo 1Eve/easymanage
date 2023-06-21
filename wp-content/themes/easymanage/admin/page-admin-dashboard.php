@@ -8,19 +8,31 @@
 ?>
 
 <?php
-$table_name = $wpdb->prefix . 'projectusers';
-$results = $wpdb->get_results("SELECT * FROM $table_name WHERE status = 0");
+$totalusers = getDisplayedUserCount();
+$response = wp_remote_get('http://localhost/easymanage/wp-json/api/v1/users/active', [
+    'method' => 'GET',
+]);
+$res = wp_remote_retrieve_body($response);
+$activeusers = json_decode($res);
 
-if(isset($_POST['deactivate'])){
+// activeusers tally does not include the admin, add 1 to count the admin. Displayed figure is 3 users, subtract 3 to get the actual displayed figure
+if (isset($_POST['deactivate'])) {
     $id = $_POST['id'];
 
-    $results = $wpdb->get_results("SELECT * FROM $table_name WHERE id = $id");
+    $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/users/delete/'.$id, [
+        'method' => 'PUT',
+    ]);
+    $res = wp_remote_retrieve_body($response);
+    $clickedid = json_decode($res);
+    var_dump($clickedid);
+    wp_redirect(site_url('/easymanage/admin-dashboard'));
+    exit();
 
-    var_dump($results);
-    $wpdb->update($table_name, ['status' => 1], ['id' => $id]);
-
-    wp_redirect(site_url('/easymanage/admin-dashboard'));    
 }
+// if (isset($_POST['deactivate'])) {
+//     echo 'meeeeeeeeeeeeeeeeeeeeeeeeeeeeee';
+
+// }
 
 ?>
 <?php $profile = get_template_directory_uri() . '/assets/memoji-modified.png'; ?>
@@ -107,7 +119,9 @@ if(isset($_POST['deactivate'])){
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
-                            <p class="no-of-employees profile-picture">+6</p>
+                            <p class="no-of-employees profile-picture">
+                                <?php echo '+' . $totalusers; ?>
+                            </p>
                         </div>
 
                     </div>
@@ -120,8 +134,8 @@ if(isset($_POST['deactivate'])){
                             </div>
                             <div class="deactivate-members-container">
                                 <div class="styled-table">
-                                    <?php foreach ($results as $result) { ?>
-                                        
+                                    <?php foreach ($activeusers as $activeuser) { ?>
+
                                         <div class="style-table-profile">
                                             <div>
                                                 <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
@@ -129,47 +143,30 @@ if(isset($_POST['deactivate'])){
                                             <div class="shared-profile-container">
                                                 <div>
                                                     <p>
-                                                        <?php // echo $result->cohort; ?>
+                                                        <?php // echo $activeuser->cohort; ?>
                                                     </p>
                                                     <p class="name">
-                                                        <?php echo $result->username; ?>
+                                                        <?php echo $activeuser->username; ?>
                                                     </p>
                                                 </div>
-                                                <?php if ($result->status == 0) { ?>
-                                                    <?php var_dump($result->id); ?>
-                                                    <form action="" method="post">
-                                                        <div class="bottom-div-submit-form">
-                                                            <input type="hidden" name="id" value="<?php echo $result->id; ?>">
-                                                            <button name="deactivate" class="bottom-div-submit-btn buttons deactivate-btn">
+                                                <?php if ($activeuser->status == 0) { ?>
+                                                    <div class="bottom-div-submit-form">
+                                                        <form action="" method="post">
+                                                            <?php var_dump($activeuser->status); ?>
+                                                            <input type="hidden" name="id"
+                                                                value="<?php echo $activeuser->id; ?>">
+                                                            <button type="submit" name="deactivate"
+                                                                class="bottom-div-submit-btn buttons deactivate-btn">
                                                                 <p>Deactivate</p><i class="bi bi-x-circle-fill"></i>
                                                             </button>
-                                                        </div>
-                                                    </form>
+                                                        </form>
+                                                    </div>
                                                 <?php } ?>
                                             </div>
                                         </div>
                                     <?php } ?>
-
-                                    <div class="style-table-profile">
-                                        <div>
-                                            <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
-                                        </div>
-                                        <div class="shared-profile-container">
-                                            <div>
-                                                <p>User</p>
-                                                <p class="name">Usher Njari</p>
-                                            </div>
-                                            <div class="bottom-div-submit-form">
-                                                <a href=""><button class="bottom-div-submit-btn buttons deactivate-btn">
-                                                        <p>Deactivate</p><i class="bi bi-x-circle-fill"></i>
-                                                    </button></a>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
-
                             </div>
-
                         </div>
                     </div>
                 </div>

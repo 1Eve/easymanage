@@ -6,7 +6,27 @@
  */
 
 ?>
+<?php
+$totalusers = getDisplayedUserCount();
 
+$response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/users/deactivated/', [
+    'method' => 'GET',
+]);
+$res = wp_remote_retrieve_body($response);
+$deletedusers = json_decode($res);
+// activeusers tally does not include the admin, add 1 to count the admin. Displayed figure is 3 users, subtract 3 to get the actual displayed figure
+if (isset($_POST['restore'])) {
+    $id = $_POST['id'];
+
+    $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/users/restore/'.$id, [
+        'method' => 'PUT',
+    ]);
+    $res = wp_remote_retrieve_body($response);
+    wp_redirect(site_url('/easymanage/deactivated-trainers/'));
+    exit();
+
+}   
+?>
 <?php $profile = get_template_directory_uri() . '/assets/memoji-modified.png'; ?>
 
 <section class="container-admin-dashboard outer-container">
@@ -90,7 +110,7 @@
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
-                            <p class="no-of-employees profile-picture">+6</p>
+                            <p class="no-of-employees profile-picture"><?php echo '+'. $totalusers; ?></p>
                         </div>
                       
                     </div>
@@ -103,40 +123,7 @@
                             </div>
                             <div class="deactivate-members-container">
                                 <div class="styled-table">
-                                    <div class="style-table-profile">
-                                        <div>
-                                            <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
-                                        </div>
-                                        <div class="shared-profile-container">
-                                            <div>
-                                                <p>Trainee</p>
-                                                <p class="name">Usher Njari</p>
-                                            </div>
-                                            <div class="bottom-div-submit-form">
-                                                <a href=""><button class="bottom-div-submit-btn-no-icon restore-btn buttons">
-                                                    <p>Restore</p>
-                                                </button></a>
-                                                
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="style-table-profile">
-                                        <div>
-                                            <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
-                                        </div>
-                                        <div class="shared-profile-container">
-                                            <div>
-                                                <p>Trainer</p>
-                                                <p class="name">Usher Njari</p>
-                                            </div>
-                                            <div class="bottom-div-submit-form">
-                                                <a href=""><button class="bottom-div-submit-btn-no-icon restore-btn buttons">
-                                                    <p>Restore</p>
-                                                </button></a>
-                                                
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <?php  foreach ($deletedusers as $deleteduser) { ?>
                                     <div class="style-table-profile">
                                         <div>
                                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
@@ -144,50 +131,21 @@
                                         <div class="shared-profile-container">
                                             <div>
                                                 <p>Project manager</p>
-                                                <p class="name">Usher Njari</p>
+                                                <p class="name"><?php echo $deleteduser->username; ?></p>
                                             </div>
-                                            <div class="bottom-div-submit-form">
-                                                <a href=""><button class="bottom-div-submit-btn-no-icon restore-btn buttons">
-                                                    <p>Restore</p>
-                                                </button></a>
-                                                
-                                            </div>
+                                            <?php if($deleteduser->status == 1) { ?>
+                                            <form action="" method="post">
+                                                <input type="hidden" name="id" value="<?php echo $deleteduser->id; ?>">
+                                                <div class="bottom-div-submit-form">
+                                                    <button type="submit" name="restore" class="bottom-div-submit-btn-no-icon restore-btn buttons">
+                                                        <p>Restore</p>
+                                                    </button>
+                                                </div>
+                                            </form>
+                                            <?php } ?>
                                         </div>
                                     </div>
-                                    <div class="style-table-profile">
-                                        <div>
-                                            <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
-                                        </div>
-                                        <div class="shared-profile-container">
-                                            <div>
-                                                <p>Trainee</p>
-                                                <p class="name">Usher Njari</p>
-                                            </div>
-                                            <div class="bottom-div-submit-form">
-                                                <a href=""><button class="bottom-div-submit-btn-no-icon restore-btn buttons">
-                                                    <p>Restore</p>
-                                                </button></a>
-                                                
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="style-table-profile">
-                                        <div>
-                                            <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
-                                        </div>
-                                        <div class="shared-profile-container">
-                                            <div>
-                                                <p>Trainee</p>
-                                                <p class="name">Usher Njari</p>
-                                            </div>
-                                            <div class="bottom-div-submit-form">
-                                                <a href=""><button class="bottom-div-submit-btn-no-icon restore-btn buttons">
-                                                    <p>Restore</p>
-                                                </button></a>
-                                                
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <?php } ?>
                                 </div>
 
                             </div>

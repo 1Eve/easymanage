@@ -6,7 +6,14 @@
  */
 
 ?>
+<?php 
+$totalusers = getDisplayedUserCount();
 
+$table_name = $wpdb->prefix . 'projectusers';
+
+$totalusers = ($wpdb->get_var("SELECT COUNT(*) FROM $table_name")- '3'); 
+
+?>
 <?php $profile = get_template_directory_uri() . '/assets/memoji-modified.png'; ?>
 
 <section class="container-admin-dashboard outer-container">
@@ -145,7 +152,7 @@
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
-                            <p class="no-of-employees profile-picture">+6</p>
+                            <p class="no-of-employees profile-picture"><?php echo '+'. $totalusers; ?></p>
                         </div>
                         <div class="top-div-add-trainee-btn">
                             <a class="bottom-div-submit-btn-no-icon  " href="/easymanage/add-trainee/">Add new

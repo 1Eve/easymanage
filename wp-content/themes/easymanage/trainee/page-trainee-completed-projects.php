@@ -7,6 +7,33 @@
 
 ?>
 
+<?php
+global $wpdb;
+if (isset($_COOKIE['userinfo'])) {
+    $cookieValue = $_COOKIE['userinfo'];
+    $cookieValue = trim($cookieValue); // Remove leading/trailing white spaces
+    $cookieValue = stripslashes($cookieValue); // Remove any backslashes
+
+    $cookieData = json_decode($cookieValue, true);
+
+    if ($cookieData === null) {
+        $errorMessage = json_last_error_msg();
+        echo "JSON decoding failed with error: $errorMessage";
+    } else {
+
+        // Access individual data elements
+        $Id = $cookieData['id'];
+        $Useremail = $cookieData['useremail'];
+        $Username = $cookieData['username'];
+        // Access individual
+        $table_name = $wpdb->prefix . 'tasks';
+        $table_name_users = $wpdb->prefix . 'projectusers';
+        $results = $wpdb->get_results("SELECT $table_name.*, $table_name_users.id, $table_name_users.username FROM $table_name JOIN $table_name_users ON $table_name_users.id = $table_name.user_id;");
+    }
+} else {
+    echo 'Cookie not found';
+}
+?>
 <?php $profile = get_template_directory_uri() . '/assets/memoji-modified.png'; ?>
 
 <section class="container-admin-dashboard outer-container">
@@ -46,17 +73,17 @@
                         </div>
                         <div class="name-and-email-container">
                             <div>
-                                <p class="name small-text">Patrick Mwaniki</p>
-                                <p class="small-text">patrickmwanikk@gmail.com</p>
+                                <p class="name small-text"><?php echo $Username; ?></p>
+                                <p class="small-text"><?php echo $Useremail; ?></p>
                             </div>
                             <div>
                                 <i class="bi bi-chevron-right"></i>
                             </div>
                         </div>
                     </div>
-                    <div >
+                    <div>
                         <form action="" method="post">
-                            <button class="exit" type="submit" name = "logout">
+                            <button class="exit" type="submit" name="logout">
                                 <h5><i class="bi bi-box-arrow-left"></i></h5>
                             </button>
                         </form>
@@ -65,7 +92,7 @@
             </div>
             <div class="main-contents-container">
                 <div class="inner-main-contents-container">
-                <div class="top-div">
+                    <div class="top-div">
                         <div>
                             <form action="">
                                 <div class="search">
@@ -80,48 +107,45 @@
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                             <p class="no-of-employees profile-picture">+6</p>
                         </div>
-                       
+
                     </div>
                     <div class="bottom-div">
-                        <div class="style-table-profile-column">
-                            <div class="buttons status-on-top status-on-top-complete">
-                                <p>Complete</p>
-                            </div>
-                            <div class="flex">
-                                <div class="img">
-                                    <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
-                                    <p class="name">Usher Njari</p>
-                                </div>
-                                <div>
-                                    <div class=" assigned-tasks">
-                                        <div class="project-descr-for-all-tasks">
-                                            <div class="status-container">
-                                                <div>
-                                                    <i class="complete bi bi-square-fill"></i>
-                                                </div>
-                                                <div>
-                                                    <p class="">Project description</p>
-                                                </div>
+                        <?php foreach ($results as $result) { ?>
+                            <?php if ($result->status == 3) { ?>
+                            <div class="style-table-profile-column">
+                                <?php if ($result->status == 3) { ?>
+                                    <div class="buttons status-on-top status-on-top-complete">
+                                        <p>Complete</p>
+                                    </div>
+                                <?php } ?>
+                                <div class="my-project">
+                                    <div class="img">
+                                        <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
+                                        <p class="name">
+                                            <?php echo $result->username; ?>
+                                        </p>
+                                    </div>
+                                    <div class="my-project-description">
+                                        <div class="project-status">
+                                            <?php if ($result->status == 3) { ?>
+                                                <p class="project-name"><i class="complete bi bi-square-fill"></i>
+                                                    <?php echo $result->project_title; ?>
+                                                </p>
+                                            <?php } ?>
+                                        </div>
+                                        <div class="project-description">
+                                            <div class="description">
+                                                <?php echo $result->project_description; ?>
                                             </div>
-                                            <div class="justify-content">
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                                    eiusmod
-                                                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                                                    veniam,
-                                                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                                    commodo
-                                                    consequat.</p>
-
-                                                <div class="bottom-div-submit-form">
-                                                    <p class="complete-icon"><i class="bi bi-check-circle-fill"></i>
-                                                    </p>
-                                                </div>
+                                            <div>
+                                                
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                            <?php } ?>
+                        <?php } ?>
                         <div class="style-table-profile-column">
                             <div class="buttons status-on-top status-on-top-complete">
                                 <p>Complete</p>
