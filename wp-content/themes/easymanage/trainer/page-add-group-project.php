@@ -6,7 +6,7 @@
  */
 
 ?>
-<?php 
+<?php
 $totalusers = getDisplayedUserCount();
 
 ?>
@@ -18,7 +18,7 @@ $totalusers = getDisplayedUserCount();
             <?php get_header(); ?>
         </div>
         <div class="dashboard-container">
-        <div class="side-bar-container">
+            <div class="side-bar-container">
                 <h4>MAIN</h4>
                 <div class="side-bar-top">
                     <a href="/easymanage/trainer-dashboard/">
@@ -55,8 +55,7 @@ $totalusers = getDisplayedUserCount();
                     <a href="/easymanage/completed-projects/">
                         <div class="side-bar-link">
                             <div class="link">
-                                <p><i
-                                        class="side-bar-icon-left side-bar-icon-left bi bi-clipboard2-check icon-sidebar"></i>
+                                <p><i class="side-bar-icon-left side-bar-icon-left bi bi-clipboard2-check icon-sidebar"></i>
                                     Completed tasks</p>
                             </div>
                             <div>
@@ -124,9 +123,9 @@ $totalusers = getDisplayedUserCount();
                             </div>
                         </div>
                     </div>
-                    <div >
+                    <div>
                         <form action="" method="post">
-                            <button class="exit" type="submit" name = "logout">
+                            <button class="exit" type="submit" name="logout">
                                 <h5><i class="bi bi-box-arrow-left"></i></h5>
                             </button>
                         </form>
@@ -142,14 +141,11 @@ $totalusers = getDisplayedUserCount();
                     <h2>Create new Project</h2>
                     <form action="">
                         <input class="input text-input dark-text" type="text" name="" id="" placeholder="Select user">
-                        <input class="input text-input dark-text" type="text" name="" id=""
-                            placeholder="--select group--">
-                        <input class="input text-input dark-text" type="text" name="" id=""
-                            placeholder="Enter project title">
-                        <input class="input text-input dark-text project-description" type="text" name="" id=""
-                            placeholder="Enter project description">
-                        <input class="input text-input dark-text" type="text" name="" id="" placeholder="dd/mm/yyyy">
-                        <input class="input" type="submit" value="Create project">
+                        <input class="input text-input dark-text" type="text" name="" id="" placeholder="--select group--">
+                        <input class="input text-input dark-text" type="text" name="" id="" placeholder="Enter project title">
+                        <input class="input text-input dark-text project-description" type="text" name="" id="" placeholder="Enter project description">
+                        <input class="input" type="date" name="setTodaysDate" id="" placeholder="dd/mm/yyyy">
+                        <input class="input" type="submit" value="Create project" name="create_task">
                     </form>
 
                 </div>
@@ -158,4 +154,8 @@ $totalusers = getDisplayedUserCount();
         </div>
     </div>
 </section>
+<script>
+    var today = new Date().toISOString().split('T')[0];
+    document.getElementsByName("setTodaysDate")[0].setAttribute('min', today);
+</script>
 <?php get_footer(); ?>

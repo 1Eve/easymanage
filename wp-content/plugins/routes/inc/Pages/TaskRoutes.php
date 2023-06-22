@@ -128,7 +128,6 @@ class TaskRoutes
     {
         global $wpdb;
         $trainee_id = $request->get_param('trainee_id');
-
         $table_name = $wpdb->prefix . 'tasks';
         $tasks = $wpdb->get_results("SELECT * FROM $table_name WHERE user_id = $trainee_id");
 
@@ -144,26 +143,35 @@ class TaskRoutes
     {
         global $wpdb;
         $task_table_name = $wpdb->prefix . 'tasks';
-
+    
         // Check if required input fields are present
         if (empty($request['user_id']) || empty($request['project_title']) || empty($request['project_description'])) {
             return new WP_Error('missing_fields', 'Missing required fields', array('status' => 400));
         }
-
+    
         $trainee_id = $request['user_id'];
         $project_title = $request['project_title'];
         $project_description = $request['project_description'];
+    
+        // Check if user ID exists
+        $existing_user = $wpdb->get_row($wpdb->prepare("SELECT id FROM $wpdb->prefix . 'projectusers' WHERE id = %d", $trainee_id));
+        if (!$existing_user) {
+            return new WP_Error('user_not_found', 'User not found', array('status' => 404));
+        }
+    
         $result = $wpdb->insert($task_table_name, [
             'user_id' => $trainee_id,
             'project_title' => $project_title,
             'project_description' => $project_description,
             'status' => 0
         ]);
+    
         $responsedata = [
             'user_id' => $trainee_id,
             'message' => 'Task created successfully',
-            'data' => '201'
+            'status' => '201'
         ];
+    
         // Check if the task was successfully inserted
         if ($result) {
             return new \WP_REST_Response($responsedata);
@@ -171,6 +179,7 @@ class TaskRoutes
             return new WP_Error('insert_error', 'Task not created', array('status' => 500));
         }
     }
+    
 
 
     public function addnew_trainees($request)
@@ -204,7 +213,7 @@ class TaskRoutes
         $responsedata = [
             'role' => $role,
             'message' => 'Trainer created successfully',
-            'data' => '201'
+            'status' => '201'
         ];
         // Check if the trainee was successfully created
         if ($result) {

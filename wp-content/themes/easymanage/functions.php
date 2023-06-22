@@ -54,7 +54,8 @@ function compare_passwords()
             ]);
             $res = wp_remote_retrieve_body($response);
             $userinfo = json_decode($res);
-            if (isset($userinfo->id)) {
+            var_dump($userinfo);
+            if (isset($userinfo->user_id)) {
                 $cookieName = 'userinfo';
                 $stringuserinfo = json_encode($userinfo);
                 $cookieexpiry = time() + (86400 * 1);
