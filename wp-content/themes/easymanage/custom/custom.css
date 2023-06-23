@@ -30,7 +30,7 @@ p {
     justify-content: center;
     align-items: center;
     padding: 22px;
-    height: 100vh;
+    /* height: 100vh; */
 }
 
 .inner-container {

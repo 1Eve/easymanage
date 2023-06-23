@@ -103,6 +103,7 @@ function returncookie_data()
         $cookieValue = stripslashes($cookieValue); // Remove any backslashes
 
         $cookieData = json_decode($cookieValue, true);
+        // var_dump($cookieData);
         return $cookieData;
     } else {
         return false;

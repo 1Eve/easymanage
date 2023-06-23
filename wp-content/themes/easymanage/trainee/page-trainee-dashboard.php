@@ -14,8 +14,9 @@ if (!$cookieData) {
 } else {
 
     // Access individual data elements
-    $Id = $cookieData['id'];
+    $Id = $cookieData['user_id'];
     $Useremail = $cookieData['useremail'];
+    $Username = $cookieData['username'];
     // Access individual
     $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/tasks', [
         'method' => 'GET',
@@ -26,7 +27,7 @@ if (!$cookieData) {
 
 if (isset($_POST['launch_project'])) {
     $task_id = $_POST['task_id'];
-    $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/tasks/launch/'.$task_id, [
+    $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/tasks/launch/' . $task_id, [
         'method' => 'PUT',
     ]);
     $res = wp_remote_retrieve_body($response);
@@ -35,7 +36,7 @@ if (isset($_POST['launch_project'])) {
 }
 if (isset($_POST['markproject_complete'])) {
     $task_id = $_POST['task_id'];
-    $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/tasks/markcomplete/'.$task_id, [
+    $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/tasks/markcomplete/' . $task_id, [
         'method' => 'PUT',
     ]);
     $res = wp_remote_retrieve_body($response);
@@ -84,8 +85,8 @@ if (isset($_POST['markproject_complete'])) {
                         </div>
                         <div class="name-and-email-container">
                             <div>
-                                <p class="name small-text">Patrick Mwaniki</p>
-                                <p class="small-text">patrickmwanikk@gmail.com</p>
+                                <p class="name small-text"> <?php echo $Username; ?>e</p>
+                                <p class="small-text"><?php echo $Useremail; ?> </p>
                             </div>
                             <div>
                                 <i class="bi bi-chevron-right"></i>
@@ -107,8 +108,7 @@ if (isset($_POST['markproject_complete'])) {
                         <div>
                             <form action="">
                                 <div class="search">
-                                    <input class <input class="search-input" type="text"
-                                        placeholder="Searching for someone?">
+                                    <input class <input class="search-input" type="text" placeholder="Searching for someone?">
                                     <button type="submit"><i class="bi bi-search"></i></button>
                                 </div>
                             </form>
@@ -130,9 +130,9 @@ if (isset($_POST['markproject_complete'])) {
                                             <p>Not Launched</p>
                                         </div>
                                     <?php } else if ($tasklist->status == 1) { ?>
-                                            <div class="buttons status-on-top status-on-top-in-progress">
-                                                <p>In progress</p>
-                                            </div>
+                                        <div class="buttons status-on-top status-on-top-in-progress">
+                                            <p>In progress</p>
+                                        </div>
                                     <?php } ?>
                                     <div class="my-project">
                                         <div class="img">
@@ -149,9 +149,9 @@ if (isset($_POST['markproject_complete'])) {
                                                     </p>
 
                                                 <?php } else if ($tasklist->status == 1) { ?>
-                                                        <p class="project-name"><i class="in-progress-icon bi bi-square-fill"></i>
+                                                    <p class="project-name"><i class="in-progress-icon bi bi-square-fill"></i>
                                                         <?php echo $tasklist->project_title; ?>
-                                                        </p>
+                                                    </p>
                                                 <?php } ?>
                                             </div>
                                             <div class="project-description">
@@ -161,18 +161,14 @@ if (isset($_POST['markproject_complete'])) {
                                                 <div>
                                                     <?php if ($tasklist->status == 0) { ?>
                                                         <form action="" method="post">
-                                                            <input type="hidden" value="<?php echo $tasklist->task_id; ?>"
-                                                                name="task_id">
-                                                            <input class="launch-btn" type="submit" value="Launch"
-                                                                name="launch_project">
+                                                            <input type="hidden" value="<?php echo $tasklist->task_id; ?>" name="task_id">
+                                                            <input class="launch-btn" type="submit" value="Launch" name="launch_project">
                                                         </form>
                                                     <?php } else if ($tasklist->status == 1) { ?>
-                                                            <form action="" method="post">
-                                                                <input type="hidden" value="<?php echo $tasklist->task_id; ?>"
-                                                                    name="task_id">
-                                                                <input class="project-in-progress-icon" type="submit"
-                                                                    value="Mark as Complete" name="markproject_complete">
-                                                            </form>
+                                                        <form action="" method="post">
+                                                            <input type="hidden" value="<?php echo $tasklist->task_id; ?>" name="task_id">
+                                                            <input class="project-in-progress-icon" type="submit" value="Mark as Complete" name="markproject_complete">
+                                                        </form>
                                                     <?php } ?>
                                                 </div>
                                             </div>

@@ -43,6 +43,7 @@ if (isset($_POST['create_task'])) {
             ]);
             $res = wp_remote_retrieve_body($response);
             $individualtask = json_decode($res);
+            var_dump($individualtask);
             if ($individualtask) {
                 echo "<script>alert('Project created successfully');</script>";
             } else {

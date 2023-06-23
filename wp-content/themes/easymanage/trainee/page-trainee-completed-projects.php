@@ -8,30 +8,21 @@
 ?>
 
 <?php
-global $wpdb;
-if (isset($_COOKIE['userinfo'])) {
-    $cookieValue = $_COOKIE['userinfo'];
-    $cookieValue = trim($cookieValue); // Remove leading/trailing white spaces
-    $cookieValue = stripslashes($cookieValue); // Remove any backslashes
-
-    $cookieData = json_decode($cookieValue, true);
-
-    if ($cookieData === null) {
-        $errorMessage = json_last_error_msg();
-        echo "JSON decoding failed with error: $errorMessage";
-    } else {
-
-        // Access individual data elements
-        $Id = $cookieData['id'];
-        $Useremail = $cookieData['useremail'];
-        $Username = $cookieData['username'];
-        // Access individual
-        $table_name = $wpdb->prefix . 'tasks';
-        $table_name_users = $wpdb->prefix . 'projectusers';
-        $results = $wpdb->get_results("SELECT $table_name.*, $table_name_users.id, $table_name_users.username FROM $table_name JOIN $table_name_users ON $table_name_users.id = $table_name.user_id;");
-    }
+$cookieData = returncookie_data();
+if (!$cookieData) {
+    $errorMessage = json_last_error_msg();
+    echo "JSON decoding failed with error: $errorMessage";
 } else {
-    echo 'Cookie not found';
+ // Access individual data elements
+ $Id = $cookieData['user_id'];
+ $Useremail = $cookieData['useremail'];
+ $Username = $cookieData['username'];
+ // Access individual
+ $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/tasks', [
+     'method' => 'GET',
+ ]);
+ $res = wp_remote_retrieve_body($response);
+ $tasklists = json_decode($res);
 }
 ?>
 <?php $profile = get_template_directory_uri() . '/assets/memoji-modified.png'; ?>
@@ -110,40 +101,40 @@ if (isset($_COOKIE['userinfo'])) {
 
                     </div>
                     <div class="bottom-div">
-                        <?php foreach ($results as $result) { ?>
+                        <?php foreach ($tasklists as $result) { ?>
                             <?php if ($result->status == 3) { ?>
-                            <div class="style-table-profile-column">
-                                <?php if ($result->status == 3) { ?>
-                                    <div class="buttons status-on-top status-on-top-complete">
-                                        <p>Complete</p>
-                                    </div>
-                                <?php } ?>
-                                <div class="my-project">
-                                    <div class="img">
-                                        <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
-                                        <p class="name">
-                                            <?php echo $result->username; ?>
-                                        </p>
-                                    </div>
-                                    <div class="my-project-description">
-                                        <div class="project-status">
-                                            <?php if ($result->status == 3) { ?>
-                                                <p class="project-name"><i class="complete bi bi-square-fill"></i>
-                                                    <?php echo $result->project_title; ?>
-                                                </p>
-                                            <?php } ?>
+                                <div class="style-table-profile-column">
+                                    <?php if ($result->status == 3) { ?>
+                                        <div class="buttons status-on-top status-on-top-complete">
+                                            <p>Complete</p>
                                         </div>
-                                        <div class="project-description">
-                                            <div class="description">
-                                                <?php echo $result->project_description; ?>
+                                    <?php } ?>
+                                    <div class="my-project">
+                                        <div class="img">
+                                            <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
+                                            <p class="name">
+                                                <?php echo $result->username; ?>
+                                            </p>
+                                        </div>
+                                        <div class="my-project-description">
+                                            <div class="project-status">
+                                                <?php if ($result->status == 3) { ?>
+                                                    <p class="project-name"><i class="complete bi bi-square-fill"></i>
+                                                        <?php echo $result->project_title; ?>
+                                                    </p>
+                                                <?php } ?>
                                             </div>
-                                            <div>
-                                                
+                                            <div class="project-description">
+                                                <div class="description">
+                                                    <?php echo $result->project_description; ?>
+                                                </div>
+                                                <div>
+
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                             <?php } ?>
                         <?php } ?>
                         <div class="style-table-profile-column">

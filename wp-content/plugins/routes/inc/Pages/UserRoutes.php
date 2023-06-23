@@ -90,6 +90,8 @@ class UserRoutes
         $responsedata = [
             'user_id' => $result->id,
             'role' => $result->role,
+            'username' =>$result->username,
+            'useremail' =>$result->useremail,
             'message' => 'User Logged in successfully',
             'data' => '200'
         ];
