@@ -7,6 +7,8 @@
 
 ?>
 <?php
+
+
 $totalusers = getDisplayedUserCount();
 
 $cookieData = returncookie_data();
@@ -16,8 +18,9 @@ if (!$cookieData) {
 } else {
 
     // Access individual data elements
-    $Id = $cookieData['id'];
+    $Id = $cookieData['user_id'];
     $Useremail = $cookieData['useremail'];
+    $Username = $cookieData['username'];
 
     // Get all trainees
     $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/users/trainees', [
@@ -72,8 +75,7 @@ if (!$cookieData) {
                     <a href="/easymanage/completed-projects/">
                         <div class="side-bar-link">
                             <div class="link">
-                                <p><i
-                                        class="side-bar-icon-left side-bar-icon-left bi bi-clipboard2-check icon-sidebar"></i>
+                                <p><i class="side-bar-icon-left side-bar-icon-left bi bi-clipboard2-check icon-sidebar"></i>
                                     Completed tasks</p>
                             </div>
                             <div>
@@ -177,66 +179,81 @@ if (!$cookieData) {
                     </div>
                     <div class="bottom-div ">
                         <div class="styled-table">
+                            <?php $response = wp_remote_get('http://localhost/easymanage/wp-json/api/v1/tasks/', [
+                                'method' => 'GET'
+                            ]);
+                            $res = wp_remote_retrieve_body($response);
+                            $totaltraineetasks = json_decode($res); ?>
                             <?php foreach ($traineelists as $trainee) { ?>
                                 <?php
-                                // Access trainee tasks
-                                $trainee_id = $trainee->id;
-                                $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/tasks/'.$trainee_id, [
-                                    'method' => 'GET',
+
+                                $response = wp_remote_get('http://localhost/easymanage/wp-json/api/v1/tasks/' . $trainee->id, [
+                                    'method' => 'GET'
                                 ]);
                                 $res = wp_remote_retrieve_body($response);
                                 $traineetasks = json_decode($res);
-                                $complete = array_filter($traineetasks, function ($task) {
-                                    return $task->status == 3;
-                                });
-                                $assigned = count($traineetasks);
-                              if ($complete){
-
-                              
+                                $traineetasks = $traineetasks->data;
+                                // Access trainee tasks
+                                $trainee_id = $trainee->id;
+                               
+                                if (is_array($traineetasks)) {
+                                    $complete = array_filter($traineetasks, function ($task) {
+                                        return $task->status == '3';
+                                    });
+                                    $notactive = array_filter($traineetasks, function ($task) {
+                                        return $task->status == '0';
+                                    });
+                                    $inprogress = array_filter($traineetasks, function ($task) {
+                                        return $task->status == '1';
+                                    });
+                                    $assigned = count($traineetasks);
+                                    // var_dump($traineetasks);
+                                }
                                 ?>
-                                <div class="style-table-profile-column">
-                                    <div class="img">
-                                        <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
-                                    </div>
-                                    <div class="flex status-complete">
+                                <?php if ($complete) { ?>
+                                    <div class="style-table-profile-column">
+                                        <div class="img">
+                                            <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
+                                        </div>
+                                        <div class="flex status-complete">
+                                            <div class="shared-profile-container">
+                                                <div>
+                                                    <p>User</p>
+                                                    <p class="name"><?php echo $trainee->username; ?></p>
+                                                </div>
+                                                <div class="bottom-div-submit-form">
+                                                    <button class="bottom-div-submit-btn buttons complete-btn">
+                                                        <p>Complete <span>(2)</span></p><i class="bi bi-check-circle-fill"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class=" assigned-tasks">
+                                                <div>
+                                                    <p>Assigned tasks</p>
+                                                </div>
+                                                <div class="bottom-div-submit-form">
+                                                    <p class="tasks">(<?php echo $assigned; ?>)</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="shared-profile-container">
+                                                <?php
+                                                if ($assigned < 3) { ?>
+                                                    <button class="bottom-div-submit-btn deactivate-btn">
+                                                        <a href="/easymanage/choose-project/">
+                                                            <p>Add New</p><i class="bi bi-plus-square-fill"></i>
+                                                        </a>
+                                                    </button>
+                                                <?php } ?>
+                                            </div>
+
+                                        </div>
                                         <div class="shared-profile-container">
-                                            <div>
-                                                <p>User</p>
-                                                <p class="name"><?php echo $trainee->username; ?></p>
-                                            </div>
-                                            <div class="bottom-div-submit-form">
-                                                <button class="bottom-div-submit-btn buttons complete-btn">
-                                                    <p>Complete <span>(2)</span></p><i class="bi bi-check-circle-fill"></i>
-                                                </button>
-                                            </div>
                                         </div>
-                                        <div class=" assigned-tasks">
-                                            <div>
-                                                <p>Assigned tasks</p>
-                                            </div>
-                                            <div class="bottom-div-submit-form">
-                                                <p class="tasks">(<?php echo $assigned; ?>)</p>
-                                            </div>
-                                        </div>
-
-                                        <div class="shared-profile-container">
-                                        <?php
-                                            if ($assigned <= 3) { ?>
-                                                <button class="bottom-div-submit-btn deactivate-btn">
-                                                    <a href="/easymanage/choose-project/">
-                                                        <p>Add New</p><i class="bi bi-plus-square-fill"></i>
-                                                    </a>
-                                                </button>
-                                            <?php } ?>
-                                        </div>
-
                                     </div>
-                                    <div class="shared-profile-container">
-
-                                    </div>
-                                </div>
+                                <?php } ?>
                             <?php } ?>
-                            <?php } ?>
+
                             <div class="style-table-profile-column">
                                 <div class="img">
                                     <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
@@ -249,84 +266,7 @@ if (!$cookieData) {
                                         </div>
                                         <div class="bottom-div-submit-form">
                                             <button class="bottom-div-submit-btn buttons complete-btn">
-                                                <p>Complete <span>(2)</span></p><i class="bi bi-check-circle-fill"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class=" assigned-tasks">
-                                        <div>
-                                            <p>Assigned tasks</p>
-                                        </div>
-                                        <div class="bottom-div-submit-form">
-                                            <p class="tasks">(2)</p>
-                                        </div>
-                                    </div>
-
-                                    <div class="shared-profile-container">
-                                        <button class="bottom-div-submit-btn deactivate-btn">
-                                            <a href="/easymanage/choose-project/">
-                                                <p>Add New</p><i class="bi bi-plus-square-fill"></i>
-                                            </a>
-                                        </button>
-                                    </div>
-
-                                </div>
-                                <div class="shared-profile-container">
-
-                                </div>
-                            </div>
-                            <div class="style-table-profile-column">
-                                <div class="img">
-                                    <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
-                                </div>
-                                <div class="flex status-complete">
-                                    <div class="shared-profile-container">
-                                        <div>
-                                            <p>User</p>
-                                            <p class="name">Usher Njari</p>
-                                        </div>
-                                        <div class="bottom-div-submit-form">
-                                            <button class="bottom-div-submit-btn buttons complete-btn">
-                                                <p>Complete <span>(2)</span></p><i class="bi bi-check-circle-fill"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class=" assigned-tasks">
-                                        <div>
-                                            <p>Assigned tasks</p>
-                                        </div>
-                                        <div class="bottom-div-submit-form">
-                                            <p class="tasks">(2)</p>
-                                        </div>
-                                    </div>
-
-                                    <div class="shared-profile-container">
-                                        <button class="bottom-div-submit-btn deactivate-btn">
-                                            <a href="/easymanage/choose-project/">
-                                                <p>Add New</p><i class="bi bi-plus-square-fill"></i>
-                                            </a>
-
-                                        </button>
-                                    </div>
-
-                                </div>
-                                <div class="shared-profile-container">
-
-                                </div>
-                            </div>
-                            <div class="style-table-profile-column">
-                                <div class="img">
-                                    <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
-                                </div>
-                                <div class="flex status-complete">
-                                    <div class="shared-profile-container">
-                                        <div>
-                                            <p>User</p>
-                                            <p class="name">Usher Njari</p>
-                                        </div>
-                                        <div class="bottom-div-submit-form">
-                                            <button class="bottom-div-submit-btn buttons complete-btn">
-                                                <p>Complete <span>(2)</span></p><i class="bi bi-check-circle-fill"></i>
+                                                <p> Complete <span>(2)</span></p><i class="bi bi-check-circle-fill"></i>
                                             </button>
                                         </div>
                                     </div>

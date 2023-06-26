@@ -6,7 +6,7 @@
  */
 
 ?>
-<?php 
+<?php
 $totalusers = getDisplayedUserCount();
 
 
@@ -21,8 +21,9 @@ if (!$cookieData) {
 } else {
 
     // Access individual data elements
-    $Id = $cookieData['id'];
+    $Id = $cookieData['user_id'];
     $Useremail = $cookieData['useremail'];
+    $Username = $cookieData['username'];
 
     // Get all trainees
     $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/users/trainees', [
@@ -40,7 +41,7 @@ if (!$cookieData) {
             <?php get_header(); ?>
         </div>
         <div class="dashboard-container">
-        <div class="side-bar-container">
+            <div class="side-bar-container">
                 <h4>MAIN</h4>
                 <div class="side-bar-top">
                     <a href="/easymanage/trainer-dashboard/">
@@ -77,8 +78,7 @@ if (!$cookieData) {
                     <a href="/easymanage/completed-projects/">
                         <div class="side-bar-link">
                             <div class="link">
-                                <p><i
-                                        class="side-bar-icon-left side-bar-icon-left bi bi-clipboard2-check icon-sidebar"></i>
+                                <p><i class="side-bar-icon-left side-bar-icon-left bi bi-clipboard2-check icon-sidebar"></i>
                                     Completed tasks</p>
                             </div>
                             <div>
@@ -146,9 +146,9 @@ if (!$cookieData) {
                             </div>
                         </div>
                     </div>
-                    <div >
+                    <div>
                         <form action="" method="post">
-                            <button class="exit" type="submit" name = "logout">
+                            <button class="exit" type="submit" name="logout">
                                 <h5><i class="bi bi-box-arrow-left"></i></h5>
                             </button>
                         </form>
@@ -157,7 +157,7 @@ if (!$cookieData) {
             </div>
             <div class="main-contents-container">
                 <div class="inner-main-contents-container">
-                <div class="top-div">
+                    <div class="top-div">
                         <div>
                             <form action="">
                                 <div class="search">
@@ -170,7 +170,7 @@ if (!$cookieData) {
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
-                            <p class="no-of-employees profile-picture"><?php echo '+'. $totalusers; ?></p>
+                            <p class="no-of-employees profile-picture"><?php echo '+' . $totalusers; ?></p>
                         </div>
                         <div class="top-div-add-trainee-btn">
                             <a class="bottom-div-submit-btn-no-icon  " href="/easymanage/add-trainee/">Add new
@@ -180,29 +180,47 @@ if (!$cookieData) {
                     </div>
                     <div class="bottom-div">
                         <div class="styled-table">
-                            <?php foreach ($traineelists as $trainee) { ?>
-                                <?php
-                                $trainee_id = $trainee->id;
-                                $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/tasks/'.$trainee_id, [
-                                    'method' => 'GET',
-                                ]);
-                                $res = wp_remote_retrieve_body($response);
-                                $traineetasks = json_decode($res);
-                                $complete = array_filter($traineetasks, function ($task) {
-                                    return $task->status == 3; });
-                                $notactive = array_filter($traineetasks, function ($task) {
-                                    return $task->status == 0; });
-                                $inprogress = array_filter($traineetasks, function ($task) {
-                                    return $task->status == 1; });
-                                $assigned = count($traineetasks);
-                                foreach ($traineetasks as $task) { ?>
-                                <?php } ?>
-                                <?php if($assigned != 1 && count($complete) != 0 && count($inprogress) != 0) { ?>
+                            <?php $response = wp_remote_get('http://localhost/easymanage/wp-json/api/v1/tasks/', [
+                                'method' => 'GET'
+                            ]);
+                            $res = wp_remote_retrieve_body($response);
+                            $totaltraineetasks = json_decode($res); ?>
+
+                            
+                            
+                                <?php foreach ($traineelists as $trainee) { ?>
+                                    <?php
+                                    // Access trainee tasks
+                                    $trainee_id = $trainee->id;
+                                    $traineetasks = array_filter($totaltraineetasks, function ($task) use ($trainee_id) {
+                                        return $task->user_id == $trainee_id;
+                                    });
+
+                                    if (is_array($traineetasks)) {
+                                        $complete = array_filter($traineetasks, function ($task) {
+                                            return $task->status == '3';
+                                        });
+                                        $notactive = array_filter($traineetasks, function ($task) {
+                                            return $task->status == '0';
+                                        });
+                                        $inprogress = array_filter($traineetasks, function ($task) {
+                                            return $task->status == '1';
+                                        });
+                                        $assigned = count($traineetasks);
+                                       
+                                    }
+
+                                    ?>
+                               <?php if($complete) { ?>
                                 <div class="style-table-profile-column">
-                                    <?php //echo "completed" . count($complete) ?>
-                                    <?php //echo "In progress" . count($inprogress) ?>
-                                    <?php //echo "Not active" . count($notactive) ?>
-                                    <?php //echo "Total" . $assigned; ?>
+                                    <?php //echo "completed" . count($complete) 
+                                    ?>
+                                    <?php //echo "In progress" . count($inprogress) 
+                                    ?>
+                                    <?php //echo "Not active" . count($notactive) 
+                                    ?>
+                                    <?php //echo "Total" . $assigned; 
+                                    ?>
                                     <div class="img">
                                         <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                                     </div>
@@ -217,16 +235,11 @@ if (!$cookieData) {
                                             <div class="bottom-div-submit-form">
                                                 <?php if (count($inprogress) > 0 && count($complete) == 0) { ?>
                                                     <button class="bottom-div-submit-btn buttons in-progress-btn">
-                                                        <p>In progress <span>(<?php echo count($inprogress) ?>)</span></p><i
-                                                            class="bi bi-check-circle-fill"></i>
+                                                        <p>In progress <span>(<?php echo count($inprogress) ?>)</span></p><i class="bi bi-check-circle-fill"></i>
                                                     </button>
                                                 <?php } elseif ($assigned == 0) { ?>
                                                     <button class="bottom-div-submit-btn buttons free-btn">
                                                         <p>free</p>
-                                                    </button>
-                                                <?php } elseif ($assigned == 1 && count($complete) == 0 && count($inprogress) == 0) { ?>
-                                                    <button class="sent-icon">
-                                                        <p>1 of 1 sent</p>
                                                     </button>
                                                 <?php } elseif (count($complete) > 0 && count($inprogress) == 0) { ?>
                                                     <button class="bottom-div-submit-btn buttons complete-btn">
@@ -234,8 +247,7 @@ if (!$cookieData) {
                                                     </button>
                                                 <?php } elseif (count($complete) > 0 && count($inprogress) > 0) { ?>
                                                     <button class="bottom-div-submit-btn buttons in-progress-btn">
-                                                        <p>In progress <span>(<?php echo count($inprogress) ?>)</span></p><i
-                                                            class="bi bi-check-circle-fill"></i>
+                                                        <p>In progress <span>(<?php echo count($inprogress) ?>)</span></p><i class="bi bi-check-circle-fill"></i>
                                                     </button>
                                                     <button class="bottom-div-submit-btn buttons complete-btn">
                                                         <p>Complete <span>(<?php echo count($complete) ?>)</span></p><i class="bi bi-check-circle-fill"></i>
@@ -249,7 +261,7 @@ if (!$cookieData) {
                                                 <p>Assigned tasks</p>
                                             </div>
                                             <div class="bottom-div-submit-form">
-                                                <p class="tasks">(<?php echo $assigned;?>)
+                                                <p class="tasks">(<?php echo $assigned; ?>)
                                                 </p>
                                             </div>
                                         </div>
@@ -271,6 +283,7 @@ if (!$cookieData) {
                                 </div>
                             <?php } ?>
                             <?php } ?>
+
                         </div>
                     </div>
                 </div>

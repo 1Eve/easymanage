@@ -92,6 +92,7 @@ class UserRoutes
             'role' => $result->role,
             'username' =>$result->username,
             'useremail' =>$result->useremail,
+            'cohort' =>$result->cohort,
             'message' => 'User Logged in successfully',
             'data' => '200'
         ];

@@ -19,6 +19,7 @@ if (!$cookieData) {
     // Access individual data elements
     $Id = $cookieData['user_id'];
     $Useremail = $cookieData['useremail'];
+    $Username = $cookieData['username'];
 
     // Get all trainees
     $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/users/trainees', [
@@ -177,23 +178,23 @@ if (!$cookieData) {
                     </div>
                     <div class="bottom-div">
                         <div class="styled-table">
-                            <?php  $response = wp_remote_get('http://localhost/easymanage/wp-json/api/v1/tasks/', [
+                        <?php  $response = wp_remote_get('http://localhost/easymanage/wp-json/api/v1/tasks/', [
                                     'method' => 'GET'
                                 ]);
                                 $res = wp_remote_retrieve_body($response);
                                 $totaltraineetasks = json_decode($res); ?>
                             <?php foreach ($traineelists as $trainee) { ?>
                                 <?php
+                                $response = wp_remote_get('http://localhost/easymanage/wp-json/api/v1/tasks/' . $trainee->id, [
+                                    'method' => 'GET'
+                                ]);
+                                $res = wp_remote_retrieve_body($response);
+                                $traineetasks = json_decode($res);
+                                $traineetasks = $traineetasks->data;
+                                // var_dump($traineetasks);
                                 // Access trainee tasks
                                 $trainee_id = $trainee->id;
-                                // $response = wp_remote_get('http://localhost/easymanage/wp-json/api/v1/tasks/' . $trainee_id, [
-                                //     'method' => 'GET',
-                                // ]);
-                                // $res = wp_remote_retrieve_body($response);
-                                $traineetasks = array_filter($totaltraineetasks, function ($task) use ($trainee_id){
-                                    return $task->user_id == $trainee_id;
-                                });
-                                
+                                // var_dump( $trainee_id);
                                 if (is_array($traineetasks)) {
                                     $complete = array_filter($traineetasks, function ($task) {
                                         return $task->status == '3';
@@ -206,7 +207,7 @@ if (!$cookieData) {
                                     });
                                     $assigned = count($traineetasks);
                                 }
-                             
+
                                 ?>
                                 <div class="style-table-profile-column">
                                     <div class="img">

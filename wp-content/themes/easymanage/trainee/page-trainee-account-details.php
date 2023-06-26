@@ -1,70 +1,47 @@
 <?php
 
 /*
- *  Template Name:Add Group Project Template
+ *  Template Name:Add trainee Template
  *
  */
 
 ?>
+
 <?php
 $totalusers = getDisplayedUserCount();
-// Get total trainee assigned tasks 
-$response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/tasks/totalassigned', [
-    'method' => 'GET',
-]);
-$totalresponse = wp_remote_retrieve_body($response);
-$available = json_decode($totalresponse);
-// var_dump ($available);
-// var_dump($no_of_tasks);
-// var_dump($no_of_tasks);
+$cookieData = returncookie_data();
+$user_name_error = $user_email_error = $pass_error = "";
 
-$response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/users/trainees', [
-    'method' => 'GET',
-]);
-$res = wp_remote_retrieve_body($response);
-$traineelist = json_decode($res);
-$trainee_name_error = $project_title_error = $project_description_error = '';
-
-if (isset($_POST['create_task'])) {
-    // var_dump($_POST);
-    // var_dump(array_values($_POST['assignees']));
-    $trainee_name = isset($_POST['assignees'])?array_values($_POST['assignees']):[];
-    $project_title = $_POST['project_title'];
-    $project_description = $_POST['project_description'];
-    $project_date = $_POST['setTodaysDate'];
-    if ($trainee_name == '') {
-        $trainee_name_error = 'Trainee name is required';
+if (isset($_POST['createuser'])) {
+    $username = $_POST['username'];
+    $useremail = $_POST['useremail'];
+    $password = $_POST['password'];
+    $role = $_POST['role'];
+    $hash_pwd = wp_hash_password($password); 
+    if ($username == '') {
+        $user_name_error = "Name is required !";
     }
-    if ($project_title == '') {
-        $project_title_error = 'Project title is required';
+    if ($useremail == '') {
+        $user_email_error = "Email is required !";
     }
-    if ($project_title == '') {
-        $project_date = 'Project date is required';
+    if ($password == '') {
+        $pass_error = "Password is required !";
     }
-    if ($project_description == '') {
-        $project_description_error = 'Project description is required';
-    }
-    if ($project_description_error == '' && $project_title_error == '' && $trainee_name_error == '') {
-        // Retrieve trainee details based on the selected ID
-        $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/tasks/add/grouptask', [
+    if ($user_name_error == '' && $user_email_error == '' && $pass_error == '') {
+        $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/tasks/add/trainee', [
             'method' => 'POST',
             'body' => [
-                'trainee_id' => $trainee_name,
-                'project_title' => $_POST['project_title'],
-                'project_description' => $_POST['project_description'],
-                'setTodaysDate' => $_POST['setTodaysDate'],
-            ]
-        ]);
-        $res = wp_remote_retrieve_body($response);
-        $individualtask = json_decode($res);
-        // var_dump($res);
-        if ($individualtask->data->status == 201) {
-            echo "<script>alert('Project created successfully');</script>";
-        } else {
-            echo "<script>alert('Project not created successfully');</script>";
-        }
+                'username' => $_POST['username'],
+                'useremail' => $_POST['useremail'],
+                'role' => $_POST['role'],
+                'password' => $hash_pwd,
+                ]
+            ]);
+            $res = wp_remote_retrieve_body($response);
+            $individualtask = json_decode($res);
     }
 }
+
 ?>
 <?php $profile = get_template_directory_uri() . '/assets/memoji-modified.png'; ?>
 
@@ -74,9 +51,9 @@ if (isset($_POST['create_task'])) {
             <?php get_header(); ?>
         </div>
         <div class="dashboard-container">
-            <div class="side-bar-container">
-                <h4>MAIN</h4>
-                <div class="side-bar-top">
+        <div class="side-bar-container">
+            <div class="side-bar-top">
+                    <h4>MAIN</h4>
                     <a href="/easymanage/trainer-dashboard/">
                         <div class="side-bar-link">
                             <div class="link">
@@ -111,7 +88,8 @@ if (isset($_POST['create_task'])) {
                     <a href="/easymanage/completed-projects/">
                         <div class="side-bar-link">
                             <div class="link">
-                                <p><i class="side-bar-icon-left side-bar-icon-left bi bi-clipboard2-check icon-sidebar"></i>
+                                <p><i
+                                        class="side-bar-icon-left side-bar-icon-left bi bi-clipboard2-check icon-sidebar"></i>
                                     Completed tasks</p>
                             </div>
                             <div>
@@ -179,50 +157,56 @@ if (isset($_POST['create_task'])) {
                             </div>
                         </div>
                     </div>
-                    <div>
+                    <div >
                         <form action="" method="post">
-                            <button class="exit" type="submit" name="logout">
+                            <button class="exit" type="submit" name = "logout">
                                 <h5><i class="bi bi-box-arrow-left"></i></h5>
                             </button>
                         </form>
                     </div>
                 </div>
             </div>
-            <div class="main-contents-container flex-project-contents">
-                <div class="create-new-project ">
-                    <h2>Create new Project</h2>
-                    <form action="" method="post">
-                        <div class="form-group-project">
-                            <div class="left">
-                                <?php foreach ($available as $availabletrainee){ ?>
-                                <?php $id = 0;
-                                    $label = 'trainee_group' . $id;
-                                    $id++;   ?>
-                                    <div>
-                                        <input type="checkbox" name="assignees[]" id="<?php echo $label; ?>" value="<?php echo  $availabletrainee->id; ?>">
-                                        <label for="<?php echo $label; ?>"><?php echo  $availabletrainee->username; ?></label>
-                                    </div>
-                            
-                                <?php } ?>
-                            </div>
-                            <div class="right">
-                                <input class="input text-input dark-text" type="text" name="project_title" id="" placeholder="Enter project title">
-                                <input class="input text-input dark-text project-description" type="text" name="project_description" id="" placeholder="Enter project description">
-                                <input class="input" type="date" name="setTodaysDate" id="" placeholder="dd/mm/yyyy">
-                                <input class="input" type="submit" value="Create project" name="create_task">
-                            </div>
+            <div class="main-contents-container">
+                <div class="inner-main-contents-container">
+                    <div class="top-div">
+                        <div>
+                            <form action="">
+                                <div class="search">
+                                    <input class="search-input" type="text" placeholder="Searching for someone?">
+                                    <button type="submit"><i class="bi bi-search"></i></button>
+                                </div>
+                            </form>
                         </div>
-
-                    </form>
-
+                        <div class="employee-emojis">
+                            <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
+                            <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
+                            <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
+                            <p class="no-of-employees profile-picture"><?php echo '+'. $totalusers; ?></p>
+                        </div>
+                        <div class="top-div-add-trainee-btn">
+                            <a class="bottom-div-submit-btn-no-icon  " href="/easymanage/add-trainee/">Add new
+                                trainee</a>
+                            <i class="bi bi-plus-square"></i>
+                        </div>
+                    </div>
+                    <div class="bottom-div flex-project-contents">
+                        <div class="create-new-project flex-project-contents">
+                            <h2>Add trainee</h2>
+                            <form action="" method="post">
+                            <input class="input text-input dark-text" type="hidden" name="role" id="" value="trainee">
+                                <input class="input text-input dark-text" type="text" name="username" id=""
+                                    placeholder="Enter name" value="<?php echo $cookieData['']; ?>">
+                                <input class="input text-input dark-text" type="email" name="useremail" id=""
+                                    placeholder="Enter email" value="<?php echo $cookieData['']; ?>">
+                                <input class="input text-input" type="password" name="password" id=""
+                                    placeholder="Enter password...">
+                                <input class="input" type="submit" value="Update info" name="createuser">
+                            </form>
+                        </div>
+                    </div>
                 </div>
-
             </div>
         </div>
     </div>
 </section>
-<script>
-    var today = new Date().toISOString().split('T')[0];
-    document.getElementsByName("setTodaysDate")[0].setAttribute('min', today);
-</script>
 <?php get_footer(); ?>

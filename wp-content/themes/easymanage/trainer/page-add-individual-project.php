@@ -14,18 +14,21 @@ $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/users/tra
 ]);
 $res = wp_remote_retrieve_body($response);
 $traineelist = json_decode($res);
-// var_dump($traineelist);
 $trainee_name_error = $project_title_error = $project_description_error = '';
 
 if (isset($_POST['create_task'])) {
-    $trainee_name = $_POST['trainee_name'];
+    $trainee_name = $_POST['trainee_id'];
     $project_title = $_POST['project_title'];
     $project_description = $_POST['project_description'];
+    $project_date = $_POST['setTodaysDate'];
     if ($trainee_name == '') {
         $trainee_name_error = 'Trainee name is required';
     }
     if ($project_title == '') {
         $project_title_error = 'Project title is required';
+    }
+    if ($project_title == '') {
+        $project_date = 'Project date is required';
     }
     if ($project_description == '') {
         $project_description_error = 'Project description is required';
@@ -36,15 +39,16 @@ if (isset($_POST['create_task'])) {
         $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/tasks/add/individual', [
             'method' => 'POST',
             'body' => [
-                'user_id' => $_POST['trainee_name'],
+                'trainee_id' => $_POST['trainee_id'],
                 'project_title' => $_POST['project_title'],
                 'project_description' => $_POST['project_description'],
+                'setTodaysDate' => $_POST['setTodaysDate'],
                 ]
             ]);
             $res = wp_remote_retrieve_body($response);
             $individualtask = json_decode($res);
             var_dump($individualtask);
-            if ($individualtask) {
+            if ($individualtask->status == 200) {
                 echo "<script>alert('Project created successfully');</script>";
             } else {
                 echo "<script>alert('Project not created successfully');</script>";
@@ -53,9 +57,6 @@ if (isset($_POST['create_task'])) {
     }
     
 }
-
-
-
 ?>
 <?php $profile = get_template_directory_uri() . '/assets/memoji-modified.png'; ?>
 
@@ -185,10 +186,11 @@ if (isset($_POST['create_task'])) {
                 <div class="create-new-project flex-project-contents">
                     <h2>Create new Project</h2>
                     <form action="" method="post">
-                        <select class="input select" name="trainee_name" id="user">
+                        <select class="input select" name="trainee_id" id="user">
                             <?php foreach ($traineelist as $name) { ?>
                                 <option value="<?php echo $name->id; ?>">
                                     <?php echo $name->username?>
+                                    
                                 </option>
                                 <!-- <input type="hidden" name="trainee_id" value=""> -->
                             <?php } ?>
@@ -208,7 +210,7 @@ if (isset($_POST['create_task'])) {
                             <?php echo $project_description_error; ?>
                         </p>
 
-                        <input class="input text-input dark-text" type="text" name="" id="" placeholder="dd/mm/yyyy">
+                        <input class="input" type="date" name="setTodaysDate" id="" placeholder="dd/mm/yyyy">
                         <input class="input" type="submit" value="Create project" name="create_task">
                     </form>
                 </div>
@@ -216,4 +218,8 @@ if (isset($_POST['create_task'])) {
         </div>
     </div>
 </section>
+<script>
+    var today = new Date().toISOString().split('T')[0];
+    document.getElementsByName("setTodaysDate")[0].setAttribute('min', today);
+</script>
 <?php get_footer(); ?>

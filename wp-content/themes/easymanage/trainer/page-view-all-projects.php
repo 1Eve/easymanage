@@ -22,8 +22,9 @@ if (!$cookieData) {
     $res = wp_remote_retrieve_body($response);
     $tasklists = json_decode($res);
     // Access individual data elements
-    $Id = $cookieData['id'];
+    $Id = $cookieData['user_id'];
     $Useremail = $cookieData['useremail'];
+    $Username = $cookieData['username'];
 
     // Get all trainees
     $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/users/trainees', [

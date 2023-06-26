@@ -10,6 +10,7 @@ class CreateTables
         $this->create_users_table();
         $this->create_tasks_table();
         $this->create_cohort_table();
+        $this->create_project_assignees_table();
     }
     public function create_users_table()
     {
@@ -40,9 +41,9 @@ class CreateTables
 
         $task_table = "CREATE TABLE IF NOT EXISTS " . $table_name . " (
         id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-        user_id int NOT NULL,
         project_title text NOT NULL,
         project_description text NOT NULL,
+        project_date text NOT NULL,
         status int NOT NULL
     )";
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
@@ -61,5 +62,21 @@ class CreateTables
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 
         dbDelta($task_table);
+    }
+    public function create_project_assignees_table()
+    {
+        global $wpdb;
+
+        $table_name = $wpdb->prefix . 'projectassignees';
+
+        $assignees_table = "CREATE TABLE IF NOT EXISTS " . $table_name . " (
+        id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        user_id text NOT NULL,
+        project_id text NOT NULL
+        
+    )";
+        require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+
+        dbDelta($assignees_table);
     }
 }

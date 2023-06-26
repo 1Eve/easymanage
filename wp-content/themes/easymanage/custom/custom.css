@@ -715,5 +715,18 @@ form {
     padding: 5px 10px;
     font-weight: 500;
     font-size: 14px;
-    /* width: fit-content; */
+}
+.form-group-project{
+    
+    display: grid;
+    grid-template-columns: 700px 1fr;
+}
+.form-group-project .right, .form-group-project .left{
+    display: flex;
+    flex-direction: column;
+}
+.form-group-project .left>div{
+    display: flex;
+    gap: 10px;
+    overflow-y: auto;
 }
