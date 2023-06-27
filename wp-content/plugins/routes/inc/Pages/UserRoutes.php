@@ -129,11 +129,30 @@ class UserRoutes
         $table_name = $wpdb->prefix . 'projectusers';
         $result = $wpdb->get_results("SELECT * FROM $table_name WHERE status = 0");
         // Check if active users are found
-        if ($result) {
-            return $result;
-        } else {
+
+
+        if (is_wp_error($result)) {
             return new WP_Error('users_not_found', 'Active users not found', array('status' => 404));
         }
+        if (count($result) > 0) {
+            return [
+                'status' => '200',
+                'data' => $result,
+            ];
+        } else  {
+            return [
+                'status' => '200',
+                'data' => [],
+            ];
+        }
+
+        // if ($result) {
+        //     return $result;
+        // } else {
+        //     return new WP_Error('users_not_found', 'Active users not found', array('status' => 404));
+        // }
+
+
     }
     public function deletesingle_user($request)
     {
@@ -282,10 +301,26 @@ class UserRoutes
         $table_name = $wpdb->prefix . 'projectusers';
         $totaltrainees = $wpdb->get_results("SELECT * FROM $table_name WHERE role = 'trainee'");
 
-        if ($totaltrainees) {
-            return new \WP_REST_Response($totaltrainees, 200);
-        } else {
+        if (is_wp_error($totaltrainees)) {
             return new WP_Error('no_trainees_found', 'No trainees found', array('status' => 404));
         }
+        if (count($totaltrainees) > 0) {
+            return [
+                'status' => '200',
+                'data' => $totaltrainees,
+            ];
+        } else  {
+            return [
+                'status' => '200',
+                'data' => [],
+            ];
+        }
+
+
+        // if ($totaltrainees) {
+        //     return new \WP_REST_Response($totaltrainees, 200);
+        // } else {
+        //     return new WP_Error('no_trainees_found', 'No trainees found', array('status' => 404));
+        // }
     }
 }

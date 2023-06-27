@@ -253,46 +253,6 @@ if (!$cookieData) {
                                     </div>
                                 <?php } ?>
                             <?php } ?>
-
-                            <div class="style-table-profile-column">
-                                <div class="img">
-                                    <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
-                                </div>
-                                <div class="flex status-complete">
-                                    <div class="shared-profile-container">
-                                        <div>
-                                            <p>User</p>
-                                            <p class="name">Usher Njari</p>
-                                        </div>
-                                        <div class="bottom-div-submit-form">
-                                            <button class="bottom-div-submit-btn buttons complete-btn">
-                                                <p> Complete <span>(2)</span></p><i class="bi bi-check-circle-fill"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class=" assigned-tasks">
-                                        <div>
-                                            <p>Assigned tasks</p>
-                                        </div>
-                                        <div class="bottom-div-submit-form">
-                                            <p class="tasks">(2)</p>
-                                        </div>
-                                    </div>
-
-                                    <div class="shared-profile-container">
-                                        <button class="bottom-div-submit-btn deactivate-btn">
-                                            <a href="/easymanage/choose-project/">
-                                                <p>Add New</p><i class="bi bi-plus-square-fill"></i>
-                                            </a>
-                                        </button>
-                                    </div>
-
-                                </div>
-                                <div class="shared-profile-container">
-
-                                </div>
-                            </div>
-
                         </div>
                     </div>
                 </div>

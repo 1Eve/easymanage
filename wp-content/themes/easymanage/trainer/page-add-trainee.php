@@ -10,6 +10,10 @@
 <?php
 $totalusers = getDisplayedUserCount();
 
+$cookieData = returncookie_data();
+// Access individual data elements
+$CohortName = $cookieData['cohort'];
+
 $user_name_error = $user_email_error = $pass_error = "";
 
 if (isset($_POST['createuser'])) {
@@ -17,7 +21,7 @@ if (isset($_POST['createuser'])) {
     $useremail = $_POST['useremail'];
     $password = $_POST['password'];
     $role = $_POST['role'];
-    $hash_pwd = wp_hash_password($password); 
+    $hash_pwd = wp_hash_password($password);
     if ($username == '') {
         $user_name_error = "Name is required !";
     }
@@ -35,10 +39,11 @@ if (isset($_POST['createuser'])) {
                 'useremail' => $_POST['useremail'],
                 'role' => $_POST['role'],
                 'password' => $hash_pwd,
-                ]
-            ]);
-            $res = wp_remote_retrieve_body($response);
-            $individualtask = json_decode($res);
+                'cohort' => $CohortName,
+            ]
+        ]);
+        $res = wp_remote_retrieve_body($response);
+        $individualtask = json_decode($res);
     }
 }
 
@@ -51,8 +56,8 @@ if (isset($_POST['createuser'])) {
             <?php get_header(); ?>
         </div>
         <div class="dashboard-container">
-        <div class="side-bar-container">
-            <div class="side-bar-top">
+            <div class="side-bar-container">
+                <div class="side-bar-top">
                     <h4>MAIN</h4>
                     <a href="/easymanage/trainer-dashboard/">
                         <div class="side-bar-link">
@@ -88,8 +93,7 @@ if (isset($_POST['createuser'])) {
                     <a href="/easymanage/completed-projects/">
                         <div class="side-bar-link">
                             <div class="link">
-                                <p><i
-                                        class="side-bar-icon-left side-bar-icon-left bi bi-clipboard2-check icon-sidebar"></i>
+                                <p><i class="side-bar-icon-left side-bar-icon-left bi bi-clipboard2-check icon-sidebar"></i>
                                     Completed tasks</p>
                             </div>
                             <div>
@@ -157,9 +161,9 @@ if (isset($_POST['createuser'])) {
                             </div>
                         </div>
                     </div>
-                    <div >
+                    <div>
                         <form action="" method="post">
-                            <button class="exit" type="submit" name = "logout">
+                            <button class="exit" type="submit" name="logout">
                                 <h5><i class="bi bi-box-arrow-left"></i></h5>
                             </button>
                         </form>
@@ -181,7 +185,7 @@ if (isset($_POST['createuser'])) {
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
-                            <p class="no-of-employees profile-picture"><?php echo '+'. $totalusers; ?></p>
+                            <p class="no-of-employees profile-picture"><?php echo '+' . $totalusers; ?></p>
                         </div>
                         <div class="top-div-add-trainee-btn">
                             <a class="bottom-div-submit-btn-no-icon  " href="/easymanage/add-trainee/">Add new
@@ -193,13 +197,10 @@ if (isset($_POST['createuser'])) {
                         <div class="create-new-project flex-project-contents">
                             <h2>Add trainee</h2>
                             <form action="" method="post">
-                            <input class="input text-input dark-text" type="hidden" name="role" id="" value="trainee">
-                                <input class="input text-input dark-text" type="text" name="username" id=""
-                                    placeholder="Enter name">
-                                <input class="input text-input dark-text" type="email" name="useremail" id=""
-                                    placeholder="Enter email">
-                                <input class="input text-input" type="password" name="password" id=""
-                                    placeholder="Enter password...">
+                                <input class="input text-input dark-text" type="hidden" name="role" id="" value="trainee">
+                                <input class="input text-input dark-text" type="text" name="username" id="" placeholder="Enter name">
+                                <input class="input text-input dark-text" type="email" name="useremail" id="" placeholder="Enter email">
+                                <input class="input text-input" type="password" name="password" id="" placeholder="Enter password...">
                                 <input class="input" type="submit" value="Add" name="createuser">
                             </form>
                         </div>

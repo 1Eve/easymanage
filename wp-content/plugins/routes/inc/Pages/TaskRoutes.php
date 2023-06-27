@@ -54,13 +54,25 @@ class TaskRoutes
     public function listtrainee_tasks($request)
     {
         global $wpdb;
-        $table_name = $wpdb->prefix . 'tasks';
+        $table_name = $wpdb->prefix . 'projectassignees';
         $table_name_users = $wpdb->prefix . 'projectusers';
         $results = $wpdb->get_results("SELECT $table_name.*, $table_name_users.id, $table_name_users.username FROM $table_name JOIN $table_name_users ON $table_name_users.id = $table_name.user_id;");
-        if (!$results) {
+        
+        // Check if there are trainees
+        if (is_wp_error($results)) {
             return new WP_Error('no_results_found', 'No trainees found', array('status' => 404));
         }
-        return $results;
+        if (count($results) > 0) {
+            return [
+                'status' => '200',
+                'data' => $results,
+            ];
+        } else  {
+            return [
+                'status' => '200',
+                'data' => [],
+            ];
+        }
     }
     public function launch_tasks($request)
     {
@@ -228,6 +240,7 @@ class TaskRoutes
         $project_title = $request['project_title'];
         $project_description = $request['project_description'];
         $project_date = $request['setTodaysDate'];
+        $cohortName = $request['cohort'];
 
         $result = $wpdb->insert($task_table_name, [
             'project_title' => $project_title,
@@ -240,6 +253,7 @@ class TaskRoutes
             $wpdb->insert($project_assignees_table, [
                 'user_id' => $assignee,
                 'project_id' => $wpdb->insert_id,
+                'cohort' => $cohortName
             ]);
         }
         $responsedata = [
@@ -274,6 +288,7 @@ class TaskRoutes
         $useremail = $request['useremail'];
         $role = $request['role'];
         $pwd = $request['password'];
+        $cohortName = $request['cohort'];
         $hash_pwd = wp_hash_password($pwd);
 
         // Check if useremail already exists
@@ -286,7 +301,8 @@ class TaskRoutes
             'username' => $username,
             'useremail' => $useremail,
             'password' => $hash_pwd,
-            'role' => $role
+            'role' => $role,
+            'cohort' => $cohortName
         ]);
         $responsedata = [
             'role' => $role,

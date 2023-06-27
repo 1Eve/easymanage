@@ -21,6 +21,9 @@ if (!$cookieData) {
     ]);
     $res = wp_remote_retrieve_body($response);
     $tasklists = json_decode($res);
+    $tasklists = $tasklists->data;
+
+    var_dump($tasklists);
     // Access individual data elements
     $Id = $cookieData['user_id'];
     $Useremail = $cookieData['useremail'];
@@ -189,13 +192,12 @@ $table_name = $wpdb->prefix . 'projectusers';
                     <div class="bottom-div">
                         <?php foreach ($tasklists as $tasklist) { ?>
                             <?php // Access trainee tasks
-                                $trainee_id = $tasklist->user_id;
-                                $response = wp_remote_get('http://localhost/easymanage/wp-json/api/v1/tasks/' . $trainee_id, [
-                                    'method' => 'GET',
+                                $response = wp_remote_get('http://localhost/easymanage/wp-json/api/v1/tasks/' . $tasklist->id, [
+                                    'method' => 'GET'
                                 ]);
                                 $res = wp_remote_retrieve_body($response);
                                 $traineetasks = json_decode($res);
-
+                                $traineetasks = $traineetasks->data;
                                 $complete = array_filter($traineetasks, function ($task) {
                                     return $task->status == 3;
                                 });
@@ -210,15 +212,15 @@ $table_name = $wpdb->prefix . 'projectusers';
                             <?php } ?>
 
                             <div class="style-table-profile-column">
-                                <?php if ($tasklist->status == 0) { ?>
+                                <?php if ($notactive) { ?>
                                     <div class="buttons status-on-top status-on-top-in-not-activated">
                                         <p>Not Launched</p>
                                     </div>
-                                <?php } else if ($tasklist->status == 1) { ?>
+                                <?php } else if ($inprogress) { ?>
                                         <div class="buttons status-on-top status-on-top-in-progress">
                                             <p>In progress</p>
                                         </div>
-                                    <?php } elseif ($tasklist->status == 3) { ?>
+                                    <?php } elseif ($complete) { ?>
                                         <div class="buttons status-on-top status-on-top-complete">
                                             <p>Complete</p>
                                         </div>
@@ -234,15 +236,15 @@ $table_name = $wpdb->prefix . 'projectusers';
                                         <div class=" assigned-tasks">
                                             <div class="project-descr-for-all-tasks">
                                                 <div class="status-container">
-                                                    <?php if ($tasklist->status == 0) { ?>
+                                                    <?php if ($notactive ) { ?>
                                                         <div>
                                                             <i class="not-activated-icon bi bi-square-fill"></i>
                                                         </div>
-                                                    <?php } else if ($tasklist->status == 1) { ?>
+                                                    <?php } else if ($inprogress) { ?>
                                                             <div>
                                                                 <i class="in-progress-icon bi bi-square-fill"></i>
                                                             </div>
-                                                        <?php } elseif ($tasklist->status == 3) { ?>
+                                                        <?php } elseif ($complete) { ?>
                                                             <div>
                                                                 <i class="complete bi bi-square-fill"></i>
                                                             </div>
@@ -261,13 +263,13 @@ $table_name = $wpdb->prefix . 'projectusers';
                                                         consequat.</p>
 
                                                     <div class="bottom-div-submit-form">
-                                                        <?php if ($tasklist->status == 0) { ?>
+                                                        <?php if ($notactive) { ?>
 
                                                             <form action="" method="post">
                                                                 <input type="hidden" name="task_id">
                                                                 <input type="submit" name="update_task" value="Update">
                                                             </form>
-                                                        <?php } else if ($tasklist->status == 1) { ?>
+                                                        <?php } else if ($inprogress) { ?>
                                                                 <p class="tasks in-progress"><i class="bi bi-hourglass-split"></i>
                                                                 </p>
 

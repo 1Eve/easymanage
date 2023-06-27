@@ -1,5 +1,4 @@
 <?php
-
 /*
  *  Template Name:Trainee Completed Projects Template
  *
@@ -13,16 +12,18 @@ if (!$cookieData) {
     $errorMessage = json_last_error_msg();
     echo "JSON decoding failed with error: $errorMessage";
 } else {
- // Access individual data elements
- $Id = $cookieData['user_id'];
- $Useremail = $cookieData['useremail'];
- $Username = $cookieData['username'];
- // Access individual
- $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/tasks', [
-     'method' => 'GET',
- ]);
- $res = wp_remote_retrieve_body($response);
- $tasklists = json_decode($res);
+    // Access individual data elements
+    $Id = $cookieData['user_id'];
+    $Useremail = $cookieData['useremail'];
+    $Username = $cookieData['username'];
+    var_dump($Id);
+    // Access individual
+    $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/tasks/' . $Id, [
+        'method' => 'GET',
+    ]);
+    $res = wp_remote_retrieve_body($response);
+    $tasklists = json_decode($res);
+    $tasklists = $tasklists->data;
 }
 ?>
 <?php $profile = get_template_directory_uri() . '/assets/memoji-modified.png'; ?>
@@ -101,10 +102,28 @@ if (!$cookieData) {
 
                     </div>
                     <div class="bottom-div">
-                        <?php foreach ($tasklists as $result) { ?>
-                            <?php if ($result->status == 3) { ?>
+                        <?php
+
+                        if (is_array($tasklists)) {
+                            $complete = array_filter($tasklists, function ($task) {
+                                return $task->status == '3';
+                            });
+                            $notactive = array_filter($tasklists, function ($task) {
+                                return $task->status == '0';
+                            });
+                            $inprogress = array_filter($tasklists, function ($task) {
+                                return $task->status == '1';
+                            });
+                            $assigned = count($tasklists);
+                        }
+                        var_dump($tasklists);
+                        ?>
+                        <?php foreach ($tasklists as $tasklist) {
+                            var_dump($tasklist); ?>
+
+                            <?php if ($complete) { ?>
                                 <div class="style-table-profile-column">
-                                    <?php if ($result->status == 3) { ?>
+                                    <?php if ($complete) { ?>
                                         <div class="buttons status-on-top status-on-top-complete">
                                             <p>Complete</p>
                                         </div>
@@ -113,20 +132,20 @@ if (!$cookieData) {
                                         <div class="img">
                                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                                             <p class="name">
-                                                <?php echo $result->username; ?>
+                                                <?php echo $Username; ?>
                                             </p>
                                         </div>
                                         <div class="my-project-description">
                                             <div class="project-status">
-                                                <?php if ($result->status == 3) { ?>
+                                                <?php if ($complete) { ?>
                                                     <p class="project-name"><i class="complete bi bi-square-fill"></i>
-                                                        <?php echo $result->project_title; ?>
+                                                        <?php echo $tasklist->project_title; ?>
                                                     </p>
                                                 <?php } ?>
                                             </div>
                                             <div class="project-description">
                                                 <div class="description">
-                                                    <?php echo $result->project_description; ?>
+                                                    <?php echo $tasklist->project_description; ?>
                                                 </div>
                                                 <div>
 

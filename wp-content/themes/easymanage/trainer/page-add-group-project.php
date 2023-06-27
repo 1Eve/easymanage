@@ -8,15 +8,17 @@
 ?>
 <?php
 $totalusers = getDisplayedUserCount();
+$cookieData = returncookie_data();
+// Access individual data elements
+$CohortName = $cookieData['cohort'];
+
 // Get total trainee assigned tasks 
 $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/tasks/totalassigned', [
     'method' => 'GET',
 ]);
 $totalresponse = wp_remote_retrieve_body($response);
 $available = json_decode($totalresponse);
-// var_dump ($available);
-// var_dump($no_of_tasks);
-// var_dump($no_of_tasks);
+
 
 $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/users/trainees', [
     'method' => 'GET',
@@ -53,6 +55,7 @@ if (isset($_POST['create_task'])) {
                 'project_title' => $_POST['project_title'],
                 'project_description' => $_POST['project_description'],
                 'setTodaysDate' => $_POST['setTodaysDate'],
+                'cohort' => $CohortName,
             ]
         ]);
         $res = wp_remote_retrieve_body($response);

@@ -6,12 +6,18 @@
  */
 
 ?>
-<?php 
+<?php
 $totalusers = getDisplayedUserCount();
-
-$table_name = $wpdb->prefix . 'projectusers';
-
-$totalusers = ($wpdb->get_var("SELECT COUNT(*) FROM $table_name")- '3'); 
+$cookieData = returncookie_data();
+// Access individual data elements
+$cohortName = $cookieData['cohort'];
+//Get Active trainee
+$response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/users/active',  [
+    'method' => 'GET',
+]);
+$responseBody = wp_remote_retrieve_body($response);
+$activeusers = json_decode($responseBody);
+$activeusers = $activeusers->data;
 
 ?>
 <?php $profile = get_template_directory_uri() . '/assets/memoji-modified.png'; ?>
@@ -59,8 +65,7 @@ $totalusers = ($wpdb->get_var("SELECT COUNT(*) FROM $table_name")- '3');
                     <a href="/easymanage/completed-projects/">
                         <div class="side-bar-link">
                             <div class="link">
-                                <p><i
-                                        class="side-bar-icon-left side-bar-icon-left bi bi-clipboard2-check icon-sidebar"></i>
+                                <p><i class="side-bar-icon-left side-bar-icon-left bi bi-clipboard2-check icon-sidebar"></i>
                                     Completed tasks</p>
                             </div>
                             <div>
@@ -128,9 +133,9 @@ $totalusers = ($wpdb->get_var("SELECT COUNT(*) FROM $table_name")- '3');
                             </div>
                         </div>
                     </div>
-                    <div >
+                    <div>
                         <form action="" method="post">
-                            <button class="exit" type="submit" name = "logout">
+                            <button class="exit" type="submit" name="logout">
                                 <h5><i class="bi bi-box-arrow-left"></i></h5>
                             </button>
                         </form>
@@ -152,7 +157,7 @@ $totalusers = ($wpdb->get_var("SELECT COUNT(*) FROM $table_name")- '3');
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
-                            <p class="no-of-employees profile-picture"><?php echo '+'. $totalusers; ?></p>
+                            <p class="no-of-employees profile-picture"><?php echo '+' . $totalusers; ?></p>
                         </div>
                         <div class="top-div-add-trainee-btn">
                             <a class="bottom-div-submit-btn-no-icon  " href="/easymanage/add-trainee/">Add new
@@ -164,54 +169,21 @@ $totalusers = ($wpdb->get_var("SELECT COUNT(*) FROM $table_name")- '3');
                         <div class="admin-dashboard-bottom-div">
                             <div class="deactivate-members-container">
                                 <div class="styled-table-employees">
+                                    <?php foreach($activeusers as $activeuser){ ?>
+                                        <?php if($activeuser->role == 'trainee' && $activeuser->cohort == $cohortName){ ?>
                                     <div class="style-table-profile">
                                         <div>
                                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                                         </div>
                                         <div class="shared-profile-container">
                                             <div>
-                                                <p>Wordpress</p>
-                                                <p class="name">Usher Njari</p>
+                                                <p><?php echo $activeuser->cohort;?></p>
+                                                <p class="name"><?php echo $activeuser->username; ?></p>
                                             </div>
-
                                         </div>
                                     </div>
-                                    <div class="style-table-profile">
-                                        <div>
-                                            <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
-                                        </div>
-                                        <div class="shared-profile-container">
-                                            <div>
-                                                <p>Wordpress</p>
-                                                <p class="name">Usher Njari</p>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                    <div class="style-table-profile">
-                                        <div>
-                                            <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
-                                        </div>
-                                        <div class="shared-profile-container">
-                                            <div>
-                                                <p>Wordpress </p>
-                                                <p class="name">Usher Njari</p>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                    <div class="style-table-profile">
-                                        <div>
-                                            <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
-                                        </div>
-                                        <div class="shared-profile-container">
-                                            <div>
-                                                <p>Wordpress</p>
-                                                <p class="name">Usher Njari</p>
-                                            </div>
-
-                                        </div>
-                                    </div>
+                                    <?php } ?>
+                                    <?php } ?>
                                     <div class="style-table-profile">
                                         <div>
                                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">

@@ -72,7 +72,8 @@ class CreateTables
         $assignees_table = "CREATE TABLE IF NOT EXISTS " . $table_name . " (
         id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
         user_id text NOT NULL,
-        project_id text NOT NULL
+        project_id text NOT NULL,
+        cohort text NOT NULL
         
     )";
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');

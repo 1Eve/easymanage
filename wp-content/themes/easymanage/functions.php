@@ -119,6 +119,7 @@ function getDisplayedUserCount()
     ]);
     $res = wp_remote_retrieve_body($response);
     $activeusers = json_decode($res);
+    $activeusers = $activeusers->data;
     //activeusers tally does not include the admin add 1 to count the admin displayed is 3 users -3 to get actual displayed figure
     $totalusers = (count($activeusers) + 1) - 3;
     return $totalusers;

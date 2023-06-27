@@ -17,12 +17,14 @@ if (!$cookieData) {
     $Id = $cookieData['user_id'];
     $Useremail = $cookieData['useremail'];
     $Username = $cookieData['username'];
+    var_dump($Id);
     // Access individual
-    $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/tasks', [
+    $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/tasks/' . $Id, [
         'method' => 'GET',
     ]);
     $res = wp_remote_retrieve_body($response);
     $tasklists = json_decode($res);
+    $tasklists = $tasklists->data;
 }
 
 if (isset($_POST['launch_project'])) {
@@ -122,14 +124,32 @@ if (isset($_POST['markproject_complete'])) {
 
                     </div>
                     <div class="bottom-div">
-                        <?php foreach ($tasklists as $tasklist) { ?>
-                            <?php if ($tasklist->status != 3) { ?>
+                        <?php
+
+                        if (is_array($tasklists)) {
+                            $complete = array_filter($tasklists, function ($task) {
+                                return $task->status == '3';
+                            });
+                            $notactive = array_filter($tasklists, function ($task) {
+                                return $task->status == '0';
+                            });
+                            $inprogress = array_filter($tasklists, function ($task) {
+                                return $task->status == '1';
+                            });
+                            $assigned = count($tasklists);
+                        }
+                        var_dump($tasklists);
+                        ?>
+                        <?php foreach ($tasklists as $tasklist) {
+                            var_dump($tasklist); ?>
+
+                            <?php if ($notactive || $inprogress ) { ?>
                                 <div class="style-table-profile-column">
                                     <?php if ($tasklist->status == 0) { ?>
                                         <div class="buttons status-on-top status-on-top-in-not-activated">
                                             <p>Not Launched</p>
                                         </div>
-                                    <?php } else if ($tasklist->status == 1) { ?>
+                                    <?php } else if ($inprogress) { ?>
                                         <div class="buttons status-on-top status-on-top-in-progress">
                                             <p>In progress</p>
                                         </div>
@@ -138,7 +158,7 @@ if (isset($_POST['markproject_complete'])) {
                                         <div class="img">
                                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                                             <p class="name">
-                                                <?php echo $tasklist->username; ?>
+                                                <?php echo $Username; ?>
                                             </p>
                                         </div>
                                         <div class="my-project-description">
