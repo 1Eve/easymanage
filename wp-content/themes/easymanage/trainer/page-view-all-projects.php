@@ -10,6 +10,7 @@
 $totalusers = getDisplayedUserCount();
 
 $cookieData = returncookie_data();
+$cohortName = $cookieData['cohort'];
 if (!$cookieData) {
     $errorMessage = json_last_error_msg();
     echo "JSON decoding failed with error: $errorMessage";
@@ -23,7 +24,6 @@ if (!$cookieData) {
     $tasklists = json_decode($res);
     $tasklists = $tasklists->data;
 
-    var_dump($tasklists);
     // Access individual data elements
     $Id = $cookieData['user_id'];
     $Useremail = $cookieData['useremail'];
@@ -86,8 +86,7 @@ $table_name = $wpdb->prefix . 'projectusers';
                     <a href="/easymanage/completed-projects/">
                         <div class="side-bar-link">
                             <div class="link">
-                                <p><i
-                                        class="side-bar-icon-left side-bar-icon-left bi bi-clipboard2-check icon-sidebar"></i>
+                                <p><i class="side-bar-icon-left side-bar-icon-left bi bi-clipboard2-check icon-sidebar"></i>
                                     Completed tasks</p>
                             </div>
                             <div>
@@ -191,7 +190,8 @@ $table_name = $wpdb->prefix . 'projectusers';
                     </div>
                     <div class="bottom-div">
                         <?php foreach ($tasklists as $tasklist) { ?>
-                            <?php // Access trainee tasks
+                            <?php if ($tasklist->cohort == $cohortName) { ?>
+                                <?php // Access trainee tasks
                                 $response = wp_remote_get('http://localhost/easymanage/wp-json/api/v1/tasks/' . $tasklist->id, [
                                     'method' => 'GET'
                                 ]);
@@ -202,21 +202,21 @@ $table_name = $wpdb->prefix . 'projectusers';
                                     return $task->status == 3;
                                 });
                                 $notactive = array_filter($traineetasks, function ($task) {
-                                    return $task->status == 0;
+                                    return $task->status == 1;
                                 });
                                 $inprogress = array_filter($traineetasks, function ($task) {
-                                    return $task->status == 1;
+                                    return $task->status == 2;
                                 });
                                 $assigned = count($traineetasks);
                                 foreach ($traineetasks as $task) { ?>
-                            <?php } ?>
+                                <?php } ?>
 
-                            <div class="style-table-profile-column">
-                                <?php if ($notactive) { ?>
-                                    <div class="buttons status-on-top status-on-top-in-not-activated">
-                                        <p>Not Launched</p>
-                                    </div>
-                                <?php } else if ($inprogress) { ?>
+                                <div class="style-table-profile-column">
+                                    <?php if ($notactive) { ?>
+                                        <div class="buttons status-on-top status-on-top-in-not-activated">
+                                            <p>Not Launched</p>
+                                        </div>
+                                    <?php } else if ($inprogress) { ?>
                                         <div class="buttons status-on-top status-on-top-in-progress">
                                             <p>In progress</p>
                                         </div>
@@ -225,22 +225,22 @@ $table_name = $wpdb->prefix . 'projectusers';
                                             <p>Complete</p>
                                         </div>
                                     <?php } ?>
-                                <div class="flex">
-                                    <div class="img">
-                                        <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
-                                        <p class="name">
-                                            <?php echo $tasklist->username; ?>
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <div class=" assigned-tasks">
-                                            <div class="project-descr-for-all-tasks">
-                                                <div class="status-container">
-                                                    <?php if ($notactive ) { ?>
-                                                        <div>
-                                                            <i class="not-activated-icon bi bi-square-fill"></i>
-                                                        </div>
-                                                    <?php } else if ($inprogress) { ?>
+                                    <div class="flex">
+                                        <div class="img">
+                                            <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
+                                            <p class="name">
+                                                <?php echo $tasklist->username; ?>
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <div class=" assigned-tasks">
+                                                <div class="project-descr-for-all-tasks">
+                                                    <div class="status-container">
+                                                        <?php if ($notactive) { ?>
+                                                            <div>
+                                                                <i class="not-activated-icon bi bi-square-fill"></i>
+                                                            </div>
+                                                        <?php } else if ($inprogress) { ?>
                                                             <div>
                                                                 <i class="in-progress-icon bi bi-square-fill"></i>
                                                             </div>
@@ -249,120 +249,41 @@ $table_name = $wpdb->prefix . 'projectusers';
                                                                 <i class="complete bi bi-square-fill"></i>
                                                             </div>
                                                         <?php } ?>
-                                                    <div>
-                                                        <p>Project description</p>
+                                                        <div>
+                                                            <p>Project description</p>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="justify-content">
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                                        eiusmod
-                                                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                                                        veniam,
-                                                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                                        commodo
-                                                        consequat.</p>
+                                                    <div class="justify-content">
+                                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                                                            eiusmod
+                                                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+                                                            veniam,
+                                                            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                                                            commodo
+                                                            consequat.</p>
 
-                                                    <div class="bottom-div-submit-form">
-                                                        <?php if ($notactive) { ?>
+                                                        <div class="bottom-div-submit-form">
+                                                            <?php if ($notactive) { ?>
 
-                                                            <form action="" method="post">
-                                                                <input type="hidden" name="task_id">
-                                                                <input type="submit" name="update_task" value="Update">
-                                                            </form>
-                                                        <?php } else if ($inprogress) { ?>
+                                                                <form action="" method="post">
+                                                                    <input type="hidden" name="task_id">
+                                                                    <input type="submit" name="update_task" value="Update">
+                                                                </form>
+                                                            <?php } else if ($inprogress) { ?>
                                                                 <p class="tasks in-progress"><i class="bi bi-hourglass-split"></i>
                                                                 </p>
 
                                                             <?php } ?>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            <?php } ?>
                         <?php } ?>
-                        <div class="style-table-profile-column">
-                            <div class="buttons status-on-top status-on-top-in-not-activated">
-                                <p>Not Activated</p>
-                            </div>
-                            <div class="flex">
-                                <div class="img">
-                                    <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
-                                    <p class="name">Usher Njari</p>
-                                </div>
-                                <div>
-                                    <div class=" assigned-tasks">
-                                        <div class="project-descr-for-all-tasks">
-                                            <div class="status-container">
-                                                <div>
-                                                    <i class="not-activated-icon bi bi-square-fill"></i>
-                                                </div>
-                                                <div>
-                                                    <p class="">Project description</p>
-                                                </div>
-                                            </div>
-                                            <div class="justify-content">
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                                    eiusmod
-                                                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                                                    veniam,
-                                                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                                    commodo
-                                                    consequat.</p>
-
-                                                <div class="bottom-div-submit-form">
-                                                    <a href="">
-                                                        <p class=" status-on-top-in-not-activated">Update
-                                                        </p>
-                                                    </a>
-                                                    <p><i class="delete-icon bi bi-trash3-fill"></i></p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="style-table-profile-column">
-                            <div class="buttons status-on-top status-on-top-complete">
-                                <p>Complete</p>
-                            </div>
-                            <div class="flex">
-                                <div class="img">
-                                    <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
-                                    <p class="name">Usher Njari</p>
-                                </div>
-                                <div>
-                                    <div class=" assigned-tasks">
-                                        <div class="project-descr-for-all-tasks">
-                                            <div class="status-container">
-                                                <div>
-                                                    <i class="complete bi bi-square-fill"></i>
-                                                </div>
-                                                <div>
-                                                    <p class="">Project description</p>
-                                                </div>
-                                            </div>
-                                            <div class="justify-content">
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                                    eiusmod
-                                                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                                                    veniam,
-                                                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                                    commodo
-                                                    consequat.</p>
-
-                                                <div class="bottom-div-submit-form">
-                                                    <p class="complete-icon"><i class="bi bi-check-circle-fill"></i>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
             </div>

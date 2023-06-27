@@ -9,6 +9,8 @@
 <?php 
 $totalusers = getDisplayedUserCount();
 
+
+
 $table_name = $wpdb->prefix . 'projectusers';
 
 $totalusers = ($wpdb->get_var("SELECT COUNT(*) FROM $table_name")- '3'); 

@@ -27,6 +27,7 @@ if (!$cookieData) {
     ]);
     $res = wp_remote_retrieve_body($response);
     $traineelists = json_decode($res);
+    $traineelists = $traineelists->data;
 }
 ?>
 <?php $profile = get_template_directory_uri() . '/assets/memoji-modified.png'; ?>

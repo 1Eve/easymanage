@@ -16,7 +16,7 @@ if (!$cookieData) {
     $Id = $cookieData['user_id'];
     $Useremail = $cookieData['useremail'];
     $Username = $cookieData['username'];
-    var_dump($Id);
+    
     // Access individual
     $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/tasks/' . $Id, [
         'method' => 'GET',
@@ -116,10 +116,9 @@ if (!$cookieData) {
                             });
                             $assigned = count($tasklists);
                         }
-                        var_dump($tasklists);
                         ?>
                         <?php foreach ($tasklists as $tasklist) {
-                            var_dump($tasklist); ?>
+                           ?>
 
                             <?php if ($complete) { ?>
                                 <div class="style-table-profile-column">

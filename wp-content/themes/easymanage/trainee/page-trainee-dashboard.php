@@ -17,8 +17,6 @@ if (!$cookieData) {
     $Id = $cookieData['user_id'];
     $Useremail = $cookieData['useremail'];
     $Username = $cookieData['username'];
-    var_dump($Id);
-    // Access individual
     $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/tasks/' . $Id, [
         'method' => 'GET',
     ]);
@@ -29,6 +27,7 @@ if (!$cookieData) {
 
 if (isset($_POST['launch_project'])) {
     $task_id = $_POST['task_id'];
+    
     $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/tasks/launch/' . $task_id, [
         'method' => 'PUT',
     ]);
@@ -47,9 +46,7 @@ if (isset($_POST['markproject_complete'])) {
 }
 
 ?>
-
 <?php $profile = get_template_directory_uri() . '/assets/memoji-modified.png'; ?>
-
 <section class="container-admin-dashboard outer-container">
     <div class="inner-container">
         <div class="header">
@@ -131,21 +128,20 @@ if (isset($_POST['markproject_complete'])) {
                                 return $task->status == '3';
                             });
                             $notactive = array_filter($tasklists, function ($task) {
-                                return $task->status == '0';
+                                return $task->status == '1';
                             });
                             $inprogress = array_filter($tasklists, function ($task) {
-                                return $task->status == '1';
+                                return $task->status == '2';
                             });
                             $assigned = count($tasklists);
                         }
-                        var_dump($tasklists);
                         ?>
                         <?php foreach ($tasklists as $tasklist) {
-                            var_dump($tasklist); ?>
-
+                           
+                           ?>
                             <?php if ($notactive || $inprogress ) { ?>
                                 <div class="style-table-profile-column">
-                                    <?php if ($tasklist->status == 0) { ?>
+                                    <?php if ($notactive) { ?>
                                         <div class="buttons status-on-top status-on-top-in-not-activated">
                                             <p>Not Launched</p>
                                         </div>
@@ -163,12 +159,12 @@ if (isset($_POST['markproject_complete'])) {
                                         </div>
                                         <div class="my-project-description">
                                             <div class="project-status">
-                                                <?php if ($tasklist->status == 0) { ?>
+                                                <?php if ($tasklist->status == 1) { ?>
                                                     <p class="project-name"><i class="not-activated-icon bi bi-square-fill"></i>
                                                         <?php echo $tasklist->project_title; ?>
                                                     </p>
 
-                                                <?php } else if ($tasklist->status == 1) { ?>
+                                                <?php } else if ($tasklist->status == 2) { ?>
                                                     <p class="project-name"><i class="in-progress-icon bi bi-square-fill"></i>
                                                         <?php echo $tasklist->project_title; ?>
                                                     </p>
@@ -179,14 +175,14 @@ if (isset($_POST['markproject_complete'])) {
                                                     <?php echo $tasklist->project_description; ?>
                                                 </div>
                                                 <div>
-                                                    <?php if ($tasklist->status == 0) { ?>
+                                                    <?php if ($tasklist->status == 1) { ?>
                                                         <form action="" method="post">
-                                                            <input type="hidden" value="<?php echo $tasklist->task_id; ?>" name="task_id">
+                                                            <input type="hidden" value="<?php echo $tasklist->project_id; ?>" name="task_id">
                                                             <input class="launch-btn" type="submit" value="Launch" name="launch_project">
                                                         </form>
-                                                    <?php } else if ($tasklist->status == 1) { ?>
+                                                    <?php } else if ($tasklist->status == 2) { ?>
                                                         <form action="" method="post">
-                                                            <input type="hidden" value="<?php echo $tasklist->task_id; ?>" name="task_id">
+                                                            <input type="hidden" value="<?php echo $tasklist->id; ?>" name="task_id">
                                                             <input class="project-in-progress-icon" type="submit" value="Mark as Complete" name="markproject_complete">
                                                         </form>
                                                     <?php } ?>

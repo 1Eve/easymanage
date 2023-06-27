@@ -21,11 +21,11 @@ class TaskRoutes
             'methods' => 'GET',
             'callback' => [$this, 'listtrainee_tasks'],
         ]);
-        register_rest_route('api/v1', '/tasks/launch/(?P<task_id>\d+)', [
+        register_rest_route('api/v1', '/tasks/launch/(?P<id>\d+)', [
             'methods' => 'PUT',
             'callback' => [$this, 'launch_tasks'],
         ]);
-        register_rest_route('api/v1', '/tasks/markcomplete/(?P<task_id>\d+)', [
+        register_rest_route('api/v1', '/tasks/markcomplete/(?P<id>\d+)', [
             'methods' => 'PUT',
             'callback' => [$this, 'marktask_ascomplete'],
         ]);
@@ -78,8 +78,11 @@ class TaskRoutes
     {
         global $wpdb;
         $table_name = $wpdb->prefix . 'tasks';
-        $task_id = $request->get_param('task_id');
-        $existing_task = $wpdb->get_row($wpdb->prepare("SELECT task_id, status FROM $table_name WHERE task_id = %d", $task_id));
+        $task_id = $request->get_param('id');
+        // return ($task_id);
+
+        $existing_task = $wpdb->get_row($wpdb->prepare("SELECT id, status FROM $table_name WHERE id = %d", $task_id));
+        // return $existing_task;
         if (!$existing_task) {
             return new WP_Error('task_not_found', 'Task ID not found', array('status' => 404));
         }
@@ -95,7 +98,7 @@ class TaskRoutes
                 'status' => 2,
             ],
             [
-                'task_id' => $task_id
+                'id' => $task_id
             ]
         );
         $responsedata = [
@@ -104,19 +107,23 @@ class TaskRoutes
             'status' => '200'
         ];
         return new \WP_REST_Response($responsedata);
+        
     }
+
+
+
     public function marktask_ascomplete($request)
     {
         global $wpdb;
         $table_name = $wpdb->prefix . 'tasks';
-        $task_id = $request->get_param('task_id');
+        $task_id = $request->get_param('id');
 
         // Check if the task_id is provided
         if (!$task_id) {
             return new WP_Error('missing_task_id', 'Task ID is missing', array('status' => 400));
         }
         // Check if the task_id exists in the table and the status is not 3
-        $existing_task = $wpdb->get_row($wpdb->prepare("SELECT task_id, status FROM $table_name WHERE task_id = %d", $task_id));
+        $existing_task = $wpdb->get_row($wpdb->prepare("SELECT id, status FROM $table_name WHERE id = %d", $task_id));
         if (!$existing_task) {
             return new WP_Error('task_not_found', 'Task ID not found', array('status' => 404));
         }
@@ -133,7 +140,7 @@ class TaskRoutes
                 'status' => 3,
             ],
             [
-                'task_id' => $task_id
+                'id' => $task_id
             ]
         );
         $responsedata = [
@@ -191,7 +198,7 @@ class TaskRoutes
             'project_title' => $project_title,
             'project_description' => $project_description,
             'project_date' => $project_date,
-            'status' => 0
+            'status' => 1
         ]);
 
         $responsedata = [
@@ -226,7 +233,6 @@ class TaskRoutes
         ];
         // Check if required input fields are present
         if (empty($request['trainee_id']) || empty($request['project_title']) || empty($request['project_description']) || empty($request['setTodaysDate'])) {
-            // return new WP_Error('missing_fields', 'Missing required fields', array('status' => 400));
             return new \WP_REST_Response($response_error);
         }
         $assignees = $request['trainee_id'];
@@ -246,7 +252,7 @@ class TaskRoutes
             'project_title' => $project_title,
             'project_description' => $project_description,
             'project_date' => $project_date,
-            'status' => 0
+            'status' => 1
         ]);
         // return  $wpdb->insert_id;
         foreach ($assignees as $assignee) {
