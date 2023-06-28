@@ -49,6 +49,10 @@ class TaskRoutes
             'methods' => 'GET',
             'callback' => [$this, 'get_total_asigned_tasks'],
         ]);
+        register_rest_route('api/v1', '/tasks/restoreproject/(?P<id>\d+)', [
+            'methods' => 'PUT',
+            'callback' => [$this, 'retore_deletedprojects'],
+        ]);
     }
 
     public function listtrainee_tasks($request)
@@ -346,6 +350,36 @@ class TaskRoutes
         } else {
             return $available;
         }
+        return new \WP_REST_Response($responsedata);
+    }
+    public function retore_deletedprojects ($request){
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'tasks';
+        $task_id = $request->get_param('id');
+
+        // Check if the task_id is provided
+        if (!$task_id) {
+            return new WP_Error('missing_task_id', 'Task ID is missing', array('status' => 400));
+        }
+        // Check if the task_id exists in the table and the status is not 3
+        $existing_task = $wpdb->get_row($wpdb->prepare("SELECT id, status FROM $table_name WHERE id = %d", $task_id));
+        if (!$existing_task) {
+            return new WP_Error('task_not_found', 'Task ID not found', array('status' => 404));
+        }
+        $wpdb->update(
+            $table_name,
+            [
+                'status' => 1,
+            ],
+            [
+                'id' => $task_id
+            ]
+        );
+        $responsedata = [
+            'task_id' => $task_id,
+            'message' => 'The task has been marked as restored',
+            'status' => '200'
+        ];
         return new \WP_REST_Response($responsedata);
     }
 }

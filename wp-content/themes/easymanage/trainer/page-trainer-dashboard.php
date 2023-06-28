@@ -186,16 +186,17 @@ if (!$cookieData) {
                                 $totaltraineetasks = json_decode($res); ?>
                             <?php foreach ($traineelists as $trainee) { ?>
                                 <?php
+                                
                                 $response = wp_remote_get('http://localhost/easymanage/wp-json/api/v1/tasks/' . $trainee->id, [
                                     'method' => 'GET'
                                 ]);
                                 $res = wp_remote_retrieve_body($response);
                                 $traineetasks = json_decode($res);
                                 $traineetasks = $traineetasks->data;
-                                // var_dump($traineetasks);
+                               
                                 // Access trainee tasks
                                 $trainee_id = $trainee->id;
-                                // var_dump( $trainee_id);
+                               
                                 if (is_array($traineetasks)) {
                                     $complete = array_filter($traineetasks, function ($task) {
                                         return $task->status == '3';

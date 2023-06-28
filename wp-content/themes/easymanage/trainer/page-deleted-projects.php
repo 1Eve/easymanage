@@ -6,15 +6,43 @@
  */
 
 ?>
-<?php 
+<?php
 $totalusers = getDisplayedUserCount();
+$cookieData = returncookie_data();
+// Access individual data elements
+$Id = $cookieData['user_id'];
+$Useremail = $cookieData['useremail'];
+$Username = $cookieData['username'];
+$cohortName = $cookieData['cohort'];
+$cohortName = $cookieData['cohort'];
 
 
+// Get all trainees and tasks
+$response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/users/trainees', [
+    'method' => 'GET',
+]);
+$res = wp_remote_retrieve_body($response);
+$traineelists = json_decode($res);
+$traineelists = $traineelists->data;
 
-$table_name = $wpdb->prefix . 'projectusers';
+// Restore deleted tasks 
+$response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/tasks/restoreproject/', [
+    'method' => 'PUT',
+]);
+$res = wp_remote_retrieve_body($response);
+$responseBody = json_decode($res);
 
-$totalusers = ($wpdb->get_var("SELECT COUNT(*) FROM $table_name")- '3'); 
 
+if (isset($_POST['restoreproject'])) {
+    $task_id = $_POST['task_id'];
+
+    $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/tasks/restoreproject/' . $task_id, [
+        'method' => 'PUT',
+    ]);
+    $res = wp_remote_retrieve_body($response);
+    $userinfo = json_decode($res);
+    wp_redirect(site_url('/easymanage/view-all-projects/'));
+}
 ?>
 <?php $profile = get_template_directory_uri() . '/assets/memoji-modified.png'; ?>
 
@@ -24,7 +52,7 @@ $totalusers = ($wpdb->get_var("SELECT COUNT(*) FROM $table_name")- '3');
             <?php get_header(); ?>
         </div>
         <div class="dashboard-container">
-        <div class="side-bar-container">
+            <div class="side-bar-container">
                 <h4>MAIN</h4>
                 <div class="side-bar-top">
                     <a href="/easymanage/trainer-dashboard/">
@@ -61,8 +89,7 @@ $totalusers = ($wpdb->get_var("SELECT COUNT(*) FROM $table_name")- '3');
                     <a href="/easymanage/completed-projects/">
                         <div class="side-bar-link">
                             <div class="link">
-                                <p><i
-                                        class="side-bar-icon-left side-bar-icon-left bi bi-clipboard2-check icon-sidebar"></i>
+                                <p><i class="side-bar-icon-left side-bar-icon-left bi bi-clipboard2-check icon-sidebar"></i>
                                     Completed tasks</p>
                             </div>
                             <div>
@@ -130,9 +157,9 @@ $totalusers = ($wpdb->get_var("SELECT COUNT(*) FROM $table_name")- '3');
                             </div>
                         </div>
                     </div>
-                    <div >
+                    <div>
                         <form action="" method="post">
-                            <button class="exit" type="submit" name = "logout">
+                            <button class="exit" type="submit" name="logout">
                                 <h5><i class="bi bi-box-arrow-left"></i></h5>
                             </button>
                         </form>
@@ -141,7 +168,7 @@ $totalusers = ($wpdb->get_var("SELECT COUNT(*) FROM $table_name")- '3');
             </div>
             <div class="main-contents-container">
                 <div class="inner-main-contents-container">
-                <div class="top-div">
+                    <div class="top-div">
                         <div>
                             <form action="">
                                 <div class="search">
@@ -154,7 +181,7 @@ $totalusers = ($wpdb->get_var("SELECT COUNT(*) FROM $table_name")- '3');
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
-                            <p class="no-of-employees profile-picture"><?php echo '+'. $totalusers; ?></p>
+                            <p class="no-of-employees profile-picture"><?php echo '+' . $totalusers; ?></p>
                         </div>
                         <div class="top-div-add-trainee-btn">
                             <a class="bottom-div-submit-btn-no-icon  " href="/easymanage/add-trainee/">Add new
@@ -163,40 +190,58 @@ $totalusers = ($wpdb->get_var("SELECT COUNT(*) FROM $table_name")- '3');
                         </div>
                     </div>
                     <div class="bottom-div">
-                        <div class="style-table-profile-column">
-                            <div class="flex">
-                                <div class="img">
-                                    <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
-                                    <p class="name">Usher Njari</p>
-                                </div>
-                                <div>
-                                    <div class=" assigned-tasks">
-                                        <div class="project-descr-for-all-tasks">
-                                            <div class="status-container">
-                                                <div>
-                                                    <p class="name">Project description</p>
+                        <?php foreach ($traineelists as $tasklist) {
+                        ?>
+                            <?php if ($tasklist->cohort == $cohortName) { ?>
+                                <?php // Access trainee tasks
+                                $response = wp_remote_get('http://localhost/easymanage/wp-json/api/v1/tasks/' . $tasklist->id, [
+                                    'method' => 'GET'
+                                ]);
+                                $res = wp_remote_retrieve_body($response);
+                                $traineetasks = json_decode($res);
+                                $traineetasks = $traineetasks->data;
+
+                                $deletedtasks = array_filter($traineetasks, function ($task) {
+                                    return $task->status == 0;
+                                });
+                                //var_dump($deletedtasks);
+                                $assigned = count($traineetasks);
+                                ?>
+                                <?php foreach ($traineetasks as $traineetask) { 
+                                    var_dump($traineetask->id);?>
+                                    <?php if ($deletedtasks) { ?>
+                                        <div class="style-table-profile-column">
+                                            <div class="flex">
+                                                <div class="img">
+                                                    <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
+                                                    <p class="name">Usher Njari</p>
                                                 </div>
-                                            </div>
-                                            <div class="justify-content">
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                                    eiusmod
-                                                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                                                    veniam,
-                                                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                                    commodo
-                                                    consequat.</p>
-
-                                                <div class="bottom-div-submit-form">
-                                                    <p class="restore-btn">Restore
-                                                    </p>
-
+                                                <div>
+                                                    <div class=" assigned-tasks">
+                                                        <div class="project-descr-for-all-tasks">
+                                                            <div class="status-container">
+                                                                <div>
+                                                                    <p class="name"><?php echo $traineetask->project_title; ?></p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="justify-content">
+                                                                <p><?php echo $traineetask->project_description; ?></p>
+                                                                <div class="bottom-div-submit-form">
+                                                                    <form action="" method="post">
+                                                                        <input type="hidden" name="task_id" value="<?php echo $traineetask->id; ?>">
+                                                                        <input type="submit" value="Restore" name="restoreproject">
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                                    <?php } ?>
+                                <?php } ?>
+                            <?php } ?>
+                        <?php } ?>
                         <div class="style-table-profile-column">
                             <div class="flex">
                                 <div class="img">

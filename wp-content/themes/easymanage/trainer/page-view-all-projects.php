@@ -38,8 +38,6 @@ if (!$cookieData) {
 }
 
 
-$table_name = $wpdb->prefix . 'projectusers';
-
 ?>
 <?php $profile = get_template_directory_uri() . '/assets/memoji-modified.png'; ?>
 
@@ -198,6 +196,7 @@ $table_name = $wpdb->prefix . 'projectusers';
                                 $res = wp_remote_retrieve_body($response);
                                 $traineetasks = json_decode($res);
                                 $traineetasks = $traineetasks->data;
+                              
                                 $complete = array_filter($traineetasks, function ($task) {
                                     return $task->status == 3;
                                 });
@@ -250,17 +249,11 @@ $table_name = $wpdb->prefix . 'projectusers';
                                                             </div>
                                                         <?php } ?>
                                                         <div>
-                                                            <p>Project description</p>
+                                                            <p><?php echo $traineetasks[0]->project_title; ?></p>
                                                         </div>
                                                     </div>
                                                     <div class="justify-content">
-                                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                                            eiusmod
-                                                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                                                            veniam,
-                                                            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                                            commodo
-                                                            consequat.</p>
+                                                        <p><?php echo $traineetasks[0]->project_description; ?></p>
 
                                                         <div class="bottom-div-submit-form">
                                                             <?php if ($notactive) { ?>
