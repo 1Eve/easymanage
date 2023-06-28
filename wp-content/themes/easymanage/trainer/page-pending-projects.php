@@ -31,6 +31,7 @@ if (!$cookieData) {
     ]);
     $res = wp_remote_retrieve_body($response);
     $traineelists = json_decode($res);
+    $traineelists = $traineelists->data;
 }
 ?>
 <?php $profile = get_template_directory_uri() . '/assets/memoji-modified.png'; ?>
@@ -184,7 +185,8 @@ if (!$cookieData) {
                                 'method' => 'GET'
                             ]);
                             $res = wp_remote_retrieve_body($response);
-                            $totaltraineetasks = json_decode($res); ?>
+                            $totaltraineetasks = json_decode($res); 
+                            $totaltraineetasks = $totaltraineetasks->data;?>
 
                             
                             
@@ -195,6 +197,7 @@ if (!$cookieData) {
                                     $traineetasks = array_filter($totaltraineetasks, function ($task) use ($trainee_id) {
                                         return $task->user_id == $trainee_id;
                                     });
+                                    var_dump($totaltraineetasks);
 
                                     if (is_array($traineetasks)) {
                                         $complete = array_filter($traineetasks, function ($task) {

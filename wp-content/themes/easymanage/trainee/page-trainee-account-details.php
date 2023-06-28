@@ -1,49 +1,41 @@
 <?php
 
 /*
- *  Template Name:Add trainee Template
+ *  Template Name:Update Trainee Acc Deatils
  *
  */
 
 ?>
-
 <?php
 $totalusers = getDisplayedUserCount();
 $cookieData = returncookie_data();
-$user_name_error = $user_email_error = $pass_error = "";
-
-if (isset($_POST['createuser'])) {
+$userid = $cookieData['user_id'];
+if (isset($_POST['updateuser'])) {
     $username = $_POST['username'];
     $useremail = $_POST['useremail'];
-    $password = $_POST['password'];
-    $role = $_POST['role'];
-    $hash_pwd = wp_hash_password($password); 
-    if ($username == '') {
-        $user_name_error = "Name is required !";
-    }
-    if ($useremail == '') {
-        $user_email_error = "Email is required !";
-    }
-    if ($password == '') {
-        $pass_error = "Password is required !";
-    }
-    if ($user_name_error == '' && $user_email_error == '' && $pass_error == '') {
-        $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/tasks/add/trainee', [
-            'method' => 'POST',
-            'body' => [
-                'username' => $_POST['username'],
-                'useremail' => $_POST['useremail'],
-                'role' => $_POST['role'],
-                'password' => $hash_pwd,
-                ]
-            ]);
-            $res = wp_remote_retrieve_body($response);
-            $individualtask = json_decode($res);
-    }
-}
+    $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/users/update/trainee/' . $userid, [
+        'method' => 'PUT',
+        'body' => [
+            'username' => $username,
+            'useremail' => $useremail,
+        ]
+    ]);
+    $res = wp_remote_retrieve_body($response);
+    $details = json_decode($res);
+    var_dump($details);
 
+    if ($details) {
+        updatecookiedata($details);
+        echo "<script>alert('User Updated successfully');</script>";
+        // wp_redirect(site_url('/easymanage/trainee-acc-details/'));
+    } else {
+        echo "<script>alert('User not updated successfully');</script>";
+    }
+
+}
 ?>
 <?php $profile = get_template_directory_uri() . '/assets/memoji-modified.png'; ?>
+
 
 <section class="container-admin-dashboard outer-container">
     <div class="inner-container">
@@ -51,73 +43,33 @@ if (isset($_POST['createuser'])) {
             <?php get_header(); ?>
         </div>
         <div class="dashboard-container">
-        <div class="side-bar-container">
-            <div class="side-bar-top">
+            <div class="side-bar-container">
+                <div class="side-bar-top">
                     <h4>MAIN</h4>
-                    <a href="/easymanage/trainer-dashboard/">
+                    <a href="/easymanage/admin-dashboard/">
                         <div class="side-bar-link">
                             <div class="link">
-                                <p><i class=" side-bar-icon-left bi bi-microsoft icon-sidebar"></i> Dashboard</p>
+                                <p><i class="side-bar-icon-left bi bi-microsoft icon-sidebar"></i> Dashboard</p>
                             </div>
                             <div>
                                 <i class="bi bi-chevron-right"></i>
                             </div>
                         </div>
                     </a>
-                    <a href="/easymanage/choose-project/">
+
+                    <a href="/easymanage/create-project-manager/">
                         <div class="side-bar-link">
                             <div class="link">
-                                <p><i class="side-bar-icon-left bi bi-plus-square-fill icon-sidebar"></i> Add new tasks
-                                </p>
+                                <p><i class="side-bar-icon-left bi bi-plus-square-fill icon-sidebar"></i> Create project
+                                    manager</p>
                             </div>
                             <div>
                                 <i class="bi bi-chevron-right"></i>
                             </div>
                         </div>
                     </a>
-                    <a href="/easymanage/pending-projects/">
-                        <div class="side-bar-link">
-                            <div class="link">
-                                <p><i class="side-bar-icon-left bi bi-list-task icon-sidebar"></i> Pending tasks</p>
-                            </div>
-                            <div>
-                                <i class="bi bi-chevron-right"></i>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="/easymanage/completed-projects/">
-                        <div class="side-bar-link">
-                            <div class="link">
-                                <p><i
-                                        class="side-bar-icon-left side-bar-icon-left bi bi-clipboard2-check icon-sidebar"></i>
-                                    Completed tasks</p>
-                            </div>
-                            <div>
-                                <i class="bi bi-chevron-right"></i>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="/easymanage/my-trainees/">
-                        <div class="side-bar-link">
-                            <div class="link">
-                                <p><i class="side-bar-icon-left bi bi-people-fill icon-sidebar"></i> My trainees</p>
-                            </div>
-                            <div>
-                                <i class="bi bi-chevron-right"></i>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="/easymanage/view-all-projects/">
-                        <div class="side-bar-link">
-                            <div class="link">
-                                <p><i class="side-bar-icon-left bi bi-view-stacked"></i> View all projects</p>
-                            </div>
-                            <div>
-                                <i class="bi bi-chevron-right"></i>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="/easymanage/deleted-projects/">
+
+                    <a href="/easymanage/deactivated-trainers/">
                         <div class="side-bar-link">
                             <div class="link">
                                 <p><i class="side-bar-icon-left bi bi-trash3-fill"></i> Trash</p>
@@ -127,20 +79,6 @@ if (isset($_POST['createuser'])) {
                             </div>
                         </div>
                     </a>
-
-
-                    <div>
-                    </div>
-                    <h4>TEAMS</h4>
-                    <div class="side-bar-groups">
-                        <p><i class="bi bi-circle-fill icon-circle"></i> Group 1</p>
-                    </div>
-                    <div class="side-bar-groups">
-                        <p><i class="bi bi-circle-fill icon-circle"></i> Group 1</p>
-                    </div>
-                    <div class="side-bar-groups">
-                        <p><i class="bi bi-circle-fill icon-circle"></i> Group 1</p>
-                    </div>
                 </div>
                 <div>
                     <div class="profile">
@@ -157,9 +95,9 @@ if (isset($_POST['createuser'])) {
                             </div>
                         </div>
                     </div>
-                    <div >
+                    <div>
                         <form action="" method="post">
-                            <button class="exit" type="submit" name = "logout">
+                            <button class="exit" type="submit" name="logout">
                                 <h5><i class="bi bi-box-arrow-left"></i></h5>
                             </button>
                         </form>
@@ -181,26 +119,26 @@ if (isset($_POST['createuser'])) {
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
-                            <p class="no-of-employees profile-picture"><?php echo '+'. $totalusers; ?></p>
+                            <p class="no-of-employees profile-picture">
+                                <?php echo '+' . $totalusers; ?>
+                            </p>
                         </div>
-                        <div class="top-div-add-trainee-btn">
-                            <a class="bottom-div-submit-btn-no-icon  " href="/easymanage/add-trainee/">Add new
-                                trainee</a>
-                            <i class="bi bi-plus-square"></i>
-                        </div>
+
                     </div>
                     <div class="bottom-div flex-project-contents">
                         <div class="create-new-project flex-project-contents">
-                            <h2>Add trainee</h2>
+                            <h2>Update Account Details</h2>
                             <form action="" method="post">
-                            <input class="input text-input dark-text" type="hidden" name="role" id="" value="trainee">
-                                <input class="input text-input dark-text" type="text" name="username" id=""
-                                    placeholder="Enter name" value="<?php echo $cookieData['']; ?>">
-                                <input class="input text-input dark-text" type="email" name="useremail" id=""
-                                    placeholder="Enter email" value="<?php echo $cookieData['']; ?>">
-                                <input class="input text-input" type="password" name="password" id=""
-                                    placeholder="Enter password...">
-                                <input class="input" type="submit" value="Update info" name="createuser">
+                                <input class="input text-input dark-text" type="hidden" name="role" id="" value="">
+                                <input class="input text-input dark-text" type="text" name="username" id="" value="<?php echo $cookieData['username']; ?>">
+                                <p>
+                                    <?php //echo $user_name_error ?>
+                                </p>
+                                <input class="input text-input dark-text" type="email" name="useremail" id="" value="<?php echo $cookieData['useremail']; ?>">
+                                <p>
+                                    <?php //echo $user_email_error ?>
+                                </p>
+                                <input class="input" type="submit" value="Update Info" name="updateuser">
                             </form>
                         </div>
                     </div>

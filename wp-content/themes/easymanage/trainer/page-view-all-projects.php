@@ -189,7 +189,9 @@ if (!$cookieData) {
                     <div class="bottom-div">
                         <?php foreach ($tasklists as $tasklist) { ?>
                             <?php if ($tasklist->cohort == $cohortName) { ?>
-                                <?php // Access trainee tasks
+                                <?php 
+                                var_dump($tasklist);
+                                // Access trainee tasks
                                 $response = wp_remote_get('http://localhost/easymanage/wp-json/api/v1/tasks/' . $tasklist->id, [
                                     'method' => 'GET'
                                 ]);
@@ -260,6 +262,7 @@ if (!$cookieData) {
 
                                                                 <form action="" method="post">
                                                                     <input type="hidden" name="task_id">
+                                                                    <a href="<?php echo site_url('/easymanage/update-project-details/?project_id='. $tasklist->project_id); ?>">Update</a>
                                                                     <input type="submit" name="update_task" value="Update">
                                                                 </form>
                                                             <?php } else if ($inprogress) { ?>

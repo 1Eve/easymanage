@@ -68,6 +68,10 @@ class UserRoutes
             'methods' => 'PUT',
             'callback' => [$this, 'update_project_trainer_details'],
         ]);
+        register_rest_route('api/v1', '/users/update/trainee/(?P<user_id>\d+)', [
+            'methods' => 'PUT',
+            'callback' => [$this, 'update_project_trainee_details'],
+        ]);
     }
     public function compare_passwords($request)
     {
@@ -396,6 +400,42 @@ class UserRoutes
         );
         if (!is_wp_error($result)) {
             $results = $wpdb->get_row("SELECT id as user_id,username,useremail,cohort FROM $table_name WHERE id = $user_id" );
+            return $results;
+        } else
+            return new WP_Error("user not created", "Project Manager Not Updated!");
+    }
+
+    public function update_project_trainee_details($request)
+    {
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'projectusers';
+        $username = $request['username'];
+        $useremail = $request['useremail'];
+     
+        $user_id = $request->get_param('user_id');
+        $response_error = [
+            'error' => 'missing_fields',
+            'message' => 'Missing required fields',
+            'data' => [
+                'status' => '400'
+            ]
+        ];
+        // Check if required input fields are present
+        if ( empty($request['useremail']) || empty($request['username'])) {
+            return new \WP_REST_Response($response_error);
+        }
+        $result =  $wpdb->update(
+            $table_name,
+            [
+                'username' => $username,
+                'useremail' => $useremail,
+            ],
+            [
+                'id' => $user_id
+            ]
+        );
+        if (!is_wp_error($result)) {
+            $results = $wpdb->get_row("SELECT id as user_id,username,useremail FROM $table_name WHERE id = $user_id" );
             return $results;
         } else
             return new WP_Error("user not created", "Project Manager Not Updated!");

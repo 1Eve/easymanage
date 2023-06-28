@@ -33,6 +33,10 @@ class TaskRoutes
             'methods' => 'GET',
             'callback' => [$this, 'get_traineetasks'],
         ]);
+        register_rest_route('api/v1', '/tasks/single/(?P<project_id>\d+)', [
+            'methods' => 'GET',
+            'callback' => [$this, 'getsingleproject'],
+        ]);
         register_rest_route('api/v1', '/tasks/add/individual', [
             'methods' => 'POST',
             'callback' => [$this, 'addnew_individualtask'],
@@ -53,6 +57,10 @@ class TaskRoutes
             'methods' => 'PUT',
             'callback' => [$this, 'retore_deletedprojects'],
         ]);
+        register_rest_route('api/v1', '/tasks/updateproject/(?P<task_id>\d+)', [
+            'methods' => 'PUT',
+            'callback' => [$this, 'update_project'],
+        ]);
     }
 
     public function listtrainee_tasks($request)
@@ -61,7 +69,7 @@ class TaskRoutes
         $table_name = $wpdb->prefix . 'projectassignees';
         $table_name_users = $wpdb->prefix . 'projectusers';
         $results = $wpdb->get_results("SELECT $table_name.*, $table_name_users.id, $table_name_users.username FROM $table_name JOIN $table_name_users ON $table_name_users.id = $table_name.user_id;");
-        
+
         // Check if there are trainees
         if (is_wp_error($results)) {
             return new WP_Error('no_results_found', 'No trainees found', array('status' => 404));
@@ -71,7 +79,7 @@ class TaskRoutes
                 'status' => '200',
                 'data' => $results,
             ];
-        } else  {
+        } else {
             return [
                 'status' => '200',
                 'data' => [],
@@ -111,7 +119,6 @@ class TaskRoutes
             'status' => '200'
         ];
         return new \WP_REST_Response($responsedata);
-        
     }
 
 
@@ -285,6 +292,70 @@ class TaskRoutes
             return new WP_Error('insert_error', 'Task not created', array('status' => 500));
         }
     }
+
+    public function update_project($request)
+    {
+        global $wpdb;
+        $project_users_table = $wpdb->prefix . 'projectusers';
+        $task_table_name = $wpdb->prefix . 'tasks';
+        $project_assignees_table = $wpdb->prefix . 'projectassignees';
+        $task_id = $request->get_param('task_id');
+        $results = $wpdb->get_results("SELECT $task_table_name.*, $project_assignees_table.id, $project_assignees_table.project_id FROM $task_table_name JOIN $project_assignees_table ON $project_assignees_table.project_id = $task_table_name.user_id;");
+        $response_error = [
+            'error' => 'missing_fields',
+            'message' => 'Missing required fields',
+            'data' => [
+                'status' => '400'
+            ]
+        ];
+        // Check if required input fields are present
+        if (empty($request['trainee_id']) || empty($request['project_title']) || empty($request['project_description']) || empty($request['setTodaysDate'])) {
+            return new \WP_REST_Response($response_error);
+        }
+        $assignees = $request['trainee_id'];
+        // foreach ($assignees as $assignee) {
+        //     // Check if user ID exists
+        //     $existing_user = $wpdb->get_row($wpdb->prepare("SELECT id FROM $project_users_table WHERE id = %d", $assignee));
+        //     if (!$existing_user) {
+        //         return new WP_Error('user_not_found', 'User not found', array('status' => 404));
+        //     }
+        // }
+        $project_title = $request['project_title'];
+        $project_description = $request['project_description'];
+        $project_date = $request['setTodaysDate'];
+        $cohortName = $request['cohort'];
+
+        $result = $wpdb->update(
+            $task_table_name,
+            [
+                'project_title' => $project_title,
+                'project_description' => $project_description,
+                'project_date' => $project_date,
+            ],
+            [
+                'id' => $task_id
+            ]
+        );
+      
+        $responsedata = [
+            'message' => 'Task updated successfully',
+            'project-date' => $project_date,
+            'data' => [
+                'status' => '201'
+            ]
+
+        ];
+
+        // Check if the task was successfully inserted
+        if (!is_wp_error($result)) {
+            return new \WP_REST_Response($responsedata);
+        } else {
+            // return new \WP_REST_Response($response_error);
+
+            return new WP_Error('insert_error', 'Task not updated', array('status' => 500));
+        }
+    }
+
     public function addnew_trainees($request)
     {
         global $wpdb;
@@ -352,7 +423,28 @@ class TaskRoutes
         }
         return new \WP_REST_Response($responsedata);
     }
-    public function retore_deletedprojects ($request){
+    public function getsingleproject ($request){
+        global $wpdb;
+        $project_id = $request->get_param('project_id');
+        $table_name = $wpdb->prefix . 'projectassignees';
+        $tasks_table_name = $wpdb->prefix . 'tasks';
+        $tasks = $wpdb->get_row("SELECT *, GROUP_CONCAT(user_id) as assignees FROM $table_name JOIN $tasks_table_name ON project_id = $tasks_table_name.id WHERE project_id = $project_id GROUP BY project_id");
+    
+        // Check if tasks are found for the trainee
+        if ($tasks) {
+            return [
+                'status' => '200',
+                'data' => $tasks,
+            ];
+        } else {
+            return [
+                'status' => '200',
+                'data' => [],
+            ];
+        }
+    }
+    public function retore_deletedprojects($request)
+    {
         global $wpdb;
         $table_name = $wpdb->prefix . 'tasks';
         $task_id = $request->get_param('id');
@@ -382,4 +474,5 @@ class TaskRoutes
         ];
         return new \WP_REST_Response($responsedata);
     }
+    
 }
