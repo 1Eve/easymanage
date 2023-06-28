@@ -9,77 +9,32 @@
 <?php
 $totalusers = getDisplayedUserCount();
 $cookieData = returncookie_data();
-var_dump($cookieData);
-// Get Acc Details
-$response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/users', [
-    'method' => 'GET',
-]);
-$res = wp_remote_retrieve_body($response);
-$details = json_decode($res);
-$accdetails = array_filter($details, function ($role) 
-{ return $role->role == 'projectmanager';
-});
-// Access usernames for trainees
-// $projectManager = [];
-// foreach ($accdetails as $user) {
-//     if ($user->role === 'projectmanager') {
-//         $projectManager = [
-//             'name' => $user->username,
-//             'email' => $user->useremail,
-//         ];
-//         var_dump($projectManager);
-//     }
-// }
-// Access project manager info
-// foreach ($projectManager as $info) {
-//     // $name = $info->name;
-//     // $email = $info->email;
-    
-//     // echo "$info";
-// }
-// var_dump($projectManager);
-
-$user_name_error = "";
-$user_email_error = "";
-$pass_error = "";
-
-if (isset($_POST['createuser'])) {
+$userid = $cookieData['user_id'];
+if (isset($_POST['updateuser'])) {
     $username = $_POST['username'];
     $useremail = $_POST['useremail'];
-    $password = $_POST['password'];
-
-    if ($username == '') {
-        $user_name_error = "Name is required !";
-    }
-    if ($useremail == '') {
-        $user_email_error = "Email is required !";
-    }
-    if ($password == '') {
-        $pass_error = "Password is required !";
-    }
-    if ($user_name_error == '' && $user_email_error == '' && $pass_error == '') {
-
-        $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/users/projectmanager', [
-            'method' => 'POST',
-            'body' => [
-                'role' => $_POST['role'],
-                'username' => $_POST['username'],
-                'useremail' => $_POST['useremail'],
-                'password' => $_POST['password']
-            ]
-        ]);
-        $res = wp_remote_retrieve_body($response);
-        $userinfo = json_decode($res);
-        var_dump($userinfo);
-        if ($userinfo) {
-            echo "<script>alert('User created successfully');</script>";
-        } else {
-            echo "<script>alert('User not created successfully');</script>";
-        }
+    $cohortName = $_POST['cohort'];
+    $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/users/update/projectmanager/' . $userid, [
+        'method' => 'PUT',
+        'body' => [
+            'username' => $username,
+            'useremail' => $useremail,
+            'cohort' => $cohortName
+        ]
+    ]);
+    $res = wp_remote_retrieve_body($response);
+    $details = json_decode($res);
+    $accdetails;
+    var_dump($details);
+    if ($details) {
+        updatecookiedata($details);
+        echo "<script>alert('User Updated successfully');</script>";
+        wp_redirect(site_url('/easymanage/project-manager-acc-details/'));
+    } else {
+        echo "<script>alert('User not updated successfully');</script>";
     }
 
 }
-
 ?>
 <?php $profile = get_template_directory_uri() . '/assets/memoji-modified.png'; ?>
 
@@ -174,26 +129,22 @@ if (isset($_POST['createuser'])) {
                     </div>
                     <div class="bottom-div flex-project-contents">
                         <div class="create-new-project flex-project-contents">
-                            <h2>Add Project Manager</h2>
+                            <h2>Update Account Details</h2>
                             <form action="" method="post">
-                                <input class="input text-input dark-text" type="hidden" name="role" id=""
-                                    value="">
-                                <input class="input text-input dark-text" type="text" name="username" id=""
-                                    placeholder="Enter name" value="<?php echo $cookieData['username']; ?>">
+                                <input class="input text-input dark-text" type="hidden" name="role" id="" value="">
+                                <input class="input text-input dark-text" type="text" name="username" id="" value="<?php echo $cookieData['username']; ?>">
                                 <p>
                                     <?php echo $user_name_error ?>
                                 </p>
-                                <input class="input text-input dark-text" type="email" name="useremail" id=""
-                                    placeholder="Enter email"value="<?php echo $cookieData['useremail']; ?>" >
+                                <input class="input text-input dark-text" type="email" name="useremail" id="" value="<?php echo $cookieData['useremail']; ?>">
                                 <p>
                                     <?php echo $user_email_error ?>
                                 </p>
-                                <input class="input text-input" type="password" name="password" id=""
-                                    placeholder="........">
+                                <input class="input text-input" type="text" name="cohort" id="" value="<?php echo $cookieData['cohort']; ?>">
                                 <p>
                                     <?php echo $pass_error ?>
                                 </p>
-                                <input class="input" type="submit" value="Update Info" name="createuser">
+                                <input class="input" type="submit" value="Update Info" name="updateuser">
                             </form>
                         </div>
                     </div>

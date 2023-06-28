@@ -54,6 +54,7 @@ function compare_passwords()
             ]);
             $res = wp_remote_retrieve_body($response);
             $userinfo = json_decode($res);
+            $userinfo = $userinfo->data;
             var_dump($userinfo);
             if (isset($userinfo->user_id)) {
                 $cookieName = 'userinfo';
@@ -108,6 +109,31 @@ function returncookie_data()
     } else {
         return false;
     }
+}
+
+function updatecookiedata($userinfo)
+{ $cookieName = 'userinfo';
+    $stringuserinfo = json_encode($userinfo);
+    $cookieexpiry = time() + (86400 * 1);
+    setcookie($cookieName, $stringuserinfo, $cookieexpiry, "/easymanage/");
+    
+    // if (isset($_COOKIE['userinfo'])) {
+    //     $cookieData = returncookie_data();
+    //     $user_id = $cookieData['user_id'];
+    //     $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/users/update/projectmanager/' . $user_id, [
+    //         'method' => 'PUT',
+    //         'body' => [
+    //             'useremail' => $_POST['useremail'],
+    //             'password' => $_POST['password']
+    //         ]
+    //     ]);
+    //     $res = wp_remote_retrieve_body($response);
+    //     $userinfo = json_decode($res);
+
+    //    // $userEmail = $cookieData['useremail'];
+    //     // $userName = $cookieData['useremail'];
+    //     // $cohort = $cookieData['useremail'];
+    // }
 }
 
 // tally number of displayed users

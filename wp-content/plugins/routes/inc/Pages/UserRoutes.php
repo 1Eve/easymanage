@@ -60,6 +60,10 @@ class UserRoutes
             'methods' => 'GET',
             'callback' => [$this, 'getall_trainees'],
         ]);
+        register_rest_route('api/v1', '/users/update/projectmanager/(?P<user_id>\d+)', [
+            'methods' => 'PUT',
+            'callback' => [$this, 'update_project_manager_account_details'],
+        ]);
     }
     public function compare_passwords($request)
     {
@@ -88,13 +92,16 @@ class UserRoutes
             ];
         }
         $responsedata = [
-            'user_id' => $result->id,
-            'role' => $result->role,
-            'username' =>$result->username,
-            'useremail' =>$result->useremail,
-            'cohort' =>$result->cohort,
+
             'message' => 'User Logged in successfully',
-            'data' => '200'
+            'status' => '200',
+            'data' => [
+                'user_id' => $result->id,
+                'role' => $result->role,
+                'username' => $result->username,
+                'useremail' => $result->useremail,
+                'cohort' => $result->cohort,
+            ]
         ];
         return new \WP_REST_Response($responsedata);
     }
@@ -139,7 +146,7 @@ class UserRoutes
                 'status' => '200',
                 'data' => $result,
             ];
-        } else  {
+        } else {
             return [
                 'status' => '200',
                 'data' => [],
@@ -309,18 +316,47 @@ class UserRoutes
                 'status' => '200',
                 'data' => $totaltrainees,
             ];
-        } else  {
+        } else {
             return [
                 'status' => '200',
                 'data' => [],
             ];
         }
-
-
-        // if ($totaltrainees) {
-        //     return new \WP_REST_Response($totaltrainees, 200);
-        // } else {
-        //     return new WP_Error('no_trainees_found', 'No trainees found', array('status' => 404));
-        // }
+    }
+    public function update_project_manager_account_details($request)
+    {
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'projectusers';
+        $username = $request['username'];
+        $useremail = $request['useremail'];
+        $cohortName = $request['cohort'];
+        $user_id = $request->get_param('user_id');
+        $response_error = [
+            'error' => 'missing_fields',
+            'message' => 'Missing required fields',
+            'data' => [
+                'status' => '400'
+            ]
+        ];
+        // Check if required input fields are present
+        if (empty($request['cohort']) || empty($request['useremail']) || empty($request['username'])) {
+            return new \WP_REST_Response($response_error);
+        }
+        $result =  $wpdb->update(
+            $table_name,
+            [
+                'username' => $username,
+                'useremail' => $useremail,
+                'cohort' => $cohortName,
+            ],
+            [
+                'id' => $user_id
+            ]
+        );
+        if (!is_wp_error($result)) {
+            $results = $wpdb->get_row("SELECT id as user_id,username,useremail,cohort FROM $table_name WHERE id = $user_id" );
+            return $results;
+        } else
+            return new WP_Error("user not created", "Project Manager Not Updated!");
     }
 }
