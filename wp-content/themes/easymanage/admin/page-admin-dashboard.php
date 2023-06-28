@@ -14,6 +14,7 @@ $response = wp_remote_get('http://localhost/easymanage/wp-json/api/v1/users/acti
 ]);
 $res = wp_remote_retrieve_body($response);
 $activeusers = json_decode($res);
+$activeusers = $activeusers->data;
 
 // activeusers tally does not include the admin, add 1 to count the admin. Displayed figure is 3 users, subtract 3 to get the actual displayed figure
 if (isset($_POST['deactivate'])) {
@@ -107,10 +108,10 @@ if (isset($_POST['deactivate'])) {
             <div class="main-contents-container">
                 <div class="inner-main-contents-container">
                     <div class="top-div">
-                        <div>
-                            <form action="">
+                    <div>
+                            <form action="<?php echo site_url("/admin-search") ?>" method="get">
                                 <div class="search">
-                                    <input class="search-input" type="text" placeholder="Searching for someone?">
+                                    <input class="search-input" name="search" type="text" placeholder="Searching for someone?">
                                     <button type="submit"><i class="bi bi-search"></i></button>
                                 </div>
                             </form>

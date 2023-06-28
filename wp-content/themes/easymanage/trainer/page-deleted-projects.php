@@ -7,6 +7,18 @@
 
 ?>
 <?php
+//search for users
+
+if (isset($_GET['search'])) {
+    $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/users/search/' . $_GET['search'], [
+        'method' => 'GET',
+    ]);
+    $res = wp_remote_retrieve_body($response);
+    $usernames = json_decode($res);
+    var_dump($_GET['search']);
+}
+
+
 $totalusers = getDisplayedUserCount();
 $cookieData = returncookie_data();
 // Access individual data elements
@@ -131,16 +143,7 @@ if (isset($_POST['restoreproject'])) {
 
                     <div>
                     </div>
-                    <h4>TEAMS</h4>
-                    <div class="side-bar-groups">
-                        <p><i class="bi bi-circle-fill icon-circle"></i> Group 1</p>
-                    </div>
-                    <div class="side-bar-groups">
-                        <p><i class="bi bi-circle-fill icon-circle"></i> Group 1</p>
-                    </div>
-                    <div class="side-bar-groups">
-                        <p><i class="bi bi-circle-fill icon-circle"></i> Group 1</p>
-                    </div>
+                    
                 </div>
                 <div>
                     <div class="profile">
@@ -169,10 +172,10 @@ if (isset($_POST['restoreproject'])) {
             <div class="main-contents-container">
                 <div class="inner-main-contents-container">
                     <div class="top-div">
-                        <div>
-                            <form action="">
+                    <div>
+                            <form action="<?php echo site_url("/search") ?>" method="get">
                                 <div class="search">
-                                    <input class="search-input" type="text" placeholder="Searching for someone?">
+                                    <input class="search-input" name="search" type="text" placeholder="Searching for someone?">
                                     <button type="submit"><i class="bi bi-search"></i></button>
                                 </div>
                             </form>
@@ -208,7 +211,7 @@ if (isset($_POST['restoreproject'])) {
                                 $assigned = count($traineetasks);
                                 ?>
                                 <?php foreach ($traineetasks as $traineetask) { 
-                                    var_dump($traineetask->id);?>
+                                    ?>
                                     <?php if ($deletedtasks) { ?>
                                         <div class="style-table-profile-column">
                                             <div class="flex">

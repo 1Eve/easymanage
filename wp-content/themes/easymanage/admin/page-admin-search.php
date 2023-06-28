@@ -1,11 +1,12 @@
 <?php
 
 /*
- *  Template Name:Choose Project Template
+ *  Template Name:admin search page Template
  *
  */
 
 ?>
+
 <?php
 //search for users
 
@@ -15,14 +16,40 @@ if (isset($_GET['search'])) {
     ]);
     $res = wp_remote_retrieve_body($response);
     $usernames = json_decode($res);
-    var_dump($_GET['search']);
+    // var_dump($_GET['search']);
 }
 
 
 $totalusers = getDisplayedUserCount();
-$table_name = $wpdb->prefix . 'projectusers';
-$totalusers = ($wpdb->get_var("SELECT COUNT(*) FROM $table_name")- '3'); 
+$cookieData = returncookie_data();
 
+    $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/users/search?username=' . $_GET['search'], [
+        'method' => 'GET',
+    ]);
+    $res = wp_remote_retrieve_body($response);
+    $usernames = json_decode($res);
+
+// var_dump($usernames);
+// $usernames = $usernames->data;
+
+if (!$cookieData) {
+    $errorMessage = json_last_error_msg();
+    echo "JSON decoding failed with error: $errorMessage";
+} else {
+
+    // Access individual data elements
+    $Id = $cookieData['user_id'];
+    $Useremail = $cookieData['useremail'];
+    $Username = $cookieData['username'];
+
+    // Get all trainees
+    $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/users/trainees', [
+        'method' => 'GET',
+    ]);
+    $res = wp_remote_retrieve_body($response);
+    $traineelists = json_decode($res);
+    $traineelists = $traineelists->data;
+}
 ?>
 <?php $profile = get_template_directory_uri() . '/assets/memoji-modified.png'; ?>
 
@@ -32,73 +59,33 @@ $totalusers = ($wpdb->get_var("SELECT COUNT(*) FROM $table_name")- '3');
             <?php get_header(); ?>
         </div>
         <div class="dashboard-container">
-            <div class="side-bar-container">
+        <div class="side-bar-container">
                 <div class="side-bar-top">
                     <h4>MAIN</h4>
-                    <a href="/easymanage/trainer-dashboard/">
+                    <a href="/easymanage/admin-dashboard/">
                         <div class="side-bar-link">
                             <div class="link">
-                                <p><i class=" side-bar-icon-left bi bi-microsoft icon-sidebar"></i> Dashboard</p>
+                                <p><i class="side-bar-icon-left bi bi-microsoft icon-sidebar"></i> Dashboard</p>
                             </div>
                             <div>
                                 <i class="bi bi-chevron-right"></i>
                             </div>
                         </div>
                     </a>
-                    <a href="/easymanage/choose-project/">
+
+                    <a href="/easymanage/create-project-manager/">
                         <div class="side-bar-link">
                             <div class="link">
-                                <p><i class="side-bar-icon-left bi bi-plus-square-fill icon-sidebar"></i> Add new tasks
-                                </p>
+                                <p><i class="side-bar-icon-left bi bi-plus-square-fill icon-sidebar"></i> Create project
+                                    manager</p>
                             </div>
                             <div>
                                 <i class="bi bi-chevron-right"></i>
                             </div>
                         </div>
                     </a>
-                    <a href="/easymanage/pending-projects/">
-                        <div class="side-bar-link">
-                            <div class="link">
-                                <p><i class="side-bar-icon-left bi bi-list-task icon-sidebar"></i> Pending tasks</p>
-                            </div>
-                            <div>
-                                <i class="bi bi-chevron-right"></i>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="/easymanage/completed-projects/">
-                        <div class="side-bar-link">
-                            <div class="link">
-                                <p><i
-                                        class="side-bar-icon-left side-bar-icon-left bi bi-clipboard2-check icon-sidebar"></i>
-                                    Completed tasks</p>
-                            </div>
-                            <div>
-                                <i class="bi bi-chevron-right"></i>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="/easymanage/my-trainees/">
-                        <div class="side-bar-link">
-                            <div class="link">
-                                <p><i class="side-bar-icon-left bi bi-people-fill icon-sidebar"></i> My trainees</p>
-                            </div>
-                            <div>
-                                <i class="bi bi-chevron-right"></i>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="/easymanage/view-all-projects/">
-                        <div class="side-bar-link">
-                            <div class="link">
-                                <p><i class="side-bar-icon-left bi bi-view-stacked"></i> View all projects</p>
-                            </div>
-                            <div>
-                                <i class="bi bi-chevron-right"></i>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="/easymanage/deleted-projects/">
+
+                    <a href="/easymanage/deactivated-trainers/">
                         <div class="side-bar-link">
                             <div class="link">
                                 <p><i class="side-bar-icon-left bi bi-trash3-fill"></i> Trash</p>
@@ -108,11 +95,6 @@ $totalusers = ($wpdb->get_var("SELECT COUNT(*) FROM $table_name")- '3');
                             </div>
                         </div>
                     </a>
-
-
-                    <div>
-                    </div>
-                    
                 </div>
                 <div>
                     <div class="profile">
@@ -129,9 +111,9 @@ $totalusers = ($wpdb->get_var("SELECT COUNT(*) FROM $table_name")- '3');
                             </div>
                         </div>
                     </div>
-                    <div >
+                    <div>
                         <form action="" method="post">
-                            <button class="exit" type="submit" name = "logout">
+                            <button class="exit" type="submit" name="logout">
                                 <h5><i class="bi bi-box-arrow-left"></i></h5>
                             </button>
                         </form>
@@ -142,7 +124,7 @@ $totalusers = ($wpdb->get_var("SELECT COUNT(*) FROM $table_name")- '3');
                 <div class="inner-main-contents-container">
                     <div class="top-div">
                     <div>
-                            <form action="<?php echo site_url("/search") ?>" method="get">
+                            <form action="<?php echo site_url("/admin-search") ?>" method="get">
                                 <div class="search">
                                     <input class="search-input" name="search" type="text" placeholder="Searching for someone?">
                                     <button type="submit"><i class="bi bi-search"></i></button>
@@ -153,7 +135,9 @@ $totalusers = ($wpdb->get_var("SELECT COUNT(*) FROM $table_name")- '3');
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
-                            <p class="no-of-employees profile-picture"><?php echo '+'. $totalusers; ?></p>
+                            <p class="no-of-employees profile-picture">
+                                <?php echo '+' . $totalusers; ?>
+                            </p>
                         </div>
                         <div class="top-div-add-trainee-btn">
                             <a class="bottom-div-submit-btn-no-icon  " href="/easymanage/add-trainee/">Add new
@@ -161,30 +145,36 @@ $totalusers = ($wpdb->get_var("SELECT COUNT(*) FROM $table_name")- '3');
                             <i class="bi bi-plus-square"></i>
                         </div>
                     </div>
-                    <div class="bottom-div flex-project-contents">
-                        <p><span>Hey there, </span>getting ready to create a new project?</p>
-                        <p>Choose one of the options</p>
-                        <div class="bottom-div-submit-btn-no-icon">
-                            <div class="flex flex-buttons">
-                                <a class="bottom-div-submit-btn-no-icon choose-project-individual-btn"
-                                    href="/easymanage/add-individual-project/">Individual</a>
-                                <div class="choose-project-group-btn">
-                                    <a class="bottom-div-submit-btn-no-icon  " href="/easymanage/group-project/">Group
-                                    </a>
-                                    <i id="threedots" class="bi bi-three-dots-vertical"></i>
+
+                    <div class="bottom-div">
+                        <div class="admin-dashboard-bottom-div">
+                            <div class="deactivate-members-container">
+                                <div class="styled-table-employees">
+                                    <?php foreach ($usernames as $username) { ?>
+
+                                        <div class="style-table-profile">
+                                            <div>
+                                                <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
+                                            </div>
+                                            <div class="shared-profile-container">
+                                                <div>
+                                                    <p class="name"><?php echo $username->role; ?></p>
+                                                    <p><?php echo $username->username; ?></p>
+                                                    <p><?php echo $username->useremail; ?></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php } ?>
                                 </div>
                             </div>
-                            <a id="add-group-btn" class=" add-group-btn " href="/easymanage/add-group/">Add new
-                                group</a>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </div> 
+    </div>
+    </div>
+    </div>
     </div>
 </section>
-<script>
-
-
-</script>
 <?php get_footer(); ?>

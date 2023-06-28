@@ -72,6 +72,10 @@ class UserRoutes
             'methods' => 'PUT',
             'callback' => [$this, 'update_project_trainee_details'],
         ]);
+        register_rest_route('api/v1', '/users/search/', [
+            'methods' => 'GET',
+            'callback' => [$this, 'searchusers'],
+        ]);
     }
     public function compare_passwords($request)
     {
@@ -160,14 +164,6 @@ class UserRoutes
                 'data' => [],
             ];
         }
-
-        // if ($result) {
-        //     return $result;
-        // } else {
-        //     return new WP_Error('users_not_found', 'Active users not found', array('status' => 404));
-        // }
-
-
     }
     public function deletesingle_user($request)
     {
@@ -337,7 +333,7 @@ class UserRoutes
         $table_name = $wpdb->prefix . 'projectusers';
         $username = $request['username'];
         $useremail = $request['useremail'];
-   
+
         $user_id = $request->get_param('user_id');
         $response_error = [
             'error' => 'missing_fields',
@@ -361,7 +357,7 @@ class UserRoutes
             ]
         );
         if (!is_wp_error($result)) {
-            $results = $wpdb->get_row("SELECT id as user_id,username,useremail FROM $table_name WHERE id = $user_id" );
+            $results = $wpdb->get_row("SELECT id as user_id,username,useremail FROM $table_name WHERE id = $user_id");
             return $results;
         } else
             return new WP_Error("user not created", "Project Manager Not Updated!");
@@ -399,7 +395,7 @@ class UserRoutes
             ]
         );
         if (!is_wp_error($result)) {
-            $results = $wpdb->get_row("SELECT id as user_id,username,useremail,cohort FROM $table_name WHERE id = $user_id" );
+            $results = $wpdb->get_row("SELECT id as user_id,username,useremail,cohort FROM $table_name WHERE id = $user_id");
             return $results;
         } else
             return new WP_Error("user not created", "Project Manager Not Updated!");
@@ -411,7 +407,7 @@ class UserRoutes
         $table_name = $wpdb->prefix . 'projectusers';
         $username = $request['username'];
         $useremail = $request['useremail'];
-     
+
         $user_id = $request->get_param('user_id');
         $response_error = [
             'error' => 'missing_fields',
@@ -421,7 +417,7 @@ class UserRoutes
             ]
         ];
         // Check if required input fields are present
-        if ( empty($request['useremail']) || empty($request['username'])) {
+        if (empty($request['useremail']) || empty($request['username'])) {
             return new \WP_REST_Response($response_error);
         }
         $result =  $wpdb->update(
@@ -435,9 +431,38 @@ class UserRoutes
             ]
         );
         if (!is_wp_error($result)) {
-            $results = $wpdb->get_row("SELECT id as user_id,username,useremail FROM $table_name WHERE id = $user_id" );
+            $results = $wpdb->get_row("SELECT id as user_id,username,useremail FROM $table_name WHERE id = $user_id");
             return $results;
         } else
             return new WP_Error("user not created", "Project Manager Not Updated!");
+    }
+
+
+    public function searchusers($request)
+    {
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'projectusers';
+        $string = $request->get_param('username');
+        $results = $wpdb->get_results("SELECT * from $table_name WHERE username LIKE '%$string%'");
+        return $results;
+        // Check if required input fields are present
+        if (empty($request[$results])) {
+            return new WP_Error('Search field', 'Enter a name to search', array('status' => 400));
+        }
+
+        $response = [
+            'message' => 'user found',
+            'data' => $results,
+            'status' => [
+                'status' => '200'
+            ]
+        ];
+
+
+        if (!is_wp_error($results)) {
+            return new \WP_REST_Response($response);
+        } else {
+            return new WP_Error("user", "No users found with that name");
+        }
     }
 }

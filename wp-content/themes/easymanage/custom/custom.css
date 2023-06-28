@@ -10,10 +10,12 @@ p {
     display: flex;
     justify-content: space-between;
 }
-.grid{
+
+.grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit,minmax (200px 1fr));
+    grid-template-columns: repeat(auto-fit, minmax (200px 1fr));
 }
+
 .justify-content {
     display: flex;
     justify-content: center;
@@ -146,6 +148,7 @@ p {
     border-radius: 5px;
     border: 1px solid #8E8D90;
 }
+
 /* .select{
     padding: 10px;
 } */
@@ -153,9 +156,11 @@ p {
 .text-input {
     padding-left: 10px;
 }
-.showusers{
+
+.showusers {
     border: none;
 }
+
 form input::placeholder {
     color: rgba(0, 0, 0, 0.233);
 }
@@ -678,55 +683,70 @@ form {
 /* restore deleted projects */
 
 /* Trainee my project revamp */
-.my-project{
+.my-project {
     display: grid;
     grid-template-columns: 100px 1fr;
 }
-.project-description{
+
+.project-description {
     display: grid;
     grid-template-columns: 1fr 150px;
 }
-.project-name{
+
+.project-name {
     font-weight: 600;
 }
-.launch-btn{
+
+.launch-btn {
     border: none;
     color: #5D1B18 !important;
     background-color: #F9D0CE !important;
     padding: 5px 10px;
     border-radius: 5px;
 }
-.project-in-progress-icon{
+
+.project-in-progress-icon {
     border: none;
     color: #08C7E0 !important;
-    background-color:  #08C7E01F !important;
+    background-color: #08C7E01F !important;
     padding: 5px 10px;
     border-radius: 5px;
 }
-.project-in-progress-icon:hover, .launch-btn:hover{
+
+.project-in-progress-icon:hover,
+.launch-btn:hover {
     cursor: pointer;
 }
+
 /* Trainer Dashboard revamp */
-.sent-icon{
-    color: #5D1B18 ;
-    background-color: #F9D0CE ;
+.sent-icon {
+    color: #5D1B18;
+    background-color: #F9D0CE;
     border-radius: 30px;
     border: none;
     padding: 5px 10px;
     font-weight: 500;
     font-size: 14px;
 }
-.form-group-project{
-    
+
+.form-group-project {
+
     display: grid;
     grid-template-columns: 700px 1fr;
 }
-.form-group-project .right, .form-group-project .left{
+
+.form-group-project .right,
+.form-group-project .left {
     display: flex;
     flex-direction: column;
 }
-.form-group-project .left>div{
+
+.form-group-project .left>div {
     display: flex;
     gap: 10px;
     overflow-y: auto;
+}
+/* Search page */
+.searched-users-container{
+    display: ;
 }

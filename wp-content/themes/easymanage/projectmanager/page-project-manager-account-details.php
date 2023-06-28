@@ -7,6 +7,18 @@
 
 ?>
 <?php
+//search for users
+
+if (isset($_GET['search'])) {
+    $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/users/search/' . $_GET['search'], [
+        'method' => 'GET',
+    ]);
+    $res = wp_remote_retrieve_body($response);
+    $usernames = json_decode($res);
+    var_dump($_GET['search']);
+}
+
+
 $totalusers = getDisplayedUserCount();
 $cookieData = returncookie_data();
 $userid = $cookieData['user_id'];
@@ -107,10 +119,10 @@ if (isset($_POST['updateuser'])) {
             <div class="main-contents-container">
                 <div class="inner-main-contents-container">
                     <div class="top-div">
-                        <div>
-                            <form action="">
+                    <div>
+                            <form action="<?php echo site_url("/pm-search") ?>" method="get">
                                 <div class="search">
-                                    <input class="search-input" type="text" placeholder="Searching for someone?">
+                                    <input class="search-input" name="search" type="text" placeholder="Searching for someone?">
                                     <button type="submit"><i class="bi bi-search"></i></button>
                                 </div>
                             </form>

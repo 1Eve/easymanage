@@ -7,6 +7,18 @@
 
 ?>
 <?php
+//search for users
+
+if (isset($_GET['search'])) {
+    $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/users/search/' . $_GET['search'], [
+        'method' => 'GET',
+    ]);
+    $res = wp_remote_retrieve_body($response);
+    $usernames = json_decode($res);
+    var_dump($_GET['search']);
+}
+
+
 $totalusers = getDisplayedUserCount();
 
 $cookieData = returncookie_data();
@@ -126,16 +138,7 @@ if (!$cookieData) {
 
                     <div>
                     </div>
-                    <h4>TEAMS</h4>
-                    <div class="side-bar-groups">
-                        <p><i class="bi bi-circle-fill icon-circle"></i> Group 1</p>
-                    </div>
-                    <div class="side-bar-groups">
-                        <p><i class="bi bi-circle-fill icon-circle"></i> Group 1</p>
-                    </div>
-                    <div class="side-bar-groups">
-                        <p><i class="bi bi-circle-fill icon-circle"></i> Group 1</p>
-                    </div>
+
                 </div>
                 <div>
                     <div class="profile">
@@ -165,9 +168,9 @@ if (!$cookieData) {
                 <div class="inner-main-contents-container">
                     <div class="top-div">
                         <div>
-                            <form action="">
+                            <form action="<?php echo site_url("/search") ?>" method="get">
                                 <div class="search">
-                                    <input class="search-input" type="text" placeholder="Searching for someone?">
+                                    <input class="search-input" name="search" type="text" placeholder="Searching for someone?">
                                     <button type="submit"><i class="bi bi-search"></i></button>
                                 </div>
                             </form>
@@ -189,8 +192,8 @@ if (!$cookieData) {
                     <div class="bottom-div">
                         <?php foreach ($tasklists as $tasklist) { ?>
                             <?php if ($tasklist->cohort == $cohortName) { ?>
-                                <?php 
-                                var_dump($tasklist);
+                                <?php
+
                                 // Access trainee tasks
                                 $response = wp_remote_get('http://localhost/easymanage/wp-json/api/v1/tasks/' . $tasklist->id, [
                                     'method' => 'GET'
@@ -198,7 +201,7 @@ if (!$cookieData) {
                                 $res = wp_remote_retrieve_body($response);
                                 $traineetasks = json_decode($res);
                                 $traineetasks = $traineetasks->data;
-                              
+
                                 $complete = array_filter($traineetasks, function ($task) {
                                     return $task->status == 3;
                                 });
@@ -262,7 +265,7 @@ if (!$cookieData) {
 
                                                                 <form action="" method="post">
                                                                     <input type="hidden" name="task_id">
-                                                                    <a href="<?php echo site_url('/easymanage/update-project-details/?project_id='. $tasklist->project_id); ?>">Update</a>
+                                                                    <a href="<?php echo site_url('/easymanage/update-project-details/?project_id=' . $tasklist->project_id); ?>">Update</a>
                                                                     <input type="submit" name="update_task" value="Update">
                                                                 </form>
                                                             <?php } else if ($inprogress) { ?>
@@ -279,7 +282,7 @@ if (!$cookieData) {
                                 </div>
                             <?php } ?>
                         <?php } ?>
-                        
+
                     </div>
                 </div>
             </div>

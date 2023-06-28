@@ -1,17 +1,13 @@
 <?php
 
 /*
- *  Template Name:Trainer Dashboard Template
+ *  Template Name:search page Template
  *
  */
 
 ?>
 
 <?php
-$totalusers = getDisplayedUserCount();
-
-$cookieData = returncookie_data();
-
 //search for users
 
 if (isset($_GET['search'])) {
@@ -22,6 +18,17 @@ if (isset($_GET['search'])) {
     $usernames = json_decode($res);
     var_dump($_GET['search']);
 }
+
+
+$totalusers = getDisplayedUserCount();
+$cookieData = returncookie_data();
+$response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/users/search?username=' . $_GET['search'], [
+    'method' => 'GET',
+]);
+$res = wp_remote_retrieve_body($response);
+$usernames = json_decode($res);
+var_dump($usernames);
+// $usernames = $usernames->data;
 
 if (!$cookieData) {
     $errorMessage = json_last_error_msg();
@@ -158,7 +165,7 @@ if (!$cookieData) {
             <div class="main-contents-container">
                 <div class="inner-main-contents-container">
                     <div class="top-div">
-                        <div>
+                    <div>
                             <form action="<?php echo site_url("/search") ?>" method="get">
                                 <div class="search">
                                     <input class="search-input" name="search" type="text" placeholder="Searching for someone?">
@@ -180,116 +187,54 @@ if (!$cookieData) {
                             <i class="bi bi-plus-square"></i>
                         </div>
                     </div>
-                    <div class="bottom-div">
-                        <div class="styled-table">
-                        <?php  $response = wp_remote_get('http://localhost/easymanage/wp-json/api/v1/tasks/', [
-                                    'method' => 'GET'
-                                ]);
-                                $res = wp_remote_retrieve_body($response);
-                                $totaltraineetasks = json_decode($res); ?>
-                            <?php foreach ($traineelists as $trainee) { ?>
-                                <?php
-                                
-                                $response = wp_remote_get('http://localhost/easymanage/wp-json/api/v1/tasks/' . $trainee->id, [
-                                    'method' => 'GET'
-                                ]);
-                                $res = wp_remote_retrieve_body($response);
-                                $traineetasks = json_decode($res);
-                                $traineetasks = $traineetasks->data;
-                               
-                                // Access trainee tasks
-                                $trainee_id = $trainee->id;
-                               
-                                if (is_array($traineetasks)) {
-                                    $complete = array_filter($traineetasks, function ($task) {
-                                        return $task->status == '3';
-                                    });
-                                    $notactive = array_filter($traineetasks, function ($task) {
-                                        return $task->status == '0';
-                                    });
-                                    $inprogress = array_filter($traineetasks, function ($task) {
-                                        return $task->status == '1';
-                                    });
-                                    $assigned = count($traineetasks);
-                                }
 
-                                ?>
-                                <div class="style-table-profile-column">
-                                    <div class="img">
-                                        <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
-                                    </div>
-                                    <div class="flex status-complete">
+                    <div class="bottom-div">
+                        <div class="admin-dashboard-bottom-div">
+                            <div class="deactivate-members-container">
+                                <div class="styled-table-employees">
+                                    <?php foreach ($usernames as $username) { ?>
+
+                                        <div class="style-table-profile">
+                                            <div>
+                                                <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
+                                            </div>
+                                            <div class="shared-profile-container">
+                                                <div>
+                                                    <p class="name"><?php echo $username->role; ?></p>
+                                                    <p><?php echo $username->username; ?></p>
+                                                    <p><?php echo $username->useremail; ?></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php } ?>
+
+                                    <div class="style-table-profile">
+                                        <div>
+                                            <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
+                                        </div>
                                         <div class="shared-profile-container">
                                             <div>
                                                 <p>Wordpress</p>
-                                                <p class="name">
-                                                    <?php echo $trainee->username; ?>
-                                                </p>
+                                                <p class="name">Usher Njari</p>
                                             </div>
-                                            <div class="bottom-div-submit-form">
-                                                <?php if (count($inprogress) > 0 && count($complete) == 0) { ?>
-                                                    <button class="bottom-div-submit-btn buttons in-progress-btn">
-                                                        <p>In progress <span>(<?php echo count($inprogress) ?>)</span></p>
-                                                        <i class="bi bi-check-circle-fill"></i>
-                                                    </button>
-                                                <?php } elseif ($assigned == 0) { ?>
-                                                    <button class="bottom-div-submit-btn buttons free-btn">
-                                                        <p>free</p>
-                                                    </button>
-                                                <?php } elseif ($assigned == 1 && count($complete) == 0 && count($inprogress) == 0) { ?>
-                                                    <button class="sent-icon">
-                                                        <p>1 of 1 sent</p>
-                                                    </button>
-                                                <?php } elseif (count($complete) > 0 && count($inprogress) == 0) { ?>
-                                                    <button class="bottom-div-submit-btn buttons complete-btn">
-                                                        <p>Complete <span>(<?php echo count($complete) ?>)</span></p>
-                                                        <i class="bi bi-check-circle-fill"></i>
-                                                    </button>
-                                                <?php } elseif (count($complete) > 0 && count($inprogress) > 0) { ?>
-                                                    <button class="bottom-div-submit-btn buttons in-progress-btn">
-                                                        <p>In progress <span>(<?php echo count($inprogress) ?>)</span></p>
-                                                        <i class="bi bi-check-circle-fill"></i>
-                                                    </button>
-                                                    <button class="bottom-div-submit-btn buttons complete-btn">
-                                                        <p>Complete <span>(<?php echo count($complete) ?>)</span></p>
-                                                        <i class="bi bi-check-circle-fill"></i>
-                                                    </button>
-                                                <?php } ?>
-                                            </div>
-                                        </div>
-                                        <div class="assigned-tasks">
-                                            <div>
-                                                <p>Assigned tasks</p>
-                                            </div>
-                                            <div class="bottom-div-submit-form">
-                                                <p class="tasks">(<?php echo $assigned; ?>)</p>
-                                            </div>
-                                        </div>
 
-                                        <div class="shared-profile-container">
-                                            <?php if ($assigned < 3) { ?>
-                                                <button class="bottom-div-submit-btn deactivate-btn">
-                                                    <a href="/easymanage/choose-project/">
-                                                        <p>Add New</p>
-                                                        <i class="bi bi-plus-square-fill"></i>
-                                                    </a>
-                                                </button>
-                                            <?php } ?>
                                         </div>
-                                    </div>
-                                    <div class="shared-profile-container">
-
                                     </div>
                                 </div>
-
-                            <?php }
-                            ?>
+                            </div>
                         </div>
-
                     </div>
+
+
+
+                   
+                
                 </div>
             </div>
-        </div>
+        </div> 
+    </div>
+    </div>
+    </div>
     </div>
 </section>
 <?php get_footer(); ?>

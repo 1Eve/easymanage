@@ -146,16 +146,7 @@ if (isset($_POST['create_task'])) {
 
                     <div>
                     </div>
-                    <h4>TEAMS</h4>
-                    <div class="side-bar-groups">
-                        <p><i class="bi bi-circle-fill icon-circle"></i> Group 1</p>
-                    </div>
-                    <div class="side-bar-groups">
-                        <p><i class="bi bi-circle-fill icon-circle"></i> Group 1</p>
-                    </div>
-                    <div class="side-bar-groups">
-                        <p><i class="bi bi-circle-fill icon-circle"></i> Group 1</p>
-                    </div>
+                    
                 </div>
                 <div>
                     <div class="profile">

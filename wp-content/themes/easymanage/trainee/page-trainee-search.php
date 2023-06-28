@@ -1,11 +1,12 @@
 <?php
 
 /*
- *  Template Name:View my trainees Template
+ *  Template Name:trainee search page Template
  *
  */
 
 ?>
+
 <?php
 //search for users
 
@@ -15,22 +16,38 @@ if (isset($_GET['search'])) {
     ]);
     $res = wp_remote_retrieve_body($response);
     $usernames = json_decode($res);
-    var_dump($_GET['search']);
+    // var_dump($_GET['search']);
 }
 
 
 $totalusers = getDisplayedUserCount();
 $cookieData = returncookie_data();
-// Access individual data elements
-$cohortName = $cookieData['cohort'];
-//Get Active trainee
-$response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/users/active',  [
+$response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/users/search?username=' . $_GET['search'], [
     'method' => 'GET',
 ]);
-$responseBody = wp_remote_retrieve_body($response);
-$activeusers = json_decode($responseBody);
-$activeusers = $activeusers->data;
+$res = wp_remote_retrieve_body($response);
+$usernames = json_decode($res);
+// var_dump($usernames);
+// $usernames = $usernames->data;
 
+if (!$cookieData) {
+    $errorMessage = json_last_error_msg();
+    echo "JSON decoding failed with error: $errorMessage";
+} else {
+
+    // Access individual data elements
+    $Id = $cookieData['user_id'];
+    $Useremail = $cookieData['useremail'];
+    $Username = $cookieData['username'];
+
+    // Get all trainees
+    $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/users/trainees', [
+        'method' => 'GET',
+    ]);
+    $res = wp_remote_retrieve_body($response);
+    $traineelists = json_decode($res);
+    $traineelists = $traineelists->data;
+}
 ?>
 <?php $profile = get_template_directory_uri() . '/assets/memoji-modified.png'; ?>
 
@@ -41,85 +58,28 @@ $activeusers = $activeusers->data;
         </div>
         <div class="dashboard-container">
             <div class="side-bar-container">
-                <h4>MAIN</h4>
                 <div class="side-bar-top">
-                    <a href="/easymanage/trainer-dashboard/">
+                    <h4>MAIN</h4>
+                    <a href="/easymanage/trainee-dashboard/">
                         <div class="side-bar-link">
                             <div class="link">
-                                <p><i class=" side-bar-icon-left bi bi-microsoft icon-sidebar"></i> Dashboard</p>
+                                <p><i class="side-bar-icon-left bi bi-microsoft icon-sidebar"></i> Dashboard</p>
                             </div>
                             <div>
                                 <i class="bi bi-chevron-right"></i>
                             </div>
                         </div>
                     </a>
-                    <a href="/easymanage/choose-project/">
+                    <a href="/easymanage/trainee-completed-projects/">
                         <div class="side-bar-link">
                             <div class="link">
-                                <p><i class="side-bar-icon-left bi bi-plus-square-fill icon-sidebar"></i> Add new tasks
-                                </p>
+                                <p><i class="side-bar-icon-left bi bi-clipboard2-check icon-sidebar"></i> Completed</p>
                             </div>
                             <div>
                                 <i class="bi bi-chevron-right"></i>
                             </div>
                         </div>
                     </a>
-                    <a href="/easymanage/pending-projects/">
-                        <div class="side-bar-link">
-                            <div class="link">
-                                <p><i class="side-bar-icon-left bi bi-list-task icon-sidebar"></i> Pending tasks</p>
-                            </div>
-                            <div>
-                                <i class="bi bi-chevron-right"></i>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="/easymanage/completed-projects/">
-                        <div class="side-bar-link">
-                            <div class="link">
-                                <p><i class="side-bar-icon-left side-bar-icon-left bi bi-clipboard2-check icon-sidebar"></i>
-                                    Completed tasks</p>
-                            </div>
-                            <div>
-                                <i class="bi bi-chevron-right"></i>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="/easymanage/my-trainees/">
-                        <div class="side-bar-link">
-                            <div class="link">
-                                <p><i class="side-bar-icon-left bi bi-people-fill icon-sidebar"></i> My trainees</p>
-                            </div>
-                            <div>
-                                <i class="bi bi-chevron-right"></i>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="/easymanage/view-all-projects/">
-                        <div class="side-bar-link">
-                            <div class="link">
-                                <p><i class="side-bar-icon-left bi bi-view-stacked"></i> View all projects</p>
-                            </div>
-                            <div>
-                                <i class="bi bi-chevron-right"></i>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="/easymanage/deleted-projects/">
-                        <div class="side-bar-link">
-                            <div class="link">
-                                <p><i class="side-bar-icon-left bi bi-trash3-fill"></i> Trash</p>
-                            </div>
-                            <div>
-                                <i class="bi bi-chevron-right"></i>
-                            </div>
-                        </div>
-                    </a>
-
-
-                    <div>
-                    </div>
-
                 </div>
                 <div>
                     <div class="profile">
@@ -128,8 +88,8 @@ $activeusers = $activeusers->data;
                         </div>
                         <div class="name-and-email-container">
                             <div>
-                                <p class="name small-text">Patrick Mwaniki</p>
-                                <p class="small-text">patrickmwanikk@gmail.com</p>
+                                <p class="name small-text"> <?php echo $Username; ?>e</p>
+                                <p class="small-text"><?php echo $Useremail; ?> </p>
                             </div>
                             <div>
                                 <i class="bi bi-chevron-right"></i>
@@ -149,7 +109,7 @@ $activeusers = $activeusers->data;
                 <div class="inner-main-contents-container">
                     <div class="top-div">
                         <div>
-                            <form action="<?php echo site_url("/search") ?>" method="get">
+                            <form action="<?php echo site_url("/trainee-search") ?>" method="get">
                                 <div class="search">
                                     <input class="search-input" name="search" type="text" placeholder="Searching for someone?">
                                     <button type="submit"><i class="bi bi-search"></i></button>
@@ -160,7 +120,9 @@ $activeusers = $activeusers->data;
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
-                            <p class="no-of-employees profile-picture"><?php echo '+' . $totalusers; ?></p>
+                            <p class="no-of-employees profile-picture">
+                                <?php echo '+' . $totalusers; ?>
+                            </p>
                         </div>
                         <div class="top-div-add-trainee-btn">
                             <a class="bottom-div-submit-btn-no-icon  " href="/easymanage/add-trainee/">Add new
@@ -168,25 +130,27 @@ $activeusers = $activeusers->data;
                             <i class="bi bi-plus-square"></i>
                         </div>
                     </div>
+
                     <div class="bottom-div">
                         <div class="admin-dashboard-bottom-div">
                             <div class="deactivate-members-container">
                                 <div class="styled-table-employees">
-                                    <?php foreach ($activeusers as $activeuser) { ?>
-                                        <?php if ($activeuser->role == 'trainee' && $activeuser->cohort == $cohortName) { ?>
-                                            <div class="style-table-profile">
+                                    <?php foreach ($usernames as $username) { ?>
+
+                                        <div class="style-table-profile">
+                                            <div>
+                                                <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
+                                            </div>
+                                            <div class="shared-profile-container">
                                                 <div>
-                                                    <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
-                                                </div>
-                                                <div class="shared-profile-container">
-                                                    <div>
-                                                        <p><?php echo $activeuser->cohort; ?></p>
-                                                        <p class="name"><?php echo $activeuser->username; ?></p>
-                                                    </div>
+                                                    <p class="name"><?php echo $username->role; ?></p>
+                                                    <p><?php echo $username->username; ?></p>
+                                                    <p><?php echo $username->useremail; ?></p>
                                                 </div>
                                             </div>
-                                        <?php } ?>
+                                        </div>
                                     <?php } ?>
+
                                     <div class="style-table-profile">
                                         <div>
                                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
@@ -200,14 +164,16 @@ $activeusers = $activeusers->data;
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
-
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
+    </div>
+    </div>
+    </div>
     </div>
 </section>
 <?php get_footer(); ?>

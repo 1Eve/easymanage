@@ -9,8 +9,19 @@
 
 <?php $profile = get_template_directory_uri() . '/assets/memoji-modified.png'; ?>
 <?php
-$totalusers = getDisplayedUserCount();
+//search for users
 
+if (isset($_GET['search'])) {
+    $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/users/search/' . $_GET['search'], [
+        'method' => 'GET',
+    ]);
+    $res = wp_remote_retrieve_body($response);
+    $usernames = json_decode($res);
+    var_dump($_GET['search']);
+}
+
+
+$totalusers = getDisplayedUserCount();
 $table_name = $wpdb->prefix . 'cohorts';
 if (isset($_POST['add_cohort'])) {
     $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/projects/add/cohorts', [
@@ -109,10 +120,10 @@ if (isset($_POST['add_cohort'])) {
             <div class="main-contents-container">
                 <div class="inner-main-contents-container">
                     <div class="top-div">
-                        <div>
-                            <form action="">
+                    <div>
+                            <form action="<?php echo site_url("/pm-search") ?>" method="get">
                                 <div class="search">
-                                    <input class="search-input" type="text" placeholder="Searching for someone?">
+                                    <input class="search-input" name="search" type="text" placeholder="Searching for someone?">
                                     <button type="submit"><i class="bi bi-search"></i></button>
                                 </div>
                             </form>

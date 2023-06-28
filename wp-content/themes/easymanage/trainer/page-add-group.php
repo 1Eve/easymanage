@@ -98,16 +98,7 @@ $totalusers = getDisplayedUserCount();
 
                     <div>
                     </div>
-                    <h4>TEAMS</h4>
-                    <div class="side-bar-groups">
-                        <p><i class="bi bi-circle-fill icon-circle"></i> Group 1</p>
-                    </div>
-                    <div class="side-bar-groups">
-                        <p><i class="bi bi-circle-fill icon-circle"></i> Group 1</p>
-                    </div>
-                    <div class="side-bar-groups">
-                        <p><i class="bi bi-circle-fill icon-circle"></i> Group 1</p>
-                    </div>
+                    
                 </div>
                 <div>
                     <div class="profile">
@@ -136,10 +127,10 @@ $totalusers = getDisplayedUserCount();
             <div class="main-contents-container">
                 <div class="inner-main-contents-container">
                 <div class="top-div">
-                        <div>
-                            <form action="">
+                <div>
+                            <form action="<?php echo site_url("/search") ?>" method="get">
                                 <div class="search">
-                                    <input class="search-input" type="text" placeholder="Searching for someone?">
+                                    <input class="search-input" name="search" type="text" placeholder="Searching for someone?">
                                     <button type="submit"><i class="bi bi-search"></i></button>
                                 </div>
                             </form>
