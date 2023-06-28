@@ -13,13 +13,11 @@ $userid = $cookieData['user_id'];
 if (isset($_POST['updateuser'])) {
     $username = $_POST['username'];
     $useremail = $_POST['useremail'];
-    $cohortName = $_POST['cohort'];
     $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/users/update/projectmanager/' . $userid, [
         'method' => 'PUT',
         'body' => [
             'username' => $username,
             'useremail' => $useremail,
-            'cohort' => $cohortName
         ]
     ]);
     $res = wp_remote_retrieve_body($response);
@@ -134,15 +132,11 @@ if (isset($_POST['updateuser'])) {
                                 <input class="input text-input dark-text" type="hidden" name="role" id="" value="">
                                 <input class="input text-input dark-text" type="text" name="username" id="" value="<?php echo $cookieData['username']; ?>">
                                 <p>
-                                    <?php echo $user_name_error ?>
+                                    <?php //echo $user_name_error ?>
                                 </p>
                                 <input class="input text-input dark-text" type="email" name="useremail" id="" value="<?php echo $cookieData['useremail']; ?>">
                                 <p>
-                                    <?php echo $user_email_error ?>
-                                </p>
-                                <input class="input text-input" type="text" name="cohort" id="" value="<?php echo $cookieData['cohort']; ?>">
-                                <p>
-                                    <?php echo $pass_error ?>
+                                    <?php //echo $user_email_error ?>
                                 </p>
                                 <input class="input" type="submit" value="Update Info" name="updateuser">
                             </form>
