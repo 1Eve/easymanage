@@ -181,49 +181,41 @@ if (!$cookieData) {
                     </div>
                     <div class="bottom-div">
                         <div class="styled-table">
-                            <?php $response = wp_remote_get('http://localhost/easymanage/wp-json/api/v1/tasks/', [
-                                'method' => 'GET'
-                            ]);
-                            $res = wp_remote_retrieve_body($response);
-                            $totaltraineetasks = json_decode($res); 
-                            $totaltraineetasks = $totaltraineetasks->data;?>
-
-                            
-                            
-                                <?php foreach ($traineelists as $trainee) { ?>
-                                    <?php
-                                    // Access trainee tasks
-                                    $trainee_id = $trainee->id;
-                                    $traineetasks = array_filter($totaltraineetasks, function ($task) use ($trainee_id) {
-                                        return $task->user_id == $trainee_id;
+                        <?php  $response = wp_remote_get('http://localhost/easymanage/wp-json/api/v1/tasks/', [
+                                    'method' => 'GET'
+                                ]);
+                                $res = wp_remote_retrieve_body($response);
+                                $totaltraineetasks = json_decode($res); ?>
+                            <?php foreach ($traineelists as $trainee) { ?>
+                                <?php
+                                
+                                $response = wp_remote_get('http://localhost/easymanage/wp-json/api/v1/tasks/' . $trainee->id, [
+                                    'method' => 'GET'
+                                ]);
+                                $res = wp_remote_retrieve_body($response);
+                                $traineetasks = json_decode($res);
+                                $traineetasks = $traineetasks->data;
+                               
+                                // Access trainee tasks
+                                $trainee_id = $trainee->id;
+                               
+                                if (is_array($traineetasks)) {
+                                    $complete = array_filter($traineetasks, function ($task) {
+                                        return $task->status == '3';
                                     });
-                                    var_dump($totaltraineetasks);
+                                    $notactive = array_filter($traineetasks, function ($task) {
+                                        return $task->status == '0';
+                                    });
+                                    $inprogress = array_filter($traineetasks, function ($task) {
+                                        return $task->status == '1';
+                                    });
+                                    $assigned = count($traineetasks);
+                                }
 
-                                    if (is_array($traineetasks)) {
-                                        $complete = array_filter($traineetasks, function ($task) {
-                                            return $task->status == '3';
-                                        });
-                                        $notactive = array_filter($traineetasks, function ($task) {
-                                            return $task->status == '0';
-                                        });
-                                        $inprogress = array_filter($traineetasks, function ($task) {
-                                            return $task->status == '1';
-                                        });
-                                        $assigned = count($traineetasks);
-                                       
-                                    }
-
-                                    ?>
+                                ?>
                                <?php if($complete) { ?>
                                 <div class="style-table-profile-column">
-                                    <?php //echo "completed" . count($complete) 
-                                    ?>
-                                    <?php //echo "In progress" . count($inprogress) 
-                                    ?>
-                                    <?php //echo "Not active" . count($notactive) 
-                                    ?>
-                                    <?php //echo "Total" . $assigned; 
-                                    ?>
+                                  
                                     <div class="img">
                                         <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                                     </div>
