@@ -8,7 +8,7 @@
 ?>
 <?php
 //search for users
-
+$cookieData = returncookie_data();
 if (isset($_GET['search'])) {
     $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/users/search/' . $_GET['search'], [
         'method' => 'GET',
@@ -63,7 +63,6 @@ if (isset($_POST['createuser'])) {
             echo "<script>alert('User not created successfully');</script>";
         }
     }
-
 }
 
 
@@ -136,7 +135,6 @@ if (isset($_POST['createuser'])) {
         </div>
         <div class="dashboard-container">
             <div class="side-bar-container">
-
                 <div class="side-bar-top">
                     <h4>MAIN</h4>
                     <a href="/easymanage/project-manager-dashboard/">
@@ -149,7 +147,6 @@ if (isset($_POST['createuser'])) {
                             </div>
                         </div>
                     </a>
-
                     <a href="/easymanage/add-trainer/">
                         <div class="side-bar-link">
                             <div class="link">
@@ -173,34 +170,30 @@ if (isset($_POST['createuser'])) {
                     </a>
                 </div>
                 <div>
-                    <div class="profile">
-                        <div>
-                            <img src="<?php echo $profile; ?>" alt="">
-                        </div>
-                        <div class="name-and-email-container">
+                    <a href="<?php echo site_url("/project-manager-acc-details") ?>">
+                        <div class="profile">
                             <div>
-                                <p class="name small-text">Patrick Mwaniki</p>
-                                <p class="small-text">patrickmwanikk@gmail.com</p>
+                                <img src="<?php echo $profile; ?>" alt="">
                             </div>
-                            <div>
-                                <i class="bi bi-chevron-right"></i>
+                            <div class="name-and-email-container">
+                                <div>
+                                    <p class="name small-text"><?php echo $cookieData['username'];?></p>
+                                    <p class="small-text"><?php echo $cookieData['useremail'];?></p>
+                                </div>
+                                <div>
+                                    <i class="bi bi-chevron-right"></i>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div>
-                        <form action="" method="post">
-                            <button class="exit" type="submit" name="logout">
-                                <h5><i class="bi bi-box-arrow-left"></i></h5>
-                            </button>
-                        </form>
-                    </div>
+                    </a>
+
                 </div>
 
             </div>
             <div class="main-contents-container">
                 <div class="inner-main-contents-container">
                     <div class="top-div">
-                    <div>
+                        <div>
                             <form action="<?php echo site_url("/pm-search") ?>" method="get">
                                 <div class="search">
                                     <input class="search-input" name="search" type="text" placeholder="Searching for someone?">
@@ -212,37 +205,32 @@ if (isset($_POST['createuser'])) {
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
-                            <p class="no-of-employees profile-picture"><?php echo '+'. $totalusers; ?></p>
+                            <p class="no-of-employees profile-picture"><?php echo '+' . $totalusers; ?></p>
                         </div>
 
                     </div>
                     <div class="bottom-div flex-project-contents">
                         <div class="create-new-project flex-project-contents">
                             <h2>Add Trainer</h2>
-                            
-                                <form action="" method="post">
-                                    <?php ?>
 
-                                    <input class="input text-input dark-text" type="hidden" name="role" id=""
-                                        value="trainer">
-                                    <input class="input text-input dark-text" type="text" name="username" id=""
-                                        placeholder="Enter name">
-                                    <input class="input text-input dark-text" type="email" name="useremail" id=""
-                                        placeholder="Enter email">
-                                    <input class="input text-input" type="password" name="password" id="password"
-                                        placeholder="........">
-                                    <select class="input" name="choose_cohort" id="">
-                                        <?php foreach ($cohorts as $cohort) { ?>
-                                            <option  name="choose_cohort" value="<?php echo $cohort->cohort_name; ?>">
-                                                <?php echo $cohort->cohort_name; ; ?>
-                                            </option>
-                                        <?php } ?>
-                                    </select>
-                                    <p>Not the cohort you looking for? <span><a class="create-a-cohort"
-                                                href="/easymanage/create-cohort/">create a cohort</a></span></p>
-                                    <input class="input" type="submit" value="Create trainer" name="createuser">
-                                </form>
-                           
+                            <form action="" method="post">
+                                <?php ?>
+
+                                <input class="input text-input dark-text" type="hidden" name="role" id="" value="trainer">
+                                <input class="input text-input dark-text" type="text" name="username" id="" placeholder="Enter name">
+                                <input class="input text-input dark-text" type="email" name="useremail" id="" placeholder="Enter email">
+                                <input class="input text-input" type="password" name="password" id="password" placeholder="........">
+                                <select class="input" name="choose_cohort" id="">
+                                    <?php foreach ($cohorts as $cohort) { ?>
+                                        <option name="choose_cohort" value="<?php echo $cohort->cohort_name; ?>">
+                                            <?php echo $cohort->cohort_name;; ?>
+                                        </option>
+                                    <?php } ?>
+                                </select>
+                                <p>Not the cohort you looking for? <span><a class="create-a-cohort" href="/easymanage/create-cohort/">create a cohort</a></span></p>
+                                <input class="input" type="submit" value="Create trainer" name="createuser">
+                            </form>
+
 
                         </div>
                     </div>

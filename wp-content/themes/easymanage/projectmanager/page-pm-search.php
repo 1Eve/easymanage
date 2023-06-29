@@ -57,72 +57,67 @@ if (!$cookieData) {
             <?php get_header(); ?>
         </div>
         <div class="dashboard-container">
-        <div class="side-bar-container">
+            <div class="side-bar-container">
+                <div class="side-bar-top">
+                    <h4>MAIN</h4>
+                    <a href="/easymanage/project-manager-dashboard/">
+                        <div class="side-bar-link">
+                            <div class="link">
+                                <p><i class="side-bar-icon-left bi bi-microsoft icon-sidebar"></i> Dashboard</p>
+                            </div>
+                            <div>
+                                <i class="bi bi-chevron-right"></i>
+                            </div>
+                        </div>
+                    </a>
 
-<div class="side-bar-top">
-    <h4>MAIN</h4>
-    <a href="/easymanage/project-manager-dashboard/">
-        <div class="side-bar-link">
-            <div class="link">
-                <p><i class="side-bar-icon-left bi bi-microsoft icon-sidebar"></i> Dashboard</p>
-            </div>
-            <div>
-                <i class="bi bi-chevron-right"></i>
-            </div>
-        </div>
-    </a>
+                    <a href="/easymanage/add-trainer/">
+                        <div class="side-bar-link">
+                            <div class="link">
+                                <p><i class="side-bar-icon-left bi bi-plus-square-fill icon-sidebar"></i> Add trainer
+                                </p>
+                            </div>
+                            <div>
+                                <i class="bi bi-chevron-right"></i>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="/easymanage/create-cohort/">
+                        <div class="side-bar-link">
+                            <div class="link">
+                                <p><i class="bi bi-pencil-fill"></i> Create new cohort</p>
+                            </div>
+                            <div>
+                                <i class="bi bi-chevron-right"></i>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div>
+                <a href="<?php echo site_url("/project-manager-acc-details") ?>">
+                    <div class="profile">
+                            <div>
+                                <img src="<?php echo $profile; ?>" alt="">
+                            </div>
+                            <div class="name-and-email-container">
+                                <div>
+                                    <p class="name small-text"><?php echo $cookieData['username'];?></p>
+                                    <p class="small-text"><?php echo $cookieData['useremail'];?></p>
+                                </div>
+                                <div>
+                                    <i class="bi bi-chevron-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    
+                </div>
 
-    <a href="/easymanage/add-trainer/">
-        <div class="side-bar-link">
-            <div class="link">
-                <p><i class="side-bar-icon-left bi bi-plus-square-fill icon-sidebar"></i> Add trainer
-                </p>
             </div>
-            <div>
-                <i class="bi bi-chevron-right"></i>
-            </div>
-        </div>
-    </a>
-    <a href="/easymanage/create-cohort/">
-        <div class="side-bar-link">
-            <div class="link">
-                <p><i class="bi bi-pencil-fill"></i> Create new cohort</p>
-            </div>
-            <div>
-                <i class="bi bi-chevron-right"></i>
-            </div>
-        </div>
-    </a>
-</div>
-<div>
-    <div class="profile">
-        <div>
-            <img src="<?php echo $profile; ?>" alt="">
-        </div>
-        <div class="name-and-email-container">
-            <div>
-                <p class="name small-text">Patrick Mwaniki</p>
-                <p class="small-text">patrickmwanikk@gmail.com</p>
-            </div>
-            <div>
-                <i class="bi bi-chevron-right"></i>
-            </div>
-        </div>
-    </div>
-    <div>
-        <form action="" method="post">
-            <button class="exit" type="submit" name="logout">
-                <h5><i class="bi bi-box-arrow-left"></i></h5>
-            </button>
-        </form>
-    </div>
-</div>
-
-</div>
             <div class="main-contents-container">
                 <div class="inner-main-contents-container">
                     <div class="top-div">
-                    <div>
+                        <div>
                             <form action="<?php echo site_url("/pm-search") ?>" method="get">
                                 <div class="search">
                                     <input class="search-input" name="search" type="text" placeholder="Searching for someone?">
@@ -183,7 +178,7 @@ if (!$cookieData) {
                     </div>
                 </div>
             </div>
-        </div> 
+        </div>
     </div>
     </div>
     </div>

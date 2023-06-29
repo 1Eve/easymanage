@@ -23,4 +23,16 @@ if (get_permalink() != site_url('/login/') && !isset($_COOKIE[$cookieName])) {
 </head>
 
 <body>
-    <h1><i class="bi bi-wordpress"></i> Easy Manage</h1>
+    <nav class="">
+        <div>
+            <h1><i class="bi bi-wordpress"></i> Easy Manage</h1>
+        </div>
+        <div>
+            <form action="" method="post">
+                <button class="exit" type="submit" name="logout">
+                    
+                    <h5><i class="bi bi-box-arrow-left"></i>  Logout</h5>
+                </button>
+            </form>
+        </div>
+    </nav>

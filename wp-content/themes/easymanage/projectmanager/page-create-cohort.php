@@ -6,7 +6,7 @@
  */
 
 ?>
-
+$cookieData = returncookie_data();
 <?php $profile = get_template_directory_uri() . '/assets/memoji-modified.png'; ?>
 <?php
 //search for users
@@ -28,7 +28,7 @@ if (isset($_POST['add_cohort'])) {
         'method' => 'POST',
         'body' => [
             'cohort_name' => $_POST['cohort_name']
-            ]
+        ]
     ]);
     $res = wp_remote_retrieve_body($response);
     $addcohort = json_decode($res);
@@ -55,7 +55,6 @@ if (isset($_POST['add_cohort'])) {
         </div>
         <div class="dashboard-container">
             <div class="side-bar-container">
-
                 <div class="side-bar-top">
                     <h4>MAIN</h4>
                     <a href="/easymanage/project-manager-dashboard/">
@@ -93,34 +92,30 @@ if (isset($_POST['add_cohort'])) {
 
                 </div>
                 <div>
+                <a href="<?php echo site_url("/project-manager-acc-details") ?>">
                     <div class="profile">
-                        <div>
-                            <img src="<?php echo $profile; ?>" alt="">
-                        </div>
-                        <div class="name-and-email-container">
                             <div>
-                                <p class="name small-text">Patrick Mwaniki</p>
-                                <p class="small-text">patrickmwanikk@gmail.com</p>
+                                <img src="<?php echo $profile; ?>" alt="">
                             </div>
-                            <div>
-                                <i class="bi bi-chevron-right"></i>
+                            <div class="name-and-email-container">
+                                <div>
+                                    <p class="name small-text"><?php echo $cookieData['username'];?></p>
+                                    <p class="small-text"><?php echo $cookieData['useremail'];?></p>
+                                </div>
+                                <div>
+                                    <i class="bi bi-chevron-right"></i>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div>
-                        <form action="" method="post">
-                            <button class="exit" type="submit" name="logout">
-                                <h5><i class="bi bi-box-arrow-left"></i></h5>
-                            </button>
-                        </form>
-                    </div>
+                    </a>
+
                 </div>
 
             </div>
             <div class="main-contents-container">
                 <div class="inner-main-contents-container">
                     <div class="top-div">
-                    <div>
+                        <div>
                             <form action="<?php echo site_url("/pm-search") ?>" method="get">
                                 <div class="search">
                                     <input class="search-input" name="search" type="text" placeholder="Searching for someone?">
@@ -132,7 +127,7 @@ if (isset($_POST['add_cohort'])) {
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
-                            <p class="no-of-employees profile-picture"><?php echo '+'. $totalusers; ?></p>
+                            <p class="no-of-employees profile-picture"><?php echo '+' . $totalusers; ?></p>
                         </div>
 
                     </div>
@@ -140,8 +135,7 @@ if (isset($_POST['add_cohort'])) {
                         <div class="create-new-project flex-project-contents">
                             <h2>Add cohort</h2>
                             <form action="" method="post">
-                                <input class="input text-input dark-text" name="cohort_name" type="text" name="" id=""
-                                    placeholder="Enter name">
+                                <input class="input text-input dark-text" name="cohort_name" type="text" name="" id="" placeholder="Enter name">
                                 <input class="input" name="add_cohort" type="submit" value="Add">
                             </form>
                         </div>

@@ -8,6 +8,9 @@
 ?>
 <?php
 //search for users
+$totalusers = getDisplayedUserCount();
+$cookieData = returncookie_data();
+$userid = $cookieData['user_id'];
 
 if (isset($_GET['search'])) {
     $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/users/search/' . $_GET['search'], [
@@ -15,13 +18,17 @@ if (isset($_GET['search'])) {
     ]);
     $res = wp_remote_retrieve_body($response);
     $usernames = json_decode($res);
-    var_dump($_GET['search']);
+    // var_dump($_GET['search']);
 }
+//Get the user name
+    // $response = wp_remote_get('http://localhost/easymanage/wp-json/api/v1/users/'. $userid, [
+    //     'method' => 'GET',
+    // ]);
+    // $res = wp_remote_retrieve_body($response);
+    // $names = json_decode($res);
+    // var_dump($names);
 
 
-$totalusers = getDisplayedUserCount();
-$cookieData = returncookie_data();
-$userid = $cookieData['user_id'];
 if (isset($_POST['updateuser'])) {
     $username = $_POST['username'];
     $useremail = $_POST['useremail'];
@@ -35,15 +42,13 @@ if (isset($_POST['updateuser'])) {
     $res = wp_remote_retrieve_body($response);
     $details = json_decode($res);
     $accdetails;
-    var_dump($details);
     if ($details) {
         updatecookiedata($details);
         echo "<script>alert('User Updated successfully');</script>";
-        wp_redirect(site_url('/easymanage/project-manager-acc-details/'));
+        // wp_redirect(site_url('/easymanage/project-manager-acc-details/'));
     } else {
         echo "<script>alert('User not updated successfully');</script>";
     }
-
 }
 ?>
 <?php $profile = get_template_directory_uri() . '/assets/memoji-modified.png'; ?>
@@ -93,27 +98,22 @@ if (isset($_POST['updateuser'])) {
                     </a>
                 </div>
                 <div>
+                <a href="<?php echo site_url("/project-manager-acc-details") ?>">
                     <div class="profile">
-                        <div>
-                            <img src="<?php echo $profile; ?>" alt="">
-                        </div>
-                        <div class="name-and-email-container">
                             <div>
-                                <p class="name small-text">Patrick Mwaniki</p>
-                                <p class="small-text">patrickmwanikk@gmail.com</p>
+                                <img src="<?php echo $profile; ?>" alt="">
                             </div>
-                            <div>
-                                <i class="bi bi-chevron-right"></i>
+                            <div class="name-and-email-container">
+                                <div>
+                                    <p class="name small-text"><?php echo $cookieData['username'];?></p>
+                                    <p class="small-text"><?php echo $cookieData['useremail'];?></p>
+                                </div>
+                                <div>
+                                    <i class="bi bi-chevron-right"></i>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div>
-                        <form action="" method="post">
-                            <button class="exit" type="submit" name="logout">
-                                <h5><i class="bi bi-box-arrow-left"></i></h5>
-                            </button>
-                        </form>
-                    </div>
+                    </a>
                 </div>
             </div>
             <div class="main-contents-container">

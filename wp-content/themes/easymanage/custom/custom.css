@@ -32,6 +32,8 @@ p {
     justify-content: center;
     align-items: center;
     padding: 22px;
+    height: 100%;
+    width: 100vw;
     /* height: 100vh; */
 }
 
@@ -53,10 +55,12 @@ p {
 
 .side-bar-container {
     /* background-color: #6B25CE; */
-    padding-top: 10px;
+    padding-top: 30px;
+    padding-bottom: 30px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+   
 
 }
 
@@ -104,13 +108,18 @@ p {
 
 .profile {
     display: flex;
-    /* margin-top: auto; */
+    padding: 0 5px;
+    justify-content: space-between;
+    align-items: center;
+  
 }
 
 .name {
     font-weight: 600;
 }
-
+.status-names{
+    font-size: 14px !important; 
+}
 .tasks {
     padding-right: 50px;
 }
@@ -130,7 +139,11 @@ p {
 .name-and-email-container {
     display: flex;
 }
-
+nav{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 /* All profile containers */
 .style-table-profile,
 .style-table-profile-column {
@@ -178,11 +191,19 @@ form {
 }
 
 .exit {
-    padding-left: 15px;
+    padding: 12px 28px;
+ border: 1px solid #6b25ce00 !important;
     border: none;
     width: fit-content;
-    background-color: transparent;
-    /* background-color: red; */
+    border-radius: 10px;
+    /* background-color: transparent; */
+}
+.exit h5{
+    margin-bottom: 0px !important;
+}
+.exit:hover {
+    border: 1px solid #6B25CE !important;
+    background-color: white;
 }
 
 
@@ -405,7 +426,7 @@ form {
 }
 
 .styled-table-employees {
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(3, 1fr);
 }
 
 /* profile containers styled as flex */
@@ -730,9 +751,9 @@ form {
 }
 
 .form-group-project {
-
     display: grid;
-    grid-template-columns: 700px 1fr;
+    grid-template-columns: 200px 1fr;
+    gap: 10px;
 }
 
 .form-group-project .right,
@@ -745,8 +766,19 @@ form {
     display: flex;
     gap: 10px;
     overflow-y: auto;
+    background-color: #F3F3F3;
 }
-/* Search page */
-.searched-users-container{
-    display: ;
+.form-group-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+/* update project a tag */
+.update-project-link{
+    color: #266136;
+    background-color: #CEFBD5;
+    padding: 5px 10px;
+    border-radius: 5px;
 }

@@ -51,8 +51,8 @@ if (!$cookieData) {
         </div>
         <div class="dashboard-container">
             <div class="side-bar-container">
-                <h4>MAIN</h4>
                 <div class="side-bar-top">
+                    <h4>MAIN</h4>
                     <a href="/easymanage/trainer-dashboard/">
                         <div class="side-bar-link">
                             <div class="link">
@@ -138,21 +138,15 @@ if (!$cookieData) {
                         </div>
                         <div class="name-and-email-container">
                             <div>
-                                <p class="name small-text">Patrick Mwaniki</p>
-                                <p class="small-text">patrickmwanikk@gmail.com</p>
+                                <p class="name small-text"><?php echo $cookieData['username'];?></p>
+                                <p class="small-text"><?php echo $cookieData['useremail'];?></p>
                             </div>
                             <div>
                                 <i class="bi bi-chevron-right"></i>
                             </div>
                         </div>
                     </div>
-                    <div>
-                        <form action="" method="post">
-                            <button class="exit" type="submit" name="logout">
-                                <h5><i class="bi bi-box-arrow-left"></i></h5>
-                            </button>
-                        </form>
-                    </div>
+                    
                 </div>
             </div>
             <div class="main-contents-container">
@@ -210,7 +204,8 @@ if (!$cookieData) {
                                     $inprogress = array_filter($traineetasks, function ($task) {
                                         return $task->status == '1';
                                     });
-                                    $assigned = count($traineetasks);
+                                    // var_dump($traineetasks);
+                                    $assigned = count($notactive+$inprogress);
                                 }
 
                                 ?>
@@ -218,43 +213,44 @@ if (!$cookieData) {
                                     <div class="img">
                                         <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                                     </div>
-                                    <div class="flex status-complete">
+                            <div class="flex status-complete">
                                         <div class="shared-profile-container">
                                             <div>
                                                 <p>Wordpress</p>
                                                 <p class="name">
                                                     <?php echo $trainee->username; ?>
                                                 </p>
-                                            </div>
-                                            <div class="bottom-div-submit-form">
                                                 <?php if (count($inprogress) > 0 && count($complete) == 0) { ?>
                                                     <button class="bottom-div-submit-btn buttons in-progress-btn">
-                                                        <p>In progress <span>(<?php echo count($inprogress) ?>)</span></p>
+                                                        <p class="status-names">In progress <span>(<?php echo count($inprogress) ?>)</span></p>
                                                         <i class="bi bi-check-circle-fill"></i>
                                                     </button>
                                                 <?php } elseif ($assigned == 0) { ?>
                                                     <button class="bottom-div-submit-btn buttons free-btn">
-                                                        <p>free</p>
+                                                        <p class="status-names">free</p>
                                                     </button>
                                                 <?php } elseif ($assigned == 1 && count($complete) == 0 && count($inprogress) == 0) { ?>
                                                     <button class="sent-icon">
-                                                        <p>1 of 1 sent</p>
+                                                        <p class="status-names">1 of 1 sent</p>
                                                     </button>
                                                 <?php } elseif (count($complete) > 0 && count($inprogress) == 0) { ?>
                                                     <button class="bottom-div-submit-btn buttons complete-btn">
-                                                        <p>Complete <span>(<?php echo count($complete) ?>)</span></p>
+                                                        <p class="status-names">Complete <span>(<?php echo count($complete) ?>)</span></p>
                                                         <i class="bi bi-check-circle-fill"></i>
                                                     </button>
                                                 <?php } elseif (count($complete) > 0 && count($inprogress) > 0) { ?>
                                                     <button class="bottom-div-submit-btn buttons in-progress-btn">
-                                                        <p>In progress <span>(<?php echo count($inprogress) ?>)</span></p>
+                                                        <p class="status-names">In progress <span>(<?php echo count($inprogress) ?>)</span></p>
                                                         <i class="bi bi-check-circle-fill"></i>
                                                     </button>
                                                     <button class="bottom-div-submit-btn buttons complete-btn">
-                                                        <p>Complete <span>(<?php echo count($complete) ?>)</span></p>
+                                                        <p >Complete <span>(<?php echo count($complete) ?>)</span></p>
                                                         <i class="bi bi-check-circle-fill"></i>
                                                     </button>
                                                 <?php } ?>
+                                            </div>
+                                            <div class="bottom-div-submit-form">
+                                                
                                             </div>
                                         </div>
                                         <div class="assigned-tasks">

@@ -8,7 +8,7 @@
 ?>
 <?php
 //search for users
-
+$cookieData = returncookie_data();
 if (isset($_GET['search'])) {
     $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/users/search/' . $_GET['search'], [
         'method' => 'GET',
@@ -34,8 +34,8 @@ $totalusers = ($wpdb->get_var("SELECT COUNT(*) FROM $table_name")- '3');
         <div class="dashboard-container">
             <div class="side-bar-container">
                 <div class="side-bar-top">
-                    <h4>MAIN</h4>
                     <a href="/easymanage/trainer-dashboard/">
+                        <h4>MAIN</h4>
                         <div class="side-bar-link">
                             <div class="link">
                                 <p><i class=" side-bar-icon-left bi bi-microsoft icon-sidebar"></i> Dashboard</p>
@@ -121,21 +121,15 @@ $totalusers = ($wpdb->get_var("SELECT COUNT(*) FROM $table_name")- '3');
                         </div>
                         <div class="name-and-email-container">
                             <div>
-                                <p class="name small-text">Patrick Mwaniki</p>
-                                <p class="small-text">patrickmwanikk@gmail.com</p>
+                                <p class="name small-text"><?php echo $cookieData['username'];?></p>
+                                <p class="small-text"><?php echo $cookieData['useremail'];?></p>
                             </div>
                             <div>
                                 <i class="bi bi-chevron-right"></i>
                             </div>
                         </div>
                     </div>
-                    <div >
-                        <form action="" method="post">
-                            <button class="exit" type="submit" name = "logout">
-                                <h5><i class="bi bi-box-arrow-left"></i></h5>
-                            </button>
-                        </form>
-                    </div>
+                   
                 </div>
             </div>
             <div class="main-contents-container">
@@ -163,19 +157,19 @@ $totalusers = ($wpdb->get_var("SELECT COUNT(*) FROM $table_name")- '3');
                     </div>
                     <div class="bottom-div flex-project-contents">
                         <p><span>Hey there, </span>getting ready to create a new project?</p>
-                        <p>Choose one of the options</p>
+                        
                         <div class="bottom-div-submit-btn-no-icon">
                             <div class="flex flex-buttons">
                                 <a class="bottom-div-submit-btn-no-icon choose-project-individual-btn"
-                                    href="/easymanage/add-individual-project/">Individual</a>
-                                <div class="choose-project-group-btn">
+                                    href="/easymanage/group-project/">Create new project</a>
+                                <!-- <div class="choose-project-group-btn">
                                     <a class="bottom-div-submit-btn-no-icon  " href="/easymanage/group-project/">Group
                                     </a>
                                     <i id="threedots" class="bi bi-three-dots-vertical"></i>
-                                </div>
+                                </div> -->
                             </div>
-                            <a id="add-group-btn" class=" add-group-btn " href="/easymanage/add-group/">Add new
-                                group</a>
+                            <!-- <a id="add-group-btn" class=" add-group-btn " href="/easymanage/add-group/">Add new
+                                group</a> -->
                         </div>
                     </div>
                 </div>

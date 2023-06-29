@@ -155,21 +155,15 @@ if (isset($_POST['createuser'])) {
                         </div>
                         <div class="name-and-email-container">
                             <div>
-                                <p class="name small-text">Patrick Mwaniki</p>
-                                <p class="small-text">patrickmwanikk@gmail.com</p>
+                                <p class="name small-text"><?php echo $cookieData['username'];?></p>
+                                <p class="small-text"><?php echo $cookieData['useremail'];?></p>
                             </div>
                             <div>
                                 <i class="bi bi-chevron-right"></i>
                             </div>
                         </div>
                     </div>
-                    <div>
-                        <form action="" method="post">
-                            <button class="exit" type="submit" name="logout">
-                                <h5><i class="bi bi-box-arrow-left"></i></h5>
-                            </button>
-                        </form>
-                    </div>
+                    
                 </div>
             </div>
             <div class="main-contents-container">

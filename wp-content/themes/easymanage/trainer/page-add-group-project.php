@@ -25,7 +25,7 @@ $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/users/tra
 ]);
 $res = wp_remote_retrieve_body($response);
 $traineelist = json_decode($res);
-$trainee_name_error = $project_title_error = $project_description_error = '';
+$trainee_name_error = $project_title_error = $project_description_error = $project_date = '';
 
 if (isset($_POST['create_task'])) {
     // var_dump($_POST);
@@ -40,7 +40,7 @@ if (isset($_POST['create_task'])) {
     if ($project_title == '') {
         $project_title_error = 'Project title is required';
     }
-    if ($project_title == '') {
+    if ($project_date == '') {
         $project_date = 'Project date is required';
     }
     if ($project_description == '') {
@@ -78,8 +78,8 @@ if (isset($_POST['create_task'])) {
         </div>
         <div class="dashboard-container">
             <div class="side-bar-container">
-                <h4>MAIN</h4>
                 <div class="side-bar-top">
+                    <h4>MAIN</h4>
                     <a href="/easymanage/trainer-dashboard/">
                         <div class="side-bar-link">
                             <div class="link">
@@ -165,49 +165,55 @@ if (isset($_POST['create_task'])) {
                         </div>
                         <div class="name-and-email-container">
                             <div>
-                                <p class="name small-text">Patrick Mwaniki</p>
-                                <p class="small-text">patrickmwanikk@gmail.com</p>
+                                <p class="name small-text"><?php echo $cookieData['username'];?></p>
+                                <p class="small-text"><?php echo $cookieData['useremail'];?></p>
                             </div>
                             <div>
                                 <i class="bi bi-chevron-right"></i>
                             </div>
                         </div>
                     </div>
-                    <div>
-                        <form action="" method="post">
-                            <button class="exit" type="submit" name="logout">
-                                <h5><i class="bi bi-box-arrow-left"></i></h5>
-                            </button>
-                        </form>
-                    </div>
+                    
                 </div>
             </div>
             <div class="main-contents-container flex-project-contents">
                 <div class="create-new-project ">
-                    <h2>Create new Project</h2>
-                    <form action="" method="post">
-                        <div class="form-group-project">
-                            <div class="left">
-                                <?php foreach ($available as $availabletrainee){ ?>
-                                <?php $id = 0;
-                                    $label = 'trainee_group' . $id;
-                                    $id++;   ?>
-                                    <div>
-                                        <input type="checkbox" name="assignees[]" id="<?php echo $label; ?>" value="<?php echo  $availabletrainee->id; ?>">
-                                        <label for="<?php echo $label; ?>"><?php echo  $availabletrainee->username; ?></label>
+                    <div class="form-group-container">
+                        <div>
+                            <h2>Create new Project</h2>
+                        </div>
+                        <div>
+                            <form action="" method="post">
+                                <div class="form-group-project">
+                                    <div class="left">
+                                        <h5>Select trainee</h5>
+                                        <?php foreach ($available as $availabletrainee){ ?>
+                                        <?php $id = 0;
+                                            $label = 'trainee_group' . $id;
+                                            $id++;   ?>
+                                            <div>
+                                                <input type="checkbox" name="assignees[]" id="<?php echo $label; ?>" value="<?php echo  $availabletrainee->id; ?>">
+                                                <p class="text-danger"><?php echo $trainee_name_error;  ?></p>
+                                                <label for="<?php echo $label; ?>"><?php echo  $availabletrainee->username; ?></label>
+                                            </div>
+                                    
+                                        <?php } ?>
                                     </div>
-                            
-                                <?php } ?>
-                            </div>
-                            <div class="right">
-                                <input class="input text-input dark-text" type="text" name="project_title" id="" placeholder="Enter project title">
-                                <input class="input text-input dark-text project-description" type="text" name="project_description" id="" placeholder="Enter project description">
-                                <input class="input" type="date" name="setTodaysDate" id="" placeholder="dd/mm/yyyy">
-                                <input class="input" type="submit" value="Create project" name="create_task">
-                            </div>
+                                    <div class="right">
+                                        <input class="input text-input dark-text" type="text" name="project_title" id="" placeholder="Enter project title">
+                                        <p class="text-danger"><?php echo $project_title_error; ?></p>
+                                        <input class="input text-input dark-text project-description" type="text" name="project_description" id="" placeholder="Enter project description">
+                                        <p class="text-danger"><?php  echo $project_description_error; ?></p>
+                                        <input class="input" type="date" name="setTodaysDate" id="" placeholder="dd/mm/yyyy">
+                                        <p class="text-danger"><?php echo $project_date;  ?></p>
+                                        <input class="input" type="submit" value="Create project" name="create_task">
+                                    </div>
+                                </div>
+        
+                            </form>
                         </div>
 
-                    </form>
+                    </div>
 
                 </div>
 

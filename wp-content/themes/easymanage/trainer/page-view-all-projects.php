@@ -60,8 +60,8 @@ if (!$cookieData) {
         </div>
         <div class="dashboard-container">
             <div class="side-bar-container">
-                <h4>MAIN</h4>
                 <div class="side-bar-top">
+                    <h4>MAIN</h4>
                     <a href="/easymanage/trainer-dashboard/">
                         <div class="side-bar-link">
                             <div class="link">
@@ -147,21 +147,15 @@ if (!$cookieData) {
                         </div>
                         <div class="name-and-email-container">
                             <div>
-                                <p class="name small-text">Patrick Mwaniki</p>
-                                <p class="small-text">patrickmwanikk@gmail.com</p>
+                                <p class="name small-text"><?php echo $cookieData['username'];?></p>
+                                <p class="small-text"><?php echo $cookieData['useremail'];?></p>
                             </div>
                             <div>
                                 <i class="bi bi-chevron-right"></i>
                             </div>
                         </div>
                     </div>
-                    <div>
-                        <form action="" method="post">
-                            <button class="exit" type="submit" name="logout">
-                                <h5><i class="bi bi-box-arrow-left"></i></h5>
-                            </button>
-                        </form>
-                    </div>
+                    
                 </div>
             </div>
             <div class="main-contents-container">
@@ -263,11 +257,11 @@ if (!$cookieData) {
                                                         <div class="bottom-div-submit-form">
                                                             <?php if ($notactive) { ?>
 
-                                                                <form action="" method="post">
-                                                                    <input type="hidden" name="task_id">
-                                                                    <a href="<?php echo site_url('/easymanage/update-project-details/?project_id=' . $tasklist->project_id); ?>">Update</a>
-                                                                    <input type="submit" name="update_task" value="Update">
-                                                                </form>
+                                                                <!-- <form action="" method="post">
+                                                                    <input type="hidden" name="task_id"> -->
+                                                                    <a class="update-project-link" href="<?php echo site_url('/easymanage/update-project-details/?project_id=' . $tasklist->project_id); ?>">Update</a>
+                                                                    <!-- <input type="submit" name="update_task" value="Update">
+                                                                </form> -->
                                                             <?php } else if ($inprogress) { ?>
                                                                 <p class="tasks in-progress"><i class="bi bi-hourglass-split"></i>
                                                                 </p>

@@ -6,7 +6,8 @@
  */
 
 ?>
-<?php 
+<?php
+$cookieData = returncookie_data();
 $totalusers = getDisplayedUserCount();
 
 ?>
@@ -18,9 +19,9 @@ $totalusers = getDisplayedUserCount();
             <?php get_header(); ?>
         </div>
         <div class="dashboard-container">
-        <div class="side-bar-container">
-                <h4>MAIN</h4>
+            <div class="side-bar-container">
                 <div class="side-bar-top">
+                    <h4>MAIN</h4>
                     <a href="/easymanage/trainer-dashboard/">
                         <div class="side-bar-link">
                             <div class="link">
@@ -55,8 +56,7 @@ $totalusers = getDisplayedUserCount();
                     <a href="/easymanage/completed-projects/">
                         <div class="side-bar-link">
                             <div class="link">
-                                <p><i
-                                        class="side-bar-icon-left side-bar-icon-left bi bi-clipboard2-check icon-sidebar"></i>
+                                <p><i class="side-bar-icon-left side-bar-icon-left bi bi-clipboard2-check icon-sidebar"></i>
                                     Completed tasks</p>
                             </div>
                             <div>
@@ -98,7 +98,7 @@ $totalusers = getDisplayedUserCount();
 
                     <div>
                     </div>
-                    
+
                 </div>
                 <div>
                     <div class="profile">
@@ -107,27 +107,21 @@ $totalusers = getDisplayedUserCount();
                         </div>
                         <div class="name-and-email-container">
                             <div>
-                                <p class="name small-text">Patrick Mwaniki</p>
-                                <p class="small-text">patrickmwanikk@gmail.com</p>
+                                <p class="name small-text"><?php echo $cookieData['username'];?></p>
+                                <p class="small-text"><?php echo $cookieData['useremail'];?></p>
                             </div>
                             <div>
                                 <i class="bi bi-chevron-right"></i>
                             </div>
                         </div>
                     </div>
-                    <div >
-                        <form action="" method="post">
-                            <button class="exit" type="submit" name = "logout">
-                                <h5><i class="bi bi-box-arrow-left"></i></h5>
-                            </button>
-                        </form>
-                    </div>
+
                 </div>
             </div>
             <div class="main-contents-container">
                 <div class="inner-main-contents-container">
-                <div class="top-div">
-                <div>
+                    <div class="top-div">
+                        <div>
                             <form action="<?php echo site_url("/search") ?>" method="get">
                                 <div class="search">
                                     <input class="search-input" name="search" type="text" placeholder="Searching for someone?">
@@ -151,8 +145,7 @@ $totalusers = getDisplayedUserCount();
                         <div class="create-new-project flex-project-contents">
                             <h2>Add group</h2>
                             <form action="">
-                                <input class="input text-input dark-text" type="text" name="" id=""
-                                    placeholder="Enter name">
+                                <input class="input text-input dark-text" type="text" name="" id="" placeholder="Enter name">
                                 <input class="input" type="submit" value="Add">
                             </form>
                         </div>

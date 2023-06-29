@@ -15,7 +15,7 @@ if (isset($_GET['search'])) {
     ]);
     $res = wp_remote_retrieve_body($response);
     $usernames = json_decode($res);
-    var_dump($_GET['search']);
+    // var_dump($_GET['search']);
 }
 
 
@@ -34,7 +34,7 @@ if (isset($_POST['updateuser'])) {
     ]);
     $res = wp_remote_retrieve_body($response);
     $details = json_decode($res);
-    var_dump($details);
+    // var_dump($details);
 
     if ($details) {
         updatecookiedata($details);
@@ -43,7 +43,6 @@ if (isset($_POST['updateuser'])) {
     } else {
         echo "<script>alert('User not updated successfully');</script>";
     }
-
 }
 ?>
 <?php $profile = get_template_directory_uri() . '/assets/memoji-modified.png'; ?>
@@ -93,33 +92,29 @@ if (isset($_POST['updateuser'])) {
                     </a>
                 </div>
                 <div>
-                    <div class="profile">
-                        <div>
-                            <img src="<?php echo $profile; ?>" alt="">
-                        </div>
-                        <div class="name-and-email-container">
+                    <a href="<?php echo site_url("/easymanage/trainee-acc-details") ?>">
+                        <div class="profile">
                             <div>
-                                <p class="name small-text">Patrick Mwaniki</p>
-                                <p class="small-text">patrickmwanikk@gmail.com</p>
+                                <img src="<?php echo $profile; ?>" alt="">
                             </div>
-                            <div>
-                                <i class="bi bi-chevron-right"></i>
+                            <div class="name-and-email-container">
+                                <div>
+                                    <p class="name small-text"><?php echo $cookieData['username'];?></p>
+                                    <p class="small-text"><?php echo $cookieData['useremail'];?></p>
+                                </div>
+                                <div>
+                                    <i class="bi bi-chevron-right"></i>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div>
-                        <form action="" method="post">
-                            <button class="exit" type="submit" name="logout">
-                                <h5><i class="bi bi-box-arrow-left"></i></h5>
-                            </button>
-                        </form>
-                    </div>
+                    </a>
+
                 </div>
             </div>
             <div class="main-contents-container">
                 <div class="inner-main-contents-container">
                     <div class="top-div">
-                    <div>
+                        <div>
                             <form action="<?php echo site_url("/trainee-search") ?>" method="get">
                                 <div class="search">
                                     <input class="search-input" name="search" type="text" placeholder="Searching for someone?">
@@ -144,11 +139,13 @@ if (isset($_POST['updateuser'])) {
                                 <input class="input text-input dark-text" type="hidden" name="role" id="" value="">
                                 <input class="input text-input dark-text" type="text" name="username" id="" value="<?php echo $cookieData['username']; ?>">
                                 <p>
-                                    <?php //echo $user_name_error ?>
+                                    <?php //echo $user_name_error 
+                                    ?>
                                 </p>
                                 <input class="input text-input dark-text" type="email" name="useremail" id="" value="<?php echo $cookieData['useremail']; ?>">
                                 <p>
-                                    <?php //echo $user_email_error ?>
+                                    <?php //echo $user_email_error 
+                                    ?>
                                 </p>
                                 <input class="input" type="submit" value="Update Info" name="updateuser">
                             </form>

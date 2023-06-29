@@ -31,7 +31,7 @@ $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/tasks/tot
 $totalresponse = wp_remote_retrieve_body($response);
 $available = json_decode($totalresponse);
 
-$trainee_name_error = $project_title_error = $project_description_error = '';
+$trainee_name_error = $project_title_error = $project_description_error = $project_date = '';
 
 if (isset($_POST['update_task'])) {
     // var_dump($_POST);
@@ -46,7 +46,7 @@ if (isset($_POST['update_task'])) {
     if ($project_title == '') {
         $project_title_error = 'Project title is required';
     }
-    if ($project_title == '') {
+    if ($project_date == '') {
         $project_date = 'Project date is required';
     }
     if ($project_description == '') {
@@ -85,8 +85,8 @@ if (isset($_POST['update_task'])) {
         </div>
         <div class="dashboard-container">
             <div class="side-bar-container">
-                <h4>MAIN</h4>
                 <div class="side-bar-top">
+                    <h4>MAIN</h4>
                     <a href="/easymanage/trainer-dashboard/">
                         <div class="side-bar-link">
                             <div class="link">
@@ -172,21 +172,15 @@ if (isset($_POST['update_task'])) {
                         </div>
                         <div class="name-and-email-container">
                             <div>
-                                <p class="name small-text">Patrick Mwaniki</p>
-                                <p class="small-text">patrickmwanikk@gmail.com</p>
+                                <p class="name small-text"><?php echo $cookieData['username'];?></p>
+                                <p class="small-text"><?php echo $cookieData['useremail'];?></p>
                             </div>
                             <div>
                                 <i class="bi bi-chevron-right"></i>
                             </div>
                         </div>
                     </div>
-                    <div>
-                        <form action="" method="post">
-                            <button class="exit" type="submit" name="logout">
-                                <h5><i class="bi bi-box-arrow-left"></i></h5>
-                            </button>
-                        </form>
-                    </div>
+                    
                 </div>
             </div>
             <div class="main-contents-container flex-project-contents">
@@ -201,6 +195,7 @@ if (isset($_POST['update_task'])) {
                                     $id++;   ?>
                                     <div>
                                         <input type="checkbox" name="assignees[]" <?php echo in_array($availabletrainee->id, $assignedtrainees) ? "checked" : '' ?> id="<?php echo $label; ?>" value="<?php echo  $availabletrainee->id; ?>">
+                                        <p class="text-danger"><?php echo $trainee_name_error;  ?></p>
                                         <label for="<?php echo $label; ?>"><?php echo  $availabletrainee->username; ?></label>
                                     </div>
 
@@ -209,8 +204,11 @@ if (isset($_POST['update_task'])) {
                             <div class="right">
 
                                 <input class="input text-input dark-text" type="text" name="project_title" id="" placeholder="Enter project title" value="<?php echo $tasklists->project_title; ?>">
+                                <p class="text-danger"><?php echo $project_title_error; ?></p>
                                 <input class="input text-input dark-text project-description" type="text" name="project_description" id="" placeholder="Enter project description" value="<?php echo $tasklists->project_description; ?>">
+                                <p class="text-danger"><?php  echo $project_description_error; ?></p>
                                 <input class="input" type="date" name="setTodaysDate" id="" placeholder="dd/mm/yyyy" value="<?php echo $tasklists->project_date; ?>">
+                                <p class="text-danger"><?php echo $project_date;  ?></p>
                                 <input class="input" type="submit" value="Update Project" name="update_task">
 
                             </div>

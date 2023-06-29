@@ -16,7 +16,7 @@ if (isset($_GET['search'])) {
     ]);
     $res = wp_remote_retrieve_body($response);
     $usernames = json_decode($res);
-    var_dump($_GET['search']);
+    // var_dump($_GET['search']);
 }
 
 
@@ -27,7 +27,7 @@ $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/users/sea
 ]);
 $res = wp_remote_retrieve_body($response);
 $usernames = json_decode($res);
-var_dump($usernames);
+// var_dump($usernames);
 // $usernames = $usernames->data;
 
 if (!$cookieData) {
@@ -58,8 +58,8 @@ if (!$cookieData) {
         </div>
         <div class="dashboard-container">
             <div class="side-bar-container">
-                <h4>MAIN</h4>
                 <div class="side-bar-top">
+                    <h4>MAIN</h4>
                     <a href="/easymanage/trainer-dashboard/">
                         <div class="side-bar-link">
                             <div class="link">
@@ -145,21 +145,15 @@ if (!$cookieData) {
                         </div>
                         <div class="name-and-email-container">
                             <div>
-                                <p class="name small-text">Patrick Mwaniki</p>
-                                <p class="small-text">patrickmwanikk@gmail.com</p>
+                                <p class="name small-text"><?php echo $cookieData['username'];?></p>
+                                <p class="small-text"><?php echo $cookieData['useremail'];?></p>
                             </div>
                             <div>
                                 <i class="bi bi-chevron-right"></i>
                             </div>
                         </div>
                     </div>
-                    <div>
-                        <form action="" method="post">
-                            <button class="exit" type="submit" name="logout">
-                                <h5><i class="bi bi-box-arrow-left"></i></h5>
-                            </button>
-                        </form>
-                    </div>
+                   
                 </div>
             </div>
             <div class="main-contents-container">

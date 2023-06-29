@@ -22,31 +22,45 @@ if (isset($_GET['search'])) {
 $totalusers = getDisplayedUserCount();
 $cookieData = returncookie_data();
 $userid = $cookieData['user_id'];
+
+$username_error = $useremail_error = $cohort_error = '';
+
 if (isset($_POST['updateuser'])) {
     $username = $_POST['username'];
     $useremail = $_POST['useremail'];
     $cohortName = $_POST['cohort'];
-    $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/users/update/trainer/' . $userid, [
-        'method' => 'PUT',
-        'body' => [
-            'username' => $username,
-            'useremail' => $useremail,
-            'cohort' => $cohortName
-        ]
-    ]);
-    $res = wp_remote_retrieve_body($response);
-    $details = json_decode($res);
-    $accdetails;
-    var_dump($details);
-    if ($details) {
-        updatecookiedata($details);
-        echo "<script>alert('User Updated successfully');</script>";
-        wp_redirect(site_url('/easymanage/trainer-acc-details/'));
-    } else {
-        echo "<script>alert('User not updated successfully');</script>";
+    if ($username == '') {
+        $username_error = 'Trainee name is required';
     }
-
+    if ($useremail == '') {
+        $useremail_error = 'Project title is required';
+    }
+    if ($cohortName == '') {
+        $cohort_error = 'Project date is required';
+    }
+    if ($cohortName == '' && $useremail_error == '' && $useremail_error == '') {
+        $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/users/update/trainer/' . $userid, [
+            'method' => 'PUT',
+            'body' => [
+                'username' => $username,
+                'useremail' => $useremail,
+                'cohort' => $cohortName
+            ]
+        ]);
+        $res = wp_remote_retrieve_body($response);
+        $details = json_decode($res);
+        $accdetails;
+        var_dump($details);
+        if ($details) {
+            updatecookiedata($details);
+            echo "<script>alert('User Updated successfully');</script>";
+            wp_redirect(site_url('/easymanage/trainer-acc-details/'));
+        } else {
+            echo "<script>alert('User not updated successfully');</script>";
+        }
+    }
 }
+
 ?>
 <?php $profile = get_template_directory_uri() . '/assets/memoji-modified.png'; ?>
 <section class="container-admin-dashboard outer-container">
@@ -99,27 +113,21 @@ if (isset($_POST['updateuser'])) {
                         </div>
                         <div class="name-and-email-container">
                             <div>
-                                <p class="name small-text">Patrick Mwaniki</p>
-                                <p class="small-text">patrickmwanikk@gmail.com</p>
+                                <p class="name small-text"><?php echo $cookieData['username']; ?></p>
+                                <p class="small-text"><?php echo $cookieData['useremail']; ?></p>
                             </div>
                             <div>
                                 <i class="bi bi-chevron-right"></i>
                             </div>
                         </div>
                     </div>
-                    <div>
-                        <form action="" method="post">
-                            <button class="exit" type="submit" name="logout">
-                                <h5><i class="bi bi-box-arrow-left"></i></h5>
-                            </button>
-                        </form>
-                    </div>
+
                 </div>
             </div>
             <div class="main-contents-container">
                 <div class="inner-main-contents-container">
                     <div class="top-div">
-                    <div>
+                        <div>
                             <form action="<?php echo site_url("/search") ?>" method="get">
                                 <div class="search">
                                     <input class="search-input" name="search" type="text" placeholder="Searching for someone?">
@@ -144,15 +152,18 @@ if (isset($_POST['updateuser'])) {
                                 <input class="input text-input dark-text" type="hidden" name="role" id="" value="">
                                 <input class="input text-input dark-text" type="text" name="username" id="" value="<?php echo $cookieData['username']; ?>">
                                 <p>
-                                    <?php //echo $user_name_error ?>
+                                    <?php echo $username_error
+                                    ?>
                                 </p>
                                 <input class="input text-input dark-text" type="email" name="useremail" id="" value="<?php echo $cookieData['useremail']; ?>">
                                 <p>
-                                    <?php //echo $user_email_error ?>
+                                    <?php echo $useremail_error
+                                    ?>
                                 </p>
                                 <input class="input text-input" type="text" name="cohort" id="" value="<?php echo $cookieData['cohort']; ?>">
                                 <p>
-                                    <?php //echo $pass_error ?>
+                                    <?php echo $cohort_error
+                                    ?>
                                 </p>
                                 <input class="input" type="submit" value="Update Info" name="updateuser">
                             </form>

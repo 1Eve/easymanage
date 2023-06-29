@@ -7,6 +7,8 @@
 
 ?>
 <?php
+$cookieData = returncookie_data();
+
 $totalusers = getDisplayedUserCount();
 
 $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/users/deactivated/', [
@@ -18,14 +20,13 @@ $deletedusers = json_decode($res);
 if (isset($_POST['restore'])) {
     $id = $_POST['id'];
 
-    $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/users/restore/'.$id, [
+    $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/users/restore/' . $id, [
         'method' => 'PUT',
     ]);
     $res = wp_remote_retrieve_body($response);
     wp_redirect(site_url('/easymanage/deactivated-trainers/'));
     exit();
-
-}   
+}
 ?>
 <?php $profile = get_template_directory_uri() . '/assets/memoji-modified.png'; ?>
 
@@ -52,7 +53,8 @@ if (isset($_POST['restore'])) {
                     <a href="/easymanage/create-project-manager/">
                         <div class="side-bar-link">
                             <div class="link">
-                                <p><i class="side-bar-icon-left bi bi-plus-square-fill icon-sidebar"></i> Create project manager</p>
+                                <p><i class="side-bar-icon-left bi bi-plus-square-fill icon-sidebar"></i> Create project
+                                    manager</p>
                             </div>
                             <div>
                                 <i class="bi bi-chevron-right"></i>
@@ -71,34 +73,28 @@ if (isset($_POST['restore'])) {
                         </div>
                     </a>
                 </div>
-                    <div>
-                        <div class="profile">
+                <div>
+                    <div class="profile">
+                        <div>
+                            <img src="<?php echo $profile; ?>" alt="">
+                        </div>
+                        <div class="name-and-email-container">
                             <div>
-                                <img src="<?php echo $profile; ?>" alt="">
+                                <p class="name small-text"><?php echo $cookieData['username'];?></p>
+                                <p class="small-text"><?php echo $cookieData['useremail'];?></p>
                             </div>
-                            <div class="name-and-email-container">
-                                <div>
-                                    <p class="name small-text">Patrick Mwaniki</p>
-                                    <p class="small-text">patrickmwanikk@gmail.com</p>
-                                </div>
-                                <div>
-                                    <i class="bi bi-chevron-right"></i>
-                                </div>
+                            <div>
+                                <i class="bi bi-chevron-right"></i>
                             </div>
                         </div>
-                        <div >
-                        <form action="" method="post">
-                            <button class="exit" type="submit" name = "logout">
-                                <h5><i class="bi bi-box-arrow-left"></i></h5>
-                            </button>
-                        </form>
                     </div>
-                    </div>
+                    
+                </div>
             </div>
             <div class="main-contents-container">
                 <div class="inner-main-contents-container">
-                <div class="top-div">
-                <div>
+                    <div class="top-div">
+                        <div>
                             <form action="<?php echo site_url("/admin-search") ?>" method="get">
                                 <div class="search">
                                     <input class="search-input" name="search" type="text" placeholder="Searching for someone?">
@@ -110,9 +106,9 @@ if (isset($_POST['restore'])) {
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                             <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
-                            <p class="no-of-employees profile-picture"><?php echo '+'. $totalusers; ?></p>
+                            <p class="no-of-employees profile-picture"><?php echo '+' . $totalusers; ?></p>
                         </div>
-                      
+
                     </div>
                     <div class="bottom-div">
                         <div class="admin-dashboard-bottom-div">
@@ -123,28 +119,28 @@ if (isset($_POST['restore'])) {
                             </div>
                             <div class="deactivate-members-container">
                                 <div class="styled-table">
-                                    <?php  foreach ($deletedusers as $deleteduser) { ?>
-                                    <div class="style-table-profile">
-                                        <div>
-                                            <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
-                                        </div>
-                                        <div class="shared-profile-container">
+                                    <?php foreach ($deletedusers as $deleteduser) { ?>
+                                        <div class="style-table-profile">
                                             <div>
-                                                <p>Project manager</p>
-                                                <p class="name"><?php echo $deleteduser->username; ?></p>
+                                                <img src="<?php echo $profile; ?>" alt="" class="profile-picture">
                                             </div>
-                                            <?php if($deleteduser->status == 1) { ?>
-                                            <form action="" method="post">
-                                                <input type="hidden" name="id" value="<?php echo $deleteduser->id; ?>">
-                                                <div class="bottom-div-submit-form">
-                                                    <button type="submit" name="restore" class="bottom-div-submit-btn-no-icon restore-btn buttons">
-                                                        <p>Restore</p>
-                                                    </button>
+                                            <div class="shared-profile-container">
+                                                <div>
+                                                    <p>Project manager</p>
+                                                    <p class="name"><?php echo $deleteduser->username; ?></p>
                                                 </div>
-                                            </form>
-                                            <?php } ?>
+                                                <?php if ($deleteduser->status == 1) { ?>
+                                                    <form action="" method="post">
+                                                        <input type="hidden" name="id" value="<?php echo $deleteduser->id; ?>">
+                                                        <div class="bottom-div-submit-form">
+                                                            <button type="submit" name="restore" class="bottom-div-submit-btn-no-icon restore-btn buttons">
+                                                                <p>Restore</p>
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                <?php } ?>
+                                            </div>
                                         </div>
-                                    </div>
                                     <?php } ?>
                                 </div>
 

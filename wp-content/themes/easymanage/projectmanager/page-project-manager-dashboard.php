@@ -8,7 +8,7 @@
 ?>
 <?php
 //search for users
-
+$cookieData = returncookie_data();
 if (isset($_GET['search'])) {
     $response = wp_remote_post('http://localhost/easymanage/wp-json/api/v1/users/search/' . $_GET['search'], [
         'method' => 'GET',
@@ -35,7 +35,6 @@ $alltrainers = json_decode($res);
         </div>
         <div class="dashboard-container">
             <div class="side-bar-container">
-
                 <div class="side-bar-top">
                     <h4>MAIN</h4>
                     <a href="/easymanage/project-manager-dashboard/">
@@ -72,27 +71,23 @@ $alltrainers = json_decode($res);
                     </a>
                 </div>
                 <div>
+                    <a href="<?php echo site_url("/project-manager-acc-details") ?>">
                     <div class="profile">
-                        <div>
-                            <img src="<?php echo $profile; ?>" alt="">
-                        </div>
-                        <div class="name-and-email-container">
                             <div>
-                                <p class="name small-text">Patrick Mwaniki</p>
-                                <p class="small-text">patrickmwanikk@gmail.com</p>
+                                <img src="<?php echo $profile; ?>" alt="">
                             </div>
-                            <div>
-                                <i class="bi bi-chevron-right"></i>
+                            <div class="name-and-email-container">
+                                <div>
+                                    <p class="name small-text"><?php echo $cookieData['username'];?></p>
+                                    <p class="small-text"><?php echo $cookieData['useremail'];?></p>
+                                </div>
+                                <div>
+                                    <i class="bi bi-chevron-right"></i>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div>
-                        <form action="" method="post">
-                            <button class="exit" type="submit" name="logout">
-                                <h5><i class="bi bi-box-arrow-left"></i></h5>
-                            </button>
-                        </form>
-                    </div>
+                    </a>
+                    
                 </div>
 
             </div>
